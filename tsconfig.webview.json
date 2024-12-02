@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "ES6",
+    "moduleResolution": "node",
+    "lib": ["DOM", "ES6"],
+    "outDir": "./webview-dist",
+    "rootDir": "./src/webview",
+    "strict": true,
+    "esModuleInterop": true
+  },
+  "include": ["src/webview/**/*.ts"],
+  "exclude": ["node_modules"]
+}
