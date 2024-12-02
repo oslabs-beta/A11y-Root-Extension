@@ -1,0 +1,120 @@
+{
+  "role": "RootWebArea",
+  "name": "YouTube",
+  "children": [
+    {
+      "role": "button",
+      "name": "Guide",
+      "children": [
+        {
+          "role": "button",
+          "name": "Guide"
+        }
+      ]
+    },
+    {
+      "role": "link",
+      "name": "YouTube Home"
+    },
+    {
+      "role": "button",
+      "name": "Skip navigation"
+    },
+    {
+      "role": "textbox",
+      "name": "Search"
+    },
+    {
+      "role": "button",
+      "name": "Search",
+      "description": "Search"
+    },
+    {
+      "role": "button",
+      "name": "Search with your voice"
+    },
+    {
+      "role": "tooltip",
+      "name": "tooltip"
+    },
+    {
+      "role": "generic",
+      "name": "",
+      "children": [
+        {
+          "role": "button",
+          "name": "yt-icon-button",
+          "children": [
+            {
+              "role": "button",
+              "name": "Settings"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "role": "link",
+      "name": "Sign in"
+    },
+    {
+      "role": "tab",
+      "name": "Home",
+      "selected": true,
+      "children": [
+        {
+          "role": "link",
+          "name": "Home"
+        }
+      ]
+    },
+    {
+      "role": "tab",
+      "name": "Shorts",
+      "children": [
+        {
+          "role": "link",
+          "name": "Shorts"
+        }
+      ]
+    },
+    {
+      "role": "tab",
+      "name": "Subscriptions",
+      "children": [
+        {
+          "role": "link",
+          "name": "Subscriptions"
+        }
+      ]
+    },
+    {
+      "role": "tab",
+      "name": "You",
+      "children": [
+        {
+          "role": "link",
+          "name": "You"
+        }
+      ]
+    },
+    {
+      "role": "tab",
+      "name": "History",
+      "children": [
+        {
+          "role": "link",
+          "name": "History"
+        }
+      ]
+    },
+    {
+      "role": "StaticText",
+      "name": "Try searching to get started"
+    },
+    {
+      "role": "StaticText",
+      "name": "Start watching videos to help us build a feed of videos you'll love."
+    }
+  ]
+}

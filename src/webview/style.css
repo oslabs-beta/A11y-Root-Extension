@@ -1,0 +1,19 @@
+#urlInput {
+  width: 80%;
+  padding: 8px;
+}
+
+#submitButton {
+  padding: 8px 12px;
+  margin-left: 8px;
+}
+
+#resultMessage {
+  margin-top: 20px;
+  color: green;
+}
+
+#errorMessage {
+  margin-top: 20px;
+  color: red;
+}
