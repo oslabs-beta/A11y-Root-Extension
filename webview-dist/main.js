@@ -3,9 +3,11 @@
 // <reference lib="dom" /> This makes TypeScript recognize DOM elements
 // this is also set in tsconfig.webview.json as "lib": ["DOM", "ES6"]
 // but for some reason TypeScript was not recognizing the config settings
+// saving this here incase we need to revert/test package.json setup "build:webview": "npx tsc -p tsconfig.webview.json"
 /// <reference lib="dom" />
 // Get the VS Code API
 const vscode = acquireVsCodeApi();
+console.log('hello');
 // Utility function to safely get an element by ID and assert its type
 function getElementById(id) {
     const element = document.getElementById(id);
@@ -28,6 +30,10 @@ getElementById('submitButton').addEventListener('click', () => {
     else {
         errorMessage.innerText = 'Please enter a valid URL.';
     }
+});
+getElementById('loginButton').addEventListener('click', () => {
+    const statusMessage = getElementById('statusMessage');
+    statusMessage.innerText = 'clicked login button';
 });
 // Listen for messages from the extension
 window.addEventListener('message', (event) => {

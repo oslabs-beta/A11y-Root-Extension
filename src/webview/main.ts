@@ -5,12 +5,16 @@
 // saving this here incase we need to revert/test package.json setup "build:webview": "npx tsc -p tsconfig.webview.json"
 /// <reference lib="dom" />
 
+//npx tsc --project tsconfig.webview.json
+
 declare const acquireVsCodeApi: () => {
   postMessage: (message: { command: string; url?: string }) => void;
 };
 
 // Get the VS Code API
 const vscode = acquireVsCodeApi();
+
+console.log('hello');
 
 // Utility function to safely get an element by ID and assert its type
 function getElementById<T extends HTMLElement>(id: string): T {
@@ -38,6 +42,15 @@ getElementById<HTMLButtonElement>('submitButton').addEventListener(
     } else {
       errorMessage.innerText = 'Please enter a valid URL.';
     }
+  }
+);
+
+getElementById<HTMLButtonElement>('loginButton').addEventListener(
+  'click',
+  () => {
+    const statusMessage = getElementById<HTMLParagraphElement>('statusMessage');
+
+    statusMessage.innerText = 'clicked login button';
   }
 );
 

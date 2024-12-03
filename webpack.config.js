@@ -45,5 +45,13 @@ const extensionConfig = {
   infrastructureLogging: {
     level: 'log', // enables logging required for problem matchers
   },
+  ignoreWarnings: [
+    {
+      module: /yargs/,
+    },
+    {
+      module: /puppeteer-core/,
+    },
+  ],
 };
 module.exports = [extensionConfig];

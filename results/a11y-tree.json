@@ -1,906 +1,236 @@
 {
   "role": "RootWebArea",
-  "name": "Let's Encrypt",
+  "name": "Excalidraw | Hand-drawn look & feel • Collaborative • Secure",
   "children": [
     {
-      "role": "link",
-      "name": "100% of our funding comes from people like you. Donate today."
+      "role": "heading",
+      "name": "Excalidraw",
+      "level": 1
     },
     {
-      "role": "link",
-      "name": "Skip navigation links"
-    },
-    {
-      "role": "link",
-      "name": "Let's Encrypt"
-    },
-    {
-      "role": "menubar",
-      "name": "",
-      "orientation": "horizontal",
+      "role": "generic",
+      "name": "All your data is saved locally in your browser. Open Cmd+O Help ? Live collaboration... Sign up Export, preferences, languages, ... Shapes Live collaboration... Library Library Drawing canvas",
+      "focused": true,
       "children": [
         {
-          "role": "menuitem",
-          "name": "Documentation"
+          "role": "StaticText",
+          "name": "All your data is saved locally in your browser."
         },
         {
-          "role": "menuitem",
-          "name": "Get Help"
+          "role": "button",
+          "name": "Open Cmd+O"
         },
         {
-          "role": "menuitem",
-          "name": "Donate▾",
-          "haspopup": "menu"
+          "role": "button",
+          "name": "Help ?"
         },
         {
-          "role": "menuitem",
-          "name": "About Us▾",
-          "haspopup": "menu"
+          "role": "button",
+          "name": "Live collaboration..."
         },
         {
-          "role": "menuitem",
-          "name": "Languages ▾",
-          "haspopup": "menu"
+          "role": "link",
+          "name": "Sign up"
+        },
+        {
+          "role": "button",
+          "name": ""
+        },
+        {
+          "role": "StaticText",
+          "name": "Export, preferences, languages, ..."
+        },
+        {
+          "role": "StaticText",
+          "name": "Pick a tool & Start drawing!"
+        },
+        {
+          "role": "StaticText",
+          "name": "To move canvas, hold mouse wheel or spacebar while dragging, or use the hand tool"
+        },
+        {
+          "role": "heading",
+          "name": "Shapes",
+          "level": 2
+        },
+        {
+          "role": "checkbox",
+          "name": "Keep selected tool active after drawing",
+          "checked": false
+        },
+        {
+          "role": "radio",
+          "name": "Hand (panning tool) — H",
+          "keyshortcuts": "h",
+          "checked": false
+        },
+        {
+          "role": "radio",
+          "name": "Selection",
+          "keyshortcuts": "V or 1",
+          "checked": true
+        },
+        {
+          "role": "StaticText",
+          "name": "1"
+        },
+        {
+          "role": "radio",
+          "name": "Rectangle",
+          "keyshortcuts": "R or 2",
+          "checked": false
+        },
+        {
+          "role": "StaticText",
+          "name": "2"
+        },
+        {
+          "role": "radio",
+          "name": "Diamond",
+          "keyshortcuts": "D or 3",
+          "checked": false
+        },
+        {
+          "role": "StaticText",
+          "name": "3"
+        },
+        {
+          "role": "radio",
+          "name": "Ellipse",
+          "keyshortcuts": "O or 4",
+          "checked": false
+        },
+        {
+          "role": "StaticText",
+          "name": "4"
+        },
+        {
+          "role": "radio",
+          "name": "Arrow",
+          "keyshortcuts": "A or 5",
+          "checked": false
+        },
+        {
+          "role": "StaticText",
+          "name": "5"
+        },
+        {
+          "role": "radio",
+          "name": "Line",
+          "keyshortcuts": "L or 6",
+          "checked": false
+        },
+        {
+          "role": "StaticText",
+          "name": "6"
+        },
+        {
+          "role": "radio",
+          "name": "Draw",
+          "keyshortcuts": "P or 7",
+          "checked": false
+        },
+        {
+          "role": "StaticText",
+          "name": "7"
+        },
+        {
+          "role": "radio",
+          "name": "Text",
+          "keyshortcuts": "T or 8",
+          "checked": false
+        },
+        {
+          "role": "StaticText",
+          "name": "8"
+        },
+        {
+          "role": "radio",
+          "name": "Insert image",
+          "keyshortcuts": "9",
+          "checked": false
+        },
+        {
+          "role": "StaticText",
+          "name": "9"
+        },
+        {
+          "role": "radio",
+          "name": "Eraser",
+          "keyshortcuts": "E or 0",
+          "checked": false
+        },
+        {
+          "role": "StaticText",
+          "name": "0"
+        },
+        {
+          "role": "button",
+          "name": "AI",
+          "description": "More tools"
+        },
+        {
+          "role": "button",
+          "name": "Live collaboration..."
+        },
+        {
+          "role": "checkbox",
+          "name": "Library",
+          "keyshortcuts": "0",
+          "checked": false
+        },
+        {
+          "role": "StaticText",
+          "name": "Library"
+        },
+        {
+          "role": "heading",
+          "name": "Canvas actions",
+          "level": 2
+        },
+        {
+          "role": "button",
+          "name": "Zoom out",
+          "description": "Zoom out — Cmd+-"
+        },
+        {
+          "role": "button",
+          "name": "Reset zoom",
+          "description": "Reset zoom"
+        },
+        {
+          "role": "button",
+          "name": "Zoom in",
+          "description": "Zoom in — Cmd++"
+        },
+        {
+          "role": "button",
+          "name": "Undo",
+          "disabled": true
+        },
+        {
+          "role": "button",
+          "name": "Redo",
+          "disabled": true
+        },
+        {
+          "role": "link",
+          "name": "Blog post on end-to-end encryption in Excalidraw"
+        },
+        {
+          "role": "StaticText",
+          "name": "Shortcuts & help"
+        },
+        {
+          "role": "button",
+          "name": "Help",
+          "description": "Help — ?"
+        },
+        {
+          "role": "StaticText",
+          "name": "Drawing canvas"
         }
       ]
-    },
-    {
-      "role": "StaticText",
-      "name": "A nonprofit Certificate Authority providing TLS certificates to "
-    },
-    {
-      "role": "link",
-      "name": "500 million"
-    },
-    {
-      "role": "StaticText",
-      "name": " websites."
-    },
-    {
-      "role": "StaticText",
-      "name": "Read all about our nonprofit work this year in our "
-    },
-    {
-      "role": "link",
-      "name": "2023 Annual Report"
-    },
-    {
-      "role": "StaticText",
-      "name": "."
-    },
-    {
-      "role": "link",
-      "name": "Get Started"
-    },
-    {
-      "role": "link",
-      "name": "Sponsor"
-    },
-    {
-      "role": "link",
-      "name": "FROM OUR BLOG"
-    },
-    {
-      "role": "StaticText",
-      "name": "Jul 23, 2024"
-    },
-    {
-      "role": "link",
-      "name": "Intent to End OCSP Service"
-    },
-    {
-      "role": "StaticText",
-      "name": "Moving to a more privacy-respecting and efficient method of checking certificate revocation."
-    },
-    {
-      "role": "link",
-      "name": "Read more"
-    },
-    {
-      "role": "StaticText",
-      "name": "Jun 24, 2024"
-    },
-    {
-      "role": "link",
-      "name": "More Memory Safety for Let’s Encrypt: Deploying ntpd-rs"
-    },
-    {
-      "role": "StaticText",
-      "name": "NTP is critical to how TLS works, and now it’s memory safe at Let’s Encrypt."
-    },
-    {
-      "role": "link",
-      "name": "Read more"
-    },
-    {
-      "role": "StaticText",
-      "name": "May 30, 2024"
-    },
-    {
-      "role": "link",
-      "name": "Let’s Encrypt Continues Partnership with Princeton to Bolster Internet Security"
-    },
-    {
-      "role": "StaticText",
-      "name": "Increasing defense against BGP attacks thanks to support from the Open Technology Fund."
-    },
-    {
-      "role": "link",
-      "name": "Read more"
-    },
-    {
-      "role": "StaticText",
-      "name": "May 1, 2024"
-    },
-    {
-      "role": "link",
-      "name": "Takeaways from Tailscale’s Adoption of ARI"
-    },
-    {
-      "role": "StaticText",
-      "name": "ACME Renewal Info (ARI) enables easy and automated cert revocation and replacement."
-    },
-    {
-      "role": "link",
-      "name": "Read more"
-    },
-    {
-      "role": "StaticText",
-      "name": "Apr 25, 2024"
-    },
-    {
-      "role": "link",
-      "name": "An Engineer’s Guide to Integrating ARI into Existing ACME Clients"
-    },
-    {
-      "role": "StaticText",
-      "name": "Six steps developers can take to integrate ARI into an existing ACME client."
-    },
-    {
-      "role": "link",
-      "name": "Read more"
-    },
-    {
-      "role": "StaticText",
-      "name": " Subscribe "
-    },
-    {
-      "role": "link",
-      "name": "via RSS"
-    },
-    {
-      "role": "link",
-      "name": "MAJOR SPONSORS AND FUNDERS"
-    },
-    {
-      "role": "link",
-      "name": "Google Chrome"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Amazon Web Services"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Mozilla"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Cisco"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Electronic Frontier Foundation"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "OVH"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "IdenTrust"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Ford Foundation"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Shopify"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "IBM"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Heroku"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "SAP"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Squarespace"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Automattic"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Akamai"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Cyon"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Infomaniak"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "HostPoint"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "SiteGround"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Vultr"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Hébergement web"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Fastly"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "3CX"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Jimdo"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Zendesk"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Netlify"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "HostPapa"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "dnsimple"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Shiguredo"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Discourse"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "driving-tests.org"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Sakura Internet"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "DuoCircle"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "ServerPilot"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "DomainName.Shop"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "GitHub"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Lime Technology (Unraid)"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Keenetic"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "HAProxy"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "MongoDB"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Livesport"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Clever Cloud"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "IPInfo"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "GreenGeeks"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "RedHat"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Nabu Casa"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Wix"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "WPBeginner"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Hoststar"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "one.com"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Cargo"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "RACK::SPEED"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Duda"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Ads.com"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "cdmon"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Teleport"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "NGINX"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Acton Family Giving"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Tailscale"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "BitLaunch"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "IBAN"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Video Downloader"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Entri"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Confluent"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Ngrok"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "SecureW2"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "20i"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "SerpApi"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "IPv6rs"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "ICUK"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "Interserver"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "link",
-      "name": "DigitalOcean"
-    },
-    {
-      "role": "heading",
-      "name": "Support a more secure and privacy-respecting Web.",
-      "level": 2
-    },
-    {
-      "role": "link",
-      "name": "Donate"
-    },
-    {
-      "role": "StaticText",
-      "name": "Let's Encrypt is a free, automated, and open certificate authority brought to you by the nonprofit "
-    },
-    {
-      "role": "link",
-      "name": "Internet Security Research Group (ISRG)"
-    },
-    {
-      "role": "StaticText",
-      "name": ". Read all about our nonprofit work this year in our "
-    },
-    {
-      "role": "link",
-      "name": "2023 Annual Report"
-    },
-    {
-      "role": "StaticText",
-      "name": "."
-    },
-    {
-      "role": "StaticText",
-      "name": "548 Market St, PMB 77519"
-    },
-    {
-      "role": "StaticText",
-      "name": ", "
-    },
-    {
-      "role": "StaticText",
-      "name": "San Francisco"
-    },
-    {
-      "role": "StaticText",
-      "name": ", "
-    },
-    {
-      "role": "StaticText",
-      "name": "CA"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "StaticText",
-      "name": "94104-5401"
-    },
-    {
-      "role": "StaticText",
-      "name": ", "
-    },
-    {
-      "role": "StaticText",
-      "name": "USA"
-    },
-    {
-      "role": "StaticText",
-      "name": "Send all mail or inquiries to:"
-    },
-    {
-      "role": "StaticText",
-      "name": "PO Box 18666"
-    },
-    {
-      "role": "StaticText",
-      "name": ", "
-    },
-    {
-      "role": "StaticText",
-      "name": "Minneapolis"
-    },
-    {
-      "role": "StaticText",
-      "name": ", "
-    },
-    {
-      "role": "StaticText",
-      "name": "MN"
-    },
-    {
-      "role": "StaticText",
-      "name": " "
-    },
-    {
-      "role": "StaticText",
-      "name": "55418-0666"
-    },
-    {
-      "role": "StaticText",
-      "name": ", "
-    },
-    {
-      "role": "StaticText",
-      "name": "USA"
-    },
-    {
-      "role": "link",
-      "name": "GitHub"
-    },
-    {
-      "role": "link",
-      "name": "LinkedIn"
-    },
-    {
-      "role": "link",
-      "name": "Mastodon"
-    },
-    {
-      "role": "StaticText",
-      "name": "View our "
-    },
-    {
-      "role": "link",
-      "name": "privacy policy"
-    },
-    {
-      "role": "StaticText",
-      "name": "."
-    },
-    {
-      "role": "LineBreak",
-      "name": "\n"
-    },
-    {
-      "role": "StaticText",
-      "name": "View our "
-    },
-    {
-      "role": "link",
-      "name": "trademark policy"
-    },
-    {
-      "role": "StaticText",
-      "name": "."
-    },
-    {
-      "role": "heading",
-      "name": "Subscribe for email updates about Let's Encrypt and other ISRG projects",
-      "level": 6
-    },
-    {
-      "role": "link",
-      "name": "© 2024 Internet Security Research Group"
-    },
-    {
-      "role": "StaticText",
-      "name": "Complete your gift to make an impact"
     }
   ]
 }

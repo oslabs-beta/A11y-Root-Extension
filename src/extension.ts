@@ -4,15 +4,50 @@ import * as vscode from 'vscode';
 import * as puppeteer from 'puppeteer';
 import * as fs from 'fs';
 import * as path from 'path';
+// import { spawn, execSync } from 'child_process'; // spawn runs the server in a detached child process to avoid blocking the extension's (parent process); execSync checks if server is running
+
+// let serverProcess: any; // represents the child process running the server
+
+// const isServerActive = () => {
+//   try {
+//     execSync('http://localhost:3000');
+//     return true;
+//   } catch {
+//     return false;
+//   }
+// };
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+  // const serverScript = context.asAbsolutePath('server.js'); // launches server when extension activates
+
+  // if (!isServerActive) {
+  //   serverProcess = spawn('node', [serverScript], {
+  //     cwd: context.extensionPath,
+  //     detached: true,
+  //     stdio: 'ignore',
+  //   });
+  // }
+
+  // serverProcess.unref(); // detaches the server process from parent (the extension) so it won't block the extension's lifecycle
+
   // Use the console to output diagnostic information (console.log) and errors (console.error)
   // This line of code will only be executed once when your extension is activated
   console.log(
     'Congratulations, your extension "a11y-root-extension" is now active!'
   );
+
+  // vscode.window.showInformationMessage('A11y Root Extension Activated!');
+  // vscode.window.showInformationMessage('Server Successfully Launched!');
+  // console.log('Server Successfully Launched!');
+
+  // Clean up when extension is deactivated
+  // context.subscriptions.push({
+  //   dispose: () => {
+  //     serverProcess ? process.kill(-serverProcess.pid) : (serverProcess = null);
+  //   },
+  // });
 
   // The command has been defined in the package.json file
   // Now provide the implementation of the command with registerCommand
@@ -164,4 +199,9 @@ function openTab(context: vscode.ExtensionContext) {
 }
 
 // This method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() {
+  // if (serverProcess) {
+  //   process.kill(-serverProcess.pid);
+  //   serverProcess = null;
+  // }
+}
