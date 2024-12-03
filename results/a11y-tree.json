@@ -1,120 +1,906 @@
 {
   "role": "RootWebArea",
-  "name": "YouTube",
+  "name": "Let's Encrypt",
   "children": [
     {
-      "role": "button",
-      "name": "Guide",
-      "children": [
-        {
-          "role": "button",
-          "name": "Guide"
-        }
-      ]
+      "role": "link",
+      "name": "100% of our funding comes from people like you. Donate today."
     },
     {
       "role": "link",
-      "name": "YouTube Home"
+      "name": "Skip navigation links"
     },
     {
-      "role": "button",
-      "name": "Skip navigation"
+      "role": "link",
+      "name": "Let's Encrypt"
     },
     {
-      "role": "textbox",
-      "name": "Search"
-    },
-    {
-      "role": "button",
-      "name": "Search",
-      "description": "Search"
-    },
-    {
-      "role": "button",
-      "name": "Search with your voice"
-    },
-    {
-      "role": "tooltip",
-      "name": "tooltip"
-    },
-    {
-      "role": "generic",
+      "role": "menubar",
       "name": "",
+      "orientation": "horizontal",
       "children": [
         {
-          "role": "button",
-          "name": "yt-icon-button",
-          "children": [
-            {
-              "role": "button",
-              "name": "Settings"
-            }
-          ]
+          "role": "menuitem",
+          "name": "Documentation"
+        },
+        {
+          "role": "menuitem",
+          "name": "Get Help"
+        },
+        {
+          "role": "menuitem",
+          "name": "Donate▾",
+          "haspopup": "menu"
+        },
+        {
+          "role": "menuitem",
+          "name": "About Us▾",
+          "haspopup": "menu"
+        },
+        {
+          "role": "menuitem",
+          "name": "Languages ▾",
+          "haspopup": "menu"
         }
       ]
+    },
+    {
+      "role": "StaticText",
+      "name": "A nonprofit Certificate Authority providing TLS certificates to "
     },
     {
       "role": "link",
-      "name": "Sign in"
-    },
-    {
-      "role": "tab",
-      "name": "Home",
-      "selected": true,
-      "children": [
-        {
-          "role": "link",
-          "name": "Home"
-        }
-      ]
-    },
-    {
-      "role": "tab",
-      "name": "Shorts",
-      "children": [
-        {
-          "role": "link",
-          "name": "Shorts"
-        }
-      ]
-    },
-    {
-      "role": "tab",
-      "name": "Subscriptions",
-      "children": [
-        {
-          "role": "link",
-          "name": "Subscriptions"
-        }
-      ]
-    },
-    {
-      "role": "tab",
-      "name": "You",
-      "children": [
-        {
-          "role": "link",
-          "name": "You"
-        }
-      ]
-    },
-    {
-      "role": "tab",
-      "name": "History",
-      "children": [
-        {
-          "role": "link",
-          "name": "History"
-        }
-      ]
+      "name": "500 million"
     },
     {
       "role": "StaticText",
-      "name": "Try searching to get started"
+      "name": " websites."
     },
     {
       "role": "StaticText",
-      "name": "Start watching videos to help us build a feed of videos you'll love."
+      "name": "Read all about our nonprofit work this year in our "
+    },
+    {
+      "role": "link",
+      "name": "2023 Annual Report"
+    },
+    {
+      "role": "StaticText",
+      "name": "."
+    },
+    {
+      "role": "link",
+      "name": "Get Started"
+    },
+    {
+      "role": "link",
+      "name": "Sponsor"
+    },
+    {
+      "role": "link",
+      "name": "FROM OUR BLOG"
+    },
+    {
+      "role": "StaticText",
+      "name": "Jul 23, 2024"
+    },
+    {
+      "role": "link",
+      "name": "Intent to End OCSP Service"
+    },
+    {
+      "role": "StaticText",
+      "name": "Moving to a more privacy-respecting and efficient method of checking certificate revocation."
+    },
+    {
+      "role": "link",
+      "name": "Read more"
+    },
+    {
+      "role": "StaticText",
+      "name": "Jun 24, 2024"
+    },
+    {
+      "role": "link",
+      "name": "More Memory Safety for Let’s Encrypt: Deploying ntpd-rs"
+    },
+    {
+      "role": "StaticText",
+      "name": "NTP is critical to how TLS works, and now it’s memory safe at Let’s Encrypt."
+    },
+    {
+      "role": "link",
+      "name": "Read more"
+    },
+    {
+      "role": "StaticText",
+      "name": "May 30, 2024"
+    },
+    {
+      "role": "link",
+      "name": "Let’s Encrypt Continues Partnership with Princeton to Bolster Internet Security"
+    },
+    {
+      "role": "StaticText",
+      "name": "Increasing defense against BGP attacks thanks to support from the Open Technology Fund."
+    },
+    {
+      "role": "link",
+      "name": "Read more"
+    },
+    {
+      "role": "StaticText",
+      "name": "May 1, 2024"
+    },
+    {
+      "role": "link",
+      "name": "Takeaways from Tailscale’s Adoption of ARI"
+    },
+    {
+      "role": "StaticText",
+      "name": "ACME Renewal Info (ARI) enables easy and automated cert revocation and replacement."
+    },
+    {
+      "role": "link",
+      "name": "Read more"
+    },
+    {
+      "role": "StaticText",
+      "name": "Apr 25, 2024"
+    },
+    {
+      "role": "link",
+      "name": "An Engineer’s Guide to Integrating ARI into Existing ACME Clients"
+    },
+    {
+      "role": "StaticText",
+      "name": "Six steps developers can take to integrate ARI into an existing ACME client."
+    },
+    {
+      "role": "link",
+      "name": "Read more"
+    },
+    {
+      "role": "StaticText",
+      "name": " Subscribe "
+    },
+    {
+      "role": "link",
+      "name": "via RSS"
+    },
+    {
+      "role": "link",
+      "name": "MAJOR SPONSORS AND FUNDERS"
+    },
+    {
+      "role": "link",
+      "name": "Google Chrome"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Amazon Web Services"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Mozilla"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Cisco"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Electronic Frontier Foundation"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "OVH"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "IdenTrust"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Ford Foundation"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Shopify"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "IBM"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Heroku"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "SAP"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Squarespace"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Automattic"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Akamai"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Cyon"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Infomaniak"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "HostPoint"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "SiteGround"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Vultr"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Hébergement web"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Fastly"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "3CX"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Jimdo"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Zendesk"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Netlify"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "HostPapa"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "dnsimple"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Shiguredo"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Discourse"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "driving-tests.org"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Sakura Internet"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "DuoCircle"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "ServerPilot"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "DomainName.Shop"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "GitHub"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Lime Technology (Unraid)"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Keenetic"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "HAProxy"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "MongoDB"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Livesport"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Clever Cloud"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "IPInfo"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "GreenGeeks"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "RedHat"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Nabu Casa"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Wix"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "WPBeginner"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Hoststar"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "one.com"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Cargo"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "RACK::SPEED"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Duda"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Ads.com"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "cdmon"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Teleport"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "NGINX"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Acton Family Giving"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Tailscale"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "BitLaunch"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "IBAN"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Video Downloader"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Entri"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Confluent"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Ngrok"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "SecureW2"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "20i"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "SerpApi"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "IPv6rs"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "ICUK"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "Interserver"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "link",
+      "name": "DigitalOcean"
+    },
+    {
+      "role": "heading",
+      "name": "Support a more secure and privacy-respecting Web.",
+      "level": 2
+    },
+    {
+      "role": "link",
+      "name": "Donate"
+    },
+    {
+      "role": "StaticText",
+      "name": "Let's Encrypt is a free, automated, and open certificate authority brought to you by the nonprofit "
+    },
+    {
+      "role": "link",
+      "name": "Internet Security Research Group (ISRG)"
+    },
+    {
+      "role": "StaticText",
+      "name": ". Read all about our nonprofit work this year in our "
+    },
+    {
+      "role": "link",
+      "name": "2023 Annual Report"
+    },
+    {
+      "role": "StaticText",
+      "name": "."
+    },
+    {
+      "role": "StaticText",
+      "name": "548 Market St, PMB 77519"
+    },
+    {
+      "role": "StaticText",
+      "name": ", "
+    },
+    {
+      "role": "StaticText",
+      "name": "San Francisco"
+    },
+    {
+      "role": "StaticText",
+      "name": ", "
+    },
+    {
+      "role": "StaticText",
+      "name": "CA"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "StaticText",
+      "name": "94104-5401"
+    },
+    {
+      "role": "StaticText",
+      "name": ", "
+    },
+    {
+      "role": "StaticText",
+      "name": "USA"
+    },
+    {
+      "role": "StaticText",
+      "name": "Send all mail or inquiries to:"
+    },
+    {
+      "role": "StaticText",
+      "name": "PO Box 18666"
+    },
+    {
+      "role": "StaticText",
+      "name": ", "
+    },
+    {
+      "role": "StaticText",
+      "name": "Minneapolis"
+    },
+    {
+      "role": "StaticText",
+      "name": ", "
+    },
+    {
+      "role": "StaticText",
+      "name": "MN"
+    },
+    {
+      "role": "StaticText",
+      "name": " "
+    },
+    {
+      "role": "StaticText",
+      "name": "55418-0666"
+    },
+    {
+      "role": "StaticText",
+      "name": ", "
+    },
+    {
+      "role": "StaticText",
+      "name": "USA"
+    },
+    {
+      "role": "link",
+      "name": "GitHub"
+    },
+    {
+      "role": "link",
+      "name": "LinkedIn"
+    },
+    {
+      "role": "link",
+      "name": "Mastodon"
+    },
+    {
+      "role": "StaticText",
+      "name": "View our "
+    },
+    {
+      "role": "link",
+      "name": "privacy policy"
+    },
+    {
+      "role": "StaticText",
+      "name": "."
+    },
+    {
+      "role": "LineBreak",
+      "name": "\n"
+    },
+    {
+      "role": "StaticText",
+      "name": "View our "
+    },
+    {
+      "role": "link",
+      "name": "trademark policy"
+    },
+    {
+      "role": "StaticText",
+      "name": "."
+    },
+    {
+      "role": "heading",
+      "name": "Subscribe for email updates about Let's Encrypt and other ISRG projects",
+      "level": 6
+    },
+    {
+      "role": "link",
+      "name": "© 2024 Internet Security Research Group"
+    },
+    {
+      "role": "StaticText",
+      "name": "Complete your gift to make an impact"
     }
   ]
 }
