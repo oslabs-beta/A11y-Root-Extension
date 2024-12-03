@@ -41,40 +41,40 @@ const vscode = __importStar(require("vscode"));
 const puppeteer = __importStar(require("puppeteer"));
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
-// import { spawn, execSync } from 'child_process'; // spawn runs the server in a detached child process to avoid blocking the extension's (parent process); execSync checks if server is running
-// let serverProcess: any; // represents the child process running the server
-// const isServerActive = () => {
-//   try {
-//     execSync('http://localhost:3000');
-//     return true;
-//   } catch {
-//     return false;
-//   }
-// };
+const child_process_1 = require("child_process"); // spawn runs the server in a detached child process to avoid blocking the extension's (parent process); execSync checks if server is running
+let serverProcess; // represents the child process running the server
+const isServerActive = () => {
+    try {
+        (0, child_process_1.execSync)('curl http://localhost:3000'); // execSync utilizes the CLI command to check if client URL is running
+        return true;
+    }
+    catch {
+        return false;
+    }
+};
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 function activate(context) {
-    // const serverScript = context.asAbsolutePath('server.js'); // launches server when extension activates
-    // if (!isServerActive) {
-    //   serverProcess = spawn('node', [serverScript], {
-    //     cwd: context.extensionPath,
-    //     detached: true,
-    //     stdio: 'ignore',
-    //   });
-    // }
-    // serverProcess.unref(); // detaches the server process from parent (the extension) so it won't block the extension's lifecycle
+    const serverScript = context.asAbsolutePath('server.js'); // launches server when extension activates
+    if (!isServerActive()) {
+        serverProcess = (0, child_process_1.spawn)('node', [serverScript], {
+            cwd: context.extensionPath,
+            detached: true,
+            stdio: 'ignore',
+        });
+        vscode.window.showInformationMessage('Server Successfully Launched!!!');
+    }
+    serverProcess.unref(); // detaches the server process from parent (the extension) so it won't block the extension's lifecycle
     // Use the console to output diagnostic information (console.log) and errors (console.error)
     // This line of code will only be executed once when your extension is activated
     console.log('Congratulations, your extension "a11y-root-extension" is now active!');
-    // vscode.window.showInformationMessage('A11y Root Extension Activated!');
-    // vscode.window.showInformationMessage('Server Successfully Launched!');
-    // console.log('Server Successfully Launched!');
+    vscode.window.showInformationMessage('A11y Root Extension Activated!');
     // Clean up when extension is deactivated
-    // context.subscriptions.push({
-    //   dispose: () => {
-    //     serverProcess ? process.kill(-serverProcess.pid) : (serverProcess = null);
-    //   },
-    // });
+    context.subscriptions.push({
+        dispose: () => {
+            serverProcess ? process.kill(-serverProcess.pid) : (serverProcess = null);
+        },
+    });
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with registerCommand
     // The commandId parameter must match the command field in package.json
@@ -177,9 +177,9 @@ function openTab(context) {
 }
 // This method is called when your extension is deactivated
 function deactivate() {
-    // if (serverProcess) {
-    //   process.kill(-serverProcess.pid);
-    //   serverProcess = null;
-    // }
+    if (serverProcess) {
+        process.kill(-serverProcess.pid);
+        serverProcess = null;
+    }
 }
 //# sourceMappingURL=extension.js.map
