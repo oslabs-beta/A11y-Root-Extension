@@ -7,8 +7,8 @@ const app = express();
 const PORT = 3000;
 
 const options = {
-  key: fs.readFileSync(path.join(dirname, 'cert/localhost-key.pem')),
-  cert: fs.readFileSync(path.join(dirname, 'cert/localhost.pem')),
+  key: fs.readFileSync(path.join(__dirname, 'cert/localhost-key.pem')),
+  cert: fs.readFileSync(path.join(__dirname, 'cert/localhost.pem')),
 };
 
 const server = https.createServer(options, app);
