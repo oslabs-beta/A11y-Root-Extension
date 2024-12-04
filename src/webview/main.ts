@@ -14,7 +14,7 @@ declare const acquireVsCodeApi: () => {
 // Get the VS Code API
 const vscode = acquireVsCodeApi();
 
-console.log('hello');
+console.log('hello!!!');
 
 // Utility function to safely get an element by ID and assert its type
 function getElementById<T extends HTMLElement>(id: string): T {

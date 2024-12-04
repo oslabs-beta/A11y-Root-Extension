@@ -1,236 +1,1180 @@
 {
   "role": "RootWebArea",
-  "name": "Excalidraw | Hand-drawn look & feel • Collaborative • Secure",
+  "name": "NeetCode",
   "children": [
     {
+      "role": "link",
+      "name": ""
+    },
+    {
+      "role": "link",
+      "name": "Courses"
+    },
+    {
+      "role": "link",
+      "name": "Practice"
+    },
+    {
+      "role": "link",
+      "name": "Roadmap"
+    },
+    {
+      "role": "link",
+      "name": "Newsletter"
+    },
+    {
+      "role": "link",
+      "name": "  Pro"
+    },
+    {
+      "role": "button",
+      "name": ""
+    },
+    {
+      "role": "button",
+      "name": "Sign in"
+    },
+    {
       "role": "heading",
-      "name": "Excalidraw",
+      "name": "NeetCode",
       "level": 1
     },
     {
-      "role": "generic",
-      "name": "All your data is saved locally in your browser. Open Cmd+O Help ? Live collaboration... Sign up Export, preferences, languages, ... Shapes Live collaboration... Library Library Drawing canvas",
-      "focused": true,
-      "children": [
-        {
-          "role": "StaticText",
-          "name": "All your data is saved locally in your browser."
-        },
-        {
-          "role": "button",
-          "name": "Open Cmd+O"
-        },
-        {
-          "role": "button",
-          "name": "Help ?"
-        },
-        {
-          "role": "button",
-          "name": "Live collaboration..."
-        },
-        {
-          "role": "link",
-          "name": "Sign up"
-        },
-        {
-          "role": "button",
-          "name": ""
-        },
-        {
-          "role": "StaticText",
-          "name": "Export, preferences, languages, ..."
-        },
-        {
-          "role": "StaticText",
-          "name": "Pick a tool & Start drawing!"
-        },
-        {
-          "role": "StaticText",
-          "name": "To move canvas, hold mouse wheel or spacebar while dragging, or use the hand tool"
-        },
-        {
-          "role": "heading",
-          "name": "Shapes",
-          "level": 2
-        },
-        {
-          "role": "checkbox",
-          "name": "Keep selected tool active after drawing",
-          "checked": false
-        },
-        {
-          "role": "radio",
-          "name": "Hand (panning tool) — H",
-          "keyshortcuts": "h",
-          "checked": false
-        },
-        {
-          "role": "radio",
-          "name": "Selection",
-          "keyshortcuts": "V or 1",
-          "checked": true
-        },
-        {
-          "role": "StaticText",
-          "name": "1"
-        },
-        {
-          "role": "radio",
-          "name": "Rectangle",
-          "keyshortcuts": "R or 2",
-          "checked": false
-        },
-        {
-          "role": "StaticText",
-          "name": "2"
-        },
-        {
-          "role": "radio",
-          "name": "Diamond",
-          "keyshortcuts": "D or 3",
-          "checked": false
-        },
-        {
-          "role": "StaticText",
-          "name": "3"
-        },
-        {
-          "role": "radio",
-          "name": "Ellipse",
-          "keyshortcuts": "O or 4",
-          "checked": false
-        },
-        {
-          "role": "StaticText",
-          "name": "4"
-        },
-        {
-          "role": "radio",
-          "name": "Arrow",
-          "keyshortcuts": "A or 5",
-          "checked": false
-        },
-        {
-          "role": "StaticText",
-          "name": "5"
-        },
-        {
-          "role": "radio",
-          "name": "Line",
-          "keyshortcuts": "L or 6",
-          "checked": false
-        },
-        {
-          "role": "StaticText",
-          "name": "6"
-        },
-        {
-          "role": "radio",
-          "name": "Draw",
-          "keyshortcuts": "P or 7",
-          "checked": false
-        },
-        {
-          "role": "StaticText",
-          "name": "7"
-        },
-        {
-          "role": "radio",
-          "name": "Text",
-          "keyshortcuts": "T or 8",
-          "checked": false
-        },
-        {
-          "role": "StaticText",
-          "name": "8"
-        },
-        {
-          "role": "radio",
-          "name": "Insert image",
-          "keyshortcuts": "9",
-          "checked": false
-        },
-        {
-          "role": "StaticText",
-          "name": "9"
-        },
-        {
-          "role": "radio",
-          "name": "Eraser",
-          "keyshortcuts": "E or 0",
-          "checked": false
-        },
-        {
-          "role": "StaticText",
-          "name": "0"
-        },
-        {
-          "role": "button",
-          "name": "AI",
-          "description": "More tools"
-        },
-        {
-          "role": "button",
-          "name": "Live collaboration..."
-        },
-        {
-          "role": "checkbox",
-          "name": "Library",
-          "keyshortcuts": "0",
-          "checked": false
-        },
-        {
-          "role": "StaticText",
-          "name": "Library"
-        },
-        {
-          "role": "heading",
-          "name": "Canvas actions",
-          "level": 2
-        },
-        {
-          "role": "button",
-          "name": "Zoom out",
-          "description": "Zoom out — Cmd+-"
-        },
-        {
-          "role": "button",
-          "name": "Reset zoom",
-          "description": "Reset zoom"
-        },
-        {
-          "role": "button",
-          "name": "Zoom in",
-          "description": "Zoom in — Cmd++"
-        },
-        {
-          "role": "button",
-          "name": "Undo",
-          "disabled": true
-        },
-        {
-          "role": "button",
-          "name": "Redo",
-          "disabled": true
-        },
-        {
-          "role": "link",
-          "name": "Blog post on end-to-end encryption in Excalidraw"
-        },
-        {
-          "role": "StaticText",
-          "name": "Shortcuts & help"
-        },
-        {
-          "role": "button",
-          "name": "Help",
-          "description": "Help — ?"
-        },
-        {
-          "role": "StaticText",
-          "name": "Drawing canvas"
-        }
-      ]
+      "role": "LineBreak",
+      "name": "\n"
+    },
+    {
+      "role": "StaticText",
+      "name": "A better way to prepare for coding interviews."
+    },
+    {
+      "role": "LineBreak",
+      "name": "\n"
+    },
+    {
+      "role": "LineBreak",
+      "name": "\n"
+    },
+    {
+      "role": "button",
+      "name": "Get Pro"
+    },
+    {
+      "role": "LineBreak",
+      "name": "\n"
+    },
+    {
+      "role": "StaticText",
+      "name": "Arrays & Hashing"
+    },
+    {
+      "role": "StaticText",
+      "name": "Two Pointers"
+    },
+    {
+      "role": "StaticText",
+      "name": "Binary Search"
+    },
+    {
+      "role": "StaticText",
+      "name": "Stack"
+    },
+    {
+      "role": "StaticText",
+      "name": "Sliding Window"
+    },
+    {
+      "role": "StaticText",
+      "name": "Linked List"
+    },
+    {
+      "role": "StaticText",
+      "name": "Trees"
+    },
+    {
+      "role": "StaticText",
+      "name": "Tries"
+    },
+    {
+      "role": "StaticText",
+      "name": "Heap / Priority Queue"
+    },
+    {
+      "role": "StaticText",
+      "name": "Backtracking"
+    },
+    {
+      "role": "heading",
+      "name": "Release Notes",
+      "level": 2
+    },
+    {
+      "role": "button",
+      "name": "Feature Requests"
+    },
+    {
+      "role": "StaticText",
+      "name": "November 1 2024"
+    },
+    {
+      "role": "StaticText",
+      "name": " - 🔥 Added Time & Space complexity for all "
+    },
+    {
+      "role": "link",
+      "name": "NeetCode 150"
+    },
+    {
+      "role": "StaticText",
+      "name": " problems."
+    },
+    {
+      "role": "StaticText",
+      "name": "October 16 2024"
+    },
+    {
+      "role": "StaticText",
+      "name": " - 🚀 Published "
+    },
+    {
+      "role": "link",
+      "name": "SQL for Beginners"
+    },
+    {
+      "role": "StaticText",
+      "name": " course."
+    },
+    {
+      "role": "StaticText",
+      "name": "September 18 2024"
+    },
+    {
+      "role": "StaticText",
+      "name": " - 🔥 Added 48 animations to "
+    },
+    {
+      "role": "link",
+      "name": "Advanced Algorithms"
+    },
+    {
+      "role": "StaticText",
+      "name": " course."
+    },
+    {
+      "role": "StaticText",
+      "name": "July 25 2024"
+    },
+    {
+      "role": "StaticText",
+      "name": " - 🔥 Added 85 animations to "
+    },
+    {
+      "role": "link",
+      "name": "Algorithms & Data Structures for Beginners"
+    },
+    {
+      "role": "StaticText",
+      "name": " course."
+    },
+    {
+      "role": "StaticText",
+      "name": "July 15 2024"
+    },
+    {
+      "role": "StaticText",
+      "name": " - 🚀 Published "
+    },
+    {
+      "role": "link",
+      "name": "Python for Coding Interviews"
+    },
+    {
+      "role": "StaticText",
+      "name": " course."
+    },
+    {
+      "role": "StaticText",
+      "name": "June 5 2024"
+    },
+    {
+      "role": "StaticText",
+      "name": " - 🚀 Published "
+    },
+    {
+      "role": "link",
+      "name": "Python for Beginners"
+    },
+    {
+      "role": "StaticText",
+      "name": " course."
+    },
+    {
+      "role": "StaticText",
+      "name": "Mar 16 2024"
+    },
+    {
+      "role": "StaticText",
+      "name": " - 🔥 Added custom test cases to coding environment."
+    },
+    {
+      "role": "StaticText",
+      "name": "Feb 11 2024"
+    },
+    {
+      "role": "StaticText",
+      "name": " - 🚀 Published "
+    },
+    {
+      "role": "link",
+      "name": "Prototype"
+    },
+    {
+      "role": "StaticText",
+      "name": " and "
+    },
+    {
+      "role": "link",
+      "name": "State"
+    },
+    {
+      "role": "StaticText",
+      "name": " coding problems and the cooresponding lessons in the "
+    },
+    {
+      "role": "link",
+      "name": "OOP Design Patterns"
+    },
+    {
+      "role": "StaticText",
+      "name": " course."
+    },
+    {
+      "role": "StaticText",
+      "name": "Feb 7 2024"
+    },
+    {
+      "role": "StaticText",
+      "name": " - 🚀 Published "
+    },
+    {
+      "role": "link",
+      "name": "15 Machine Learning"
+    },
+    {
+      "role": "StaticText",
+      "name": " coding questions."
+    },
+    {
+      "role": "StaticText",
+      "name": "Jan 16 2024"
+    },
+    {
+      "role": "StaticText",
+      "name": " - 🚀 Published "
+    },
+    {
+      "role": "link",
+      "name": "Topological Sort"
+    },
+    {
+      "role": "StaticText",
+      "name": " coding question."
+    },
+    {
+      "role": "StaticText",
+      "name": "Jan 8 2024"
+    },
+    {
+      "role": "StaticText",
+      "name": " - Updates to "
+    },
+    {
+      "role": "link",
+      "name": "/problems"
+    },
+    {
+      "role": "StaticText",
+      "name": " page: added submissions history tab, added output tab within console, and added diff viewer for failed test cases."
+    },
+    {
+      "role": "StaticText",
+      "name": "Dec 20 2023"
+    },
+    {
+      "role": "StaticText",
+      "name": " - Added tags to filter problems on the basics tab of the "
+    },
+    {
+      "role": "link",
+      "name": "/practice"
+    },
+    {
+      "role": "StaticText",
+      "name": " page."
+    },
+    {
+      "role": "StaticText",
+      "name": "Dec 13 2023"
+    },
+    {
+      "role": "StaticText",
+      "name": " - 🚀 Published "
+    },
+    {
+      "role": "link",
+      "name": "Matrix DFS"
+    },
+    {
+      "role": "StaticText",
+      "name": " and "
+    },
+    {
+      "role": "link",
+      "name": "Matrix BFS"
+    },
+    {
+      "role": "StaticText",
+      "name": " coding questions."
+    },
+    {
+      "role": "StaticText",
+      "name": "Nov 16 2023"
+    },
+    {
+      "role": "StaticText",
+      "name": " - 🚀 Published "
+    },
+    {
+      "role": "link",
+      "name": "Design Patterns"
+    },
+    {
+      "role": "StaticText",
+      "name": " course along with 8 design pattern coding questions."
+    },
+    {
+      "role": "StaticText",
+      "name": "Nov 13 2023"
+    },
+    {
+      "role": "StaticText",
+      "name": " - 🔥 Added C# support for coding questions on the basics tab of the "
+    },
+    {
+      "role": "link",
+      "name": "/practice"
+    },
+    {
+      "role": "StaticText",
+      "name": " page."
+    },
+    {
+      "role": "StaticText",
+      "name": "Sep 11 2023"
+    },
+    {
+      "role": "StaticText",
+      "name": " - 🚀 Added two more lessons to "
+    },
+    {
+      "role": "link",
+      "name": "Object-Oriented Design Interview"
+    },
+    {
+      "role": "StaticText",
+      "name": " course."
+    },
+    {
+      "role": "StaticText",
+      "name": "Sep 2 2023"
+    },
+    {
+      "role": "StaticText",
+      "name": " - 🔥 Added code judge and published coding questions on the basics tab of the "
+    },
+    {
+      "role": "link",
+      "name": "/practice"
+    },
+    {
+      "role": "StaticText",
+      "name": " page."
+    },
+    {
+      "role": "StaticText",
+      "name": "Jul 26 2023"
+    },
+    {
+      "role": "StaticText",
+      "name": " - Published articles for "
+    },
+    {
+      "role": "link",
+      "name": "System Design for Beginners"
+    },
+    {
+      "role": "StaticText",
+      "name": " course."
+    },
+    {
+      "role": "StaticText",
+      "name": "Jul 17 2023"
+    },
+    {
+      "role": "StaticText",
+      "name": " - 🚀 Published "
+    },
+    {
+      "role": "link",
+      "name": "Full Stack Development"
+    },
+    {
+      "role": "StaticText",
+      "name": " course."
+    },
+    {
+      "role": "StaticText",
+      "name": "May 6 2023"
+    },
+    {
+      "role": "StaticText",
+      "name": " - 🚀 Added algorithm related quizzes to the "
+    },
+    {
+      "role": "link",
+      "name": "/practice"
+    },
+    {
+      "role": "StaticText",
+      "name": " page."
+    },
+    {
+      "role": "StaticText",
+      "name": "Mar 23 2023"
+    },
+    {
+      "role": "StaticText",
+      "name": " - Published articles for "
+    },
+    {
+      "role": "link",
+      "name": "Advanced Algorithms"
+    },
+    {
+      "role": "StaticText",
+      "name": " course."
+    },
+    {
+      "role": "StaticText",
+      "name": "Feb 13 2023"
+    },
+    {
+      "role": "StaticText",
+      "name": " - Published articles for "
+    },
+    {
+      "role": "link",
+      "name": "Algorithms & Data Structures for Beginners"
+    },
+    {
+      "role": "StaticText",
+      "name": " course."
+    },
+    {
+      "role": "StaticText",
+      "name": "Feb 6 2023"
+    },
+    {
+      "role": "StaticText",
+      "name": " - 🚀 Published "
+    },
+    {
+      "role": "link",
+      "name": "Object-Oriented Design Interview"
+    },
+    {
+      "role": "StaticText",
+      "name": " course."
+    },
+    {
+      "role": "StaticText",
+      "name": "Dec 22 2022"
+    },
+    {
+      "role": "StaticText",
+      "name": " - 🔥 Added NeetCode 150 roadmap on "
+    },
+    {
+      "role": "link",
+      "name": "/roadmap"
+    },
+    {
+      "role": "StaticText",
+      "name": " page."
+    },
+    {
+      "role": "StaticText",
+      "name": "Show more"
+    },
+    {
+      "role": "heading",
+      "name": "Courses",
+      "level": 1
+    },
+    {
+      "role": "heading",
+      "name": "Algorithms & Data Structures for Beginners",
+      "level": 1
+    },
+    {
+      "role": "StaticText",
+      "name": "Learn the foundations of coding interviews."
+    },
+    {
+      "role": "StaticText",
+      "name": "25 hours"
+    },
+    {
+      "role": "StaticText",
+      "name": "   "
+    },
+    {
+      "role": "StaticText",
+      "name": "Medium"
+    },
+    {
+      "role": "heading",
+      "name": "Advanced Algorithms",
+      "level": 1
+    },
+    {
+      "role": "StaticText",
+      "name": "Learn every algorithm you would ever need."
+    },
+    {
+      "role": "StaticText",
+      "name": "25 hours"
+    },
+    {
+      "role": "StaticText",
+      "name": "   "
+    },
+    {
+      "role": "StaticText",
+      "name": "Hard"
+    },
+    {
+      "role": "heading",
+      "name": "System Design for Beginners",
+      "level": 1
+    },
+    {
+      "role": "StaticText",
+      "name": "Learn the foundations of system design interviews."
+    },
+    {
+      "role": "StaticText",
+      "name": "10 hours"
+    },
+    {
+      "role": "StaticText",
+      "name": "   "
+    },
+    {
+      "role": "StaticText",
+      "name": "Medium"
+    },
+    {
+      "role": "heading",
+      "name": "System Design Interview",
+      "level": 1
+    },
+    {
+      "role": "StaticText",
+      "name": "Learn common system design interview questions."
+    },
+    {
+      "role": "StaticText",
+      "name": "10 hours"
+    },
+    {
+      "role": "StaticText",
+      "name": "   "
+    },
+    {
+      "role": "StaticText",
+      "name": "Medium"
+    },
+    {
+      "role": "heading",
+      "name": "Python for Beginners",
+      "level": 1
+    },
+    {
+      "role": "StaticText",
+      "name": "Learn the Python programming language."
+    },
+    {
+      "role": "StaticText",
+      "name": "12 hours"
+    },
+    {
+      "role": "StaticText",
+      "name": "   "
+    },
+    {
+      "role": "StaticText",
+      "name": "Easy"
+    },
+    {
+      "role": "heading",
+      "name": "Python for Coding Interviews",
+      "level": 1
+    },
+    {
+      "role": "StaticText",
+      "name": "Learn effective Python for coding interviews."
+    },
+    {
+      "role": "StaticText",
+      "name": "8 hours"
+    },
+    {
+      "role": "StaticText",
+      "name": "   "
+    },
+    {
+      "role": "StaticText",
+      "name": "Easy"
+    },
+    {
+      "role": "button",
+      "name": "Coming Soon"
+    },
+    {
+      "role": "heading",
+      "name": "Python OOP",
+      "level": 1
+    },
+    {
+      "role": "StaticText",
+      "name": "Learn object-oriented programming in Python."
+    },
+    {
+      "role": "StaticText",
+      "name": "10 hours"
+    },
+    {
+      "role": "StaticText",
+      "name": "   "
+    },
+    {
+      "role": "StaticText",
+      "name": "Easy"
+    },
+    {
+      "role": "heading",
+      "name": "SQL for Beginners",
+      "level": 1
+    },
+    {
+      "role": "StaticText",
+      "name": "Learn PostgreSQL with interactive coding lessons."
+    },
+    {
+      "role": "StaticText",
+      "name": "10 hours"
+    },
+    {
+      "role": "StaticText",
+      "name": "   "
+    },
+    {
+      "role": "StaticText",
+      "name": "Easy"
+    },
+    {
+      "role": "heading",
+      "name": "Full Stack Development",
+      "level": 1
+    },
+    {
+      "role": "StaticText",
+      "name": "Learn how to build an intermediate full stack app."
+    },
+    {
+      "role": "StaticText",
+      "name": "20 hours"
+    },
+    {
+      "role": "StaticText",
+      "name": "   "
+    },
+    {
+      "role": "StaticText",
+      "name": "Medium"
+    },
+    {
+      "role": "button",
+      "name": "Coming Soon"
+    },
+    {
+      "role": "heading",
+      "name": "Relational Databases",
+      "level": 1
+    },
+    {
+      "role": "StaticText",
+      "name": "Learn about relational database management systems."
+    },
+    {
+      "role": "StaticText",
+      "name": "10 hours"
+    },
+    {
+      "role": "StaticText",
+      "name": "   "
+    },
+    {
+      "role": "StaticText",
+      "name": "Easy"
+    },
+    {
+      "role": "heading",
+      "name": "Object Oriented Design Interviews",
+      "level": 1
+    },
+    {
+      "role": "StaticText",
+      "name": "Learn Object Oriented Design interview questions."
+    },
+    {
+      "role": "StaticText",
+      "name": "8 hours"
+    },
+    {
+      "role": "StaticText",
+      "name": "   "
+    },
+    {
+      "role": "StaticText",
+      "name": "Easy"
+    },
+    {
+      "role": "heading",
+      "name": "Object Oriented Design Patterns",
+      "level": 1
+    },
+    {
+      "role": "StaticText",
+      "name": "Learn & implement common coding design patterns."
+    },
+    {
+      "role": "StaticText",
+      "name": "8 hours"
+    },
+    {
+      "role": "StaticText",
+      "name": "   "
+    },
+    {
+      "role": "StaticText",
+      "name": "Easy"
+    },
+    {
+      "role": "heading",
+      "name": "Lessons",
+      "level": 1
+    },
+    {
+      "role": "link",
+      "name": "Python Cheat Sheet"
+    },
+    {
+      "role": "link",
+      "name": "Big-O Notation"
+    },
+    {
+      "role": "link",
+      "name": "8 Design Patterns Every Programmer Should Know"
+    },
+    {
+      "role": "link",
+      "name": "20 Must-Know System Design Concepts"
+    },
+    {
+      "role": "link",
+      "name": "30-Day JavaScript Coding Challenge"
+    },
+    {
+      "role": "link",
+      "name": "Design a YouTube Clone"
+    },
+    {
+      "role": "link",
+      "name": "MongoDB Crash Course"
+    },
+    {
+      "role": "heading",
+      "name": "Practice for Free",
+      "level": 1
+    },
+    {
+      "role": "StaticText",
+      "name": "The best free resources for Coding Interviews. Period."
+    },
+    {
+      "role": "StaticText",
+      "name": "✓"
+    },
+    {
+      "role": "StaticText",
+      "name": "   Organized study plans and roadmaps (Blind 75, Neetcode 150)."
+    },
+    {
+      "role": "StaticText",
+      "name": "✓"
+    },
+    {
+      "role": "StaticText",
+      "name": "   Detailed video explanations."
+    },
+    {
+      "role": "StaticText",
+      "name": "✓"
+    },
+    {
+      "role": "StaticText",
+      "name": "   Public Discord community with over 30,000 members."
+    },
+    {
+      "role": "StaticText",
+      "name": "✓"
+    },
+    {
+      "role": "StaticText",
+      "name": "   Sign in to save your progress."
+    },
+    {
+      "role": "StaticText",
+      "name": "Much more coming soon!"
+    },
+    {
+      "role": "button",
+      "name": "Start Practicing"
+    },
+    {
+      "role": "StaticText",
+      "name": "  "
+    },
+    {
+      "role": "button",
+      "name": "View Roadmap"
+    },
+    {
+      "role": "StaticText",
+      "name": "  "
+    },
+    {
+      "role": "link",
+      "name": "Join Discord"
+    },
+    {
+      "role": "heading",
+      "name": "Proven Results",
+      "level": 1
+    },
+    {
+      "role": "StaticText",
+      "name": "My first viewer."
+    },
+    {
+      "role": "StaticText",
+      "name": "   "
+    },
+    {
+      "role": "StaticText",
+      "name": "Amog Chandrashekar"
+    },
+    {
+      "role": "StaticText",
+      "name": "Please continue doing videos!"
+    },
+    {
+      "role": "StaticText",
+      "name": " It would be really helpful for self taught programmers like me. Thanks."
+    },
+    {
+      "role": "LineBreak",
+      "name": "\n"
+    },
+    {
+      "role": "StaticText",
+      "name": "- May 30, 2020"
+    },
+    {
+      "role": "StaticText",
+      "name": "Hi Neetcode,"
+    },
+    {
+      "role": "LineBreak",
+      "name": "\n"
+    },
+    {
+      "role": "LineBreak",
+      "name": "\n"
+    },
+    {
+      "role": "StaticText",
+      "name": "I am Amog, and I was your first subscriber when you started this channel!"
+    },
+    {
+      "role": "LineBreak",
+      "name": "\n"
+    },
+    {
+      "role": "StaticText",
+      "name": "..."
+    },
+    {
+      "role": "LineBreak",
+      "name": "\n"
+    },
+    {
+      "role": "StaticText",
+      "name": "I signed my offer with Google"
+    },
+    {
+      "role": "StaticText",
+      "name": " as a software engineer (L4) last week and you have a fair share of contribution in it."
+    },
+    {
+      "role": "LineBreak",
+      "name": "\n"
+    },
+    {
+      "role": "LineBreak",
+      "name": "\n"
+    },
+    {
+      "role": "StaticText",
+      "name": "- Dec, 2021"
+    },
+    {
+      "role": "StaticText",
+      "name": "And many more."
+    },
+    {
+      "role": "StaticText",
+      "name": "   "
+    },
+    {
+      "role": "StaticText",
+      "name": "Rodrigo Ramirez"
+    },
+    {
+      "role": "StaticText",
+      "name": "Hi Neetcode, "
+    },
+    {
+      "role": "StaticText",
+      "name": "I recently got an offer for Microsoft"
+    },
+    {
+      "role": "StaticText",
+      "name": ", and I will be starting next year! Thank you so much for your videos, it helped a lot!!"
+    },
+    {
+      "role": "LineBreak",
+      "name": "\n"
+    },
+    {
+      "role": "LineBreak",
+      "name": "\n"
+    },
+    {
+      "role": "StaticText",
+      "name": "- June, 2022"
+    },
+    {
+      "role": "StaticText",
+      "name": "   "
+    },
+    {
+      "role": "StaticText",
+      "name": "Aiswarya Sukumar"
+    },
+    {
+      "role": "StaticText",
+      "name": "Got an offer from Amazon today."
+    },
+    {
+      "role": "StaticText",
+      "name": " Have an interview with Google coming up. Thanks a lot for your videos. It "
+    },
+    {
+      "role": "StaticText",
+      "name": "really helped"
+    },
+    {
+      "role": "StaticText",
+      "name": " me during the preparation. ❤️"
+    },
+    {
+      "role": "LineBreak",
+      "name": "\n"
+    },
+    {
+      "role": "LineBreak",
+      "name": "\n"
+    },
+    {
+      "role": "StaticText",
+      "name": "- May, 2022"
+    },
+    {
+      "role": "StaticText",
+      "name": "   "
+    },
+    {
+      "role": "StaticText",
+      "name": "Victor"
+    },
+    {
+      "role": "StaticText",
+      "name": "Man, thank you so much. "
+    },
+    {
+      "role": "StaticText",
+      "name": "I just got my dream Google offer"
+    },
+    {
+      "role": "StaticText",
+      "name": " and "
+    },
+    {
+      "role": "StaticText",
+      "name": "I would've never ever gotten it without your videos"
+    },
+    {
+      "role": "StaticText",
+      "name": ". Thank you so much and I'll be joining you in the Seattle office this fall!"
+    },
+    {
+      "role": "LineBreak",
+      "name": "\n"
+    },
+    {
+      "role": "LineBreak",
+      "name": "\n"
+    },
+    {
+      "role": "StaticText",
+      "name": "- June, 2022"
+    },
+    {
+      "role": "LineBreak",
+      "name": "\n"
+    },
+    {
+      "role": "StaticText",
+      "name": "Used by over a "
+    },
+    {
+      "role": "StaticText",
+      "name": "million"
+    },
+    {
+      "role": "StaticText",
+      "name": " people all around the world."
+    },
+    {
+      "role": "button",
+      "name": "Get Pro"
+    },
+    {
+      "role": "StaticText",
+      "name": "Hi, I'm Navi."
+    },
+    {
+      "role": "LineBreak",
+      "name": "\n"
+    },
+    {
+      "role": "StaticText",
+      "name": "I created NeetCode in 2020 when I was unemployed and couldn't find a job."
+    },
+    {
+      "role": "LineBreak",
+      "name": "\n"
+    },
+    {
+      "role": "StaticText",
+      "name": "While I was struggling myself, it was still rewarding for me to make videos."
+    },
+    {
+      "role": "LineBreak",
+      "name": "\n"
+    },
+    {
+      "role": "StaticText",
+      "name": "I received so many messages from others who got jobs after watching my videos. It felt so gratifying and kept me going."
+    },
+    {
+      "role": "LineBreak",
+      "name": "\n"
+    },
+    {
+      "role": "StaticText",
+      "name": "About a year later I managed to get a job at Google."
+    },
+    {
+      "role": "button",
+      "name": "  Learn More"
+    },
+    {
+      "role": "link",
+      "name": ""
+    },
+    {
+      "role": "link",
+      "name": ""
+    },
+    {
+      "role": "link",
+      "name": ""
+    },
+    {
+      "role": "link",
+      "name": ""
+    },
+    {
+      "role": "StaticText",
+      "name": "Copyright © 2024 neetcode.io All rights reserved."
+    },
+    {
+      "role": "StaticText",
+      "name": "contact: support@neetcode.io"
+    },
+    {
+      "role": "link",
+      "name": "Github"
+    },
+    {
+      "role": "StaticText",
+      "name": "    "
+    },
+    {
+      "role": "link",
+      "name": "Privacy"
+    },
+    {
+      "role": "StaticText",
+      "name": "    "
+    },
+    {
+      "role": "link",
+      "name": "Terms"
     }
   ]
 }

@@ -8,9 +8,11 @@ import { spawn, execSync } from 'child_process'; // spawn runs the server in a d
 
 let serverProcess: any; // represents the child process running the server
 
+// The -k flag tells curl to ignore SSL certificate verification. This is necessary when using self-signed certificates for local development.
+// changes http to https
 const isServerActive = () => {
   try {
-    execSync('curl http://localhost:3000'); // execSync utilizes the CLI command to check if client URL is running
+    execSync('curl -k https://localhost:3000'); // execSync utilizes the CLI command to check if client URL is running
     return true;
   } catch {
     return false;
@@ -20,15 +22,26 @@ const isServerActive = () => {
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-  const serverScript = context.asAbsolutePath('server.js'); // launches server when extension activates
+  ///A11y-Root-Extension/src/server.js
+  const serverScript = context.asAbsolutePath('src/server.js'); // launches server when extension activates
+
+  console.log('Resolved server script path:', serverScript);
 
   if (!isServerActive()) {
-    serverProcess = spawn('node', [serverScript], {
-      cwd: context.extensionPath,
-      detached: true,
-      stdio: 'ignore',
-    });
-    vscode.window.showInformationMessage('Server Successfully Launched!!!');
+    try {
+      serverProcess = spawn('node', [serverScript], {
+        cwd: context.extensionPath,
+        detached: true,
+        stdio: 'ignore',
+      });
+    } catch (error) {
+      vscode.window.showInformationMessage(`Error starting server`);
+    }
+    vscode.window.showInformationMessage('Server Successfully Launched!!!!');
+  }
+
+  if (isServerActive()) {
+    vscode.window.showInformationMessage('Server Still working!');
   }
 
   serverProcess.unref(); // detaches the server process from parent (the extension) so it won't block the extension's lifecycle

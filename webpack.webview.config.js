@@ -12,6 +12,7 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js'], // Resolve TypeScript and JavaScript files
   },
+  watch: true,
   module: {
     rules: [
       {
