@@ -6,6 +6,24 @@ const https = require('https');
 const app = express();
 const PORT = 3000;
 
+// try {
+//   // Resolve certificate paths
+//   const keyPath = path.join(__dirname, 'cert', 'localhost-cert.pem');
+//   const certPath = path.join(__dirname, 'cert', 'localhost.pem');
+
+//   console.log(`Loading key from ${keyPath}`);
+//   console.log(`Loading cert from ${certPath}`);
+
+//   const key = fs.readFileSync(keyPath);
+//   const cert = fs.readFileSync(certPath);
+
+//   https.createServer({ key, cert }, app).listen(3000, () => {
+//     console.log('Server is running at https://localhost:3000');
+//   });
+// } catch (error) {
+//   console.error('Failed to start server:', error);
+// }
+
 const options = {
   key: fs.readFileSync(path.join(__dirname, 'cert/localhost-key.pem')),
   cert: fs.readFileSync(path.join(__dirname, 'cert/localhost.pem')),
