@@ -37,6 +37,7 @@ export function activate(context: vscode.ExtensionContext) {
     } catch (error) {
       vscode.window.showInformationMessage(`Error starting server`);
     }
+    serverProcess.unref();
     vscode.window.showInformationMessage('Server Successfully Launched!!!!');
   }
 
@@ -44,7 +45,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.window.showInformationMessage('Server Still working!');
   }
 
-  serverProcess.unref(); // detaches the server process from parent (the extension) so it won't block the extension's lifecycle
+  // detaches the server process from parent (the extension) so it won't block the extension's lifecycle
 
   // Use the console to output diagnostic information (console.log) and errors (console.error)
   // This line of code will only be executed once when your extension is activated
