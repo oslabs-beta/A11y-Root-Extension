@@ -33,7 +33,9 @@ getElementById('submitButton').addEventListener('click', () => {
 });
 getElementById('loginButton').addEventListener('click', () => {
     const statusMessage = getElementById('statusMessage');
-    statusMessage.innerText = 'clicked login button';
+    statusMessage.innerText = 'Checking server health...';
+    // Send a message to the extension to check server health
+    vscode.postMessage({ command: 'checkHealth' });
 });
 // Listen for messages from the extension
 window.addEventListener('message', (event) => {
@@ -48,4 +50,41 @@ window.addEventListener('message', (event) => {
         errorMessage.innerText = message;
         resultMessage.innerText = '';
     }
+    const statusMessage = getElementById('statusMessage');
+    if (command === 'healthCheckResult') {
+        // Display server health status
+        statusMessage.innerText = message;
+    }
+    else if (command === 'healthCheckError') {
+        // Display error
+        statusMessage.innerText = `Error: ${message}`;
+    }
 });
+// getElementById<HTMLButtonElement>('loginButton').addEventListener(
+//   'click',
+//   () => {
+//     const statusMessage = getElementById<HTMLParagraphElement>('statusMessage');
+//     statusMessage.innerText = 'clicked login button';
+//   }
+// );
+// getElementById<HTMLButtonElement>('loginButton').addEventListener(
+//   'click',
+//   async () => {
+//     console.log('clicked');
+//     const statusMessage = getElementById<HTMLParagraphElement>('statusMessage');
+//     statusMessage.innerText = 'Checking server health...';
+//     try {
+//       // Make an HTTP GET request using axios
+//       const response = await axios.get('http://localhost:3000/health');
+//       if (response.status === 200) {
+//         statusMessage.innerText = `Server responded: ${response.data}`; // Expect "OK" in response.data
+//       } else {
+//         statusMessage.innerText = `Server error: ${response.status}`;
+//       }
+//     } catch (error) {
+//       statusMessage.innerText = `Failed to connect to server: ${
+//         error instanceof Error ? error.message : 'Unknown error'
+//       }`;
+//     }
+//   }
+// );

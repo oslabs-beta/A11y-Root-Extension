@@ -4,122 +4,83 @@ import * as vscode from 'vscode';
 import * as puppeteer from 'puppeteer';
 import * as fs from 'fs';
 import * as path from 'path';
-import { spawn, execSync } from 'child_process'; // spawn runs the server in a detached child process to avoid blocking the extension's (parent process); execSync checks if server is running
+import express from 'express';
+import * as net from 'net';
+import axios from 'axios';
 
-let serverProcess: any; // represents the child process running the server
+export async function activate(context: vscode.ExtensionContext) {
+  const PORT = 3000;
+  const app = express();
 
-// The -k flag tells curl to ignore SSL certificate verification. This is necessary when using self-signed certificates for local development.
-// changes http to https
-const isServerActive = () => {
-  try {
-    execSync('curl -k https://localhost:3000'); // execSync utilizes the CLI command to check if client URL is running
-    return true;
-  } catch {
-    return false;
+  // Middleware to log requests
+  app.use((req, res, next) => {
+    console.log(`Received request: ${req.method} ${req.url}`);
+    next();
+  });
+
+  app.get('/', (req, res) => {
+    res.send('Welcome to the A11y Root Extension Server!');
+  });
+
+  // Health check endpoint
+  app.get('/health', (req, res) => {
+    res.status(200).send('What up!');
+  });
+
+  // Default endpoint
+
+  // Check if the port is available
+  const isPortAvailable = async (port: number): Promise<boolean> => {
+    return new Promise((resolve) => {
+      const tester = net
+        .createServer()
+        .once('error', (err: any) => {
+          if (err.code === 'EADDRINUSE') {
+            resolve(false);
+          } else {
+            resolve(true);
+          }
+        })
+        .once('listening', () => {
+          tester.close(() => resolve(true));
+        })
+        .listen(port);
+    });
+  };
+
+  if (!(await isPortAvailable(PORT))) {
+    vscode.window.showErrorMessage(`Port ${PORT} is already in use.`);
+    return;
   }
-};
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
-  ///A11y-Root-Extension/src/server.js
-  const serverScript = context.asAbsolutePath('src/server.js'); // launches server when extension activates
+  // Start the server
+  const server = app.listen(PORT, 'localhost', async () => {
+    const externalUri = await vscode.env.asExternalUri(
+      vscode.Uri.parse(`http://localhost:${PORT}`)
+    );
+    console.log(`Server available at ${externalUri}`);
+    vscode.window.showInformationMessage(`Server started at ${externalUri}`);
+  });
 
-  console.log('Resolved server script path:', serverScript);
+  // Handle server errors
+  server.on('error', (error) => {
+    console.error('Server encountered an error:', error);
+    vscode.window.showErrorMessage(`Server failed to start: ${error.message}`);
+  });
 
-  if (!isServerActive()) {
-    try {
-      serverProcess = spawn('node', [serverScript], {
-        cwd: context.extensionPath,
-        detached: true,
-        stdio: 'ignore',
-      });
-    } catch (error) {
-      vscode.window.showInformationMessage(`Error starting server`);
-    }
-    serverProcess.unref();
-    vscode.window.showInformationMessage('Server Successfully Launched!!!!');
-  }
-
-  if (isServerActive()) {
-    vscode.window.showInformationMessage('Server Still working!');
-  }
-
-  // detaches the server process from parent (the extension) so it won't block the extension's lifecycle
-
-  // Use the console to output diagnostic information (console.log) and errors (console.error)
-  // This line of code will only be executed once when your extension is activated
-  console.log(
-    'Congratulations, your extension "a11y-root-extension" is now active!'
-  );
-
-  vscode.window.showInformationMessage('A11y Root Extension Activated!');
-
-  // Clean up when extension is deactivated
+  // Cleanup server on extension deactivate
   context.subscriptions.push({
     dispose: () => {
-      serverProcess ? process.kill(-serverProcess.pid) : (serverProcess = null);
+      server.close(() => {
+        console.log('Server stopped.');
+        vscode.window.showInformationMessage('Server stopped.');
+      });
     },
   });
 
-  // The command has been defined in the package.json file
-  // Now provide the implementation of the command with registerCommand
-  // The commandId parameter must match the command field in package.json
-
-  // BOILERPLATE COMMAND
-  // demonstrates how you can send info messages to users via vscode.window.showInformationMessage
-  // const disposable = vscode.commands.registerCommand('a11y-root-extension.helloWorld', () => {
-  // 	// The code you place here will be executed every time your command is executed
-  // 	// Display a message box to the user
-  // 	vscode.window.showInformationMessage('Hello World from A11y-Root-Extension!');
-  // });
-
-  //context.subscriptions.push(disposable);
-
-  //context is an instance of vscode.ExtensionContext that is passed to the activate function of a VS Code extension.
-  //subscriptions is a property of context. It is an array that holds disposables.
-  //A disposable is any object that implements the dispose() method.
-  //Disposables are used to clean up resources(e.g., listeners, commands, panels) when the extension is deactivated or a resource is no longer needed.
-
-  // subscribe actions to context.subscriptions
+  // Add other extension functionality
   context.subscriptions.push(openTab(context));
 }
-
-// DEFINE TAB
-
-//  Parameters of createWebviewPanel
-// View Type ('simpleTab')
-// A unique identifier for the webview panel.
-// Used internally to distinguish this panel from others.
-// Example: 'simpleTab'.
-
-// Column (vscode.ViewColumn.One)
-// Specifies which editor column the webview panel will appear in.
-// Options:
-// vscode.ViewColumn.One: Opens the webview in the first editor column.
-// vscode.ViewColumn.Two: Opens the webview in the second editor column.
-// vscode.ViewColumn.Active: Opens the webview in the currently active column.
-// Example: vscode.ViewColumn.One opens it in the first column.
-
-// Options (Configuration Object)
-// An object that configures the behavior and features of the webview panel.
-
-// enableScripts: true
-
-// Allows the webview to run JavaScript.
-// Default: false (disabled for security reasons).
-// Example: enableScripts: true allows you to inject and execute scripts in the HTML displayed by the webview.
-// Additional options (not used here but available):
-
-// retainContextWhenHidden:
-// If true, the webview preserves its state when hidden.
-// Useful for panels that should retain their content and state when switching tabs.
-// enableForms:
-// Allows the webview to use forms.
-// Default: true.
-
-// The Return Value
-// The function returns an instance of WebviewPanel, assigned to panel. You can use this object to manage the webview.
 
 function openTab(context: vscode.ExtensionContext) {
   return vscode.commands.registerCommand('a11y-root-extension.openTab', () => {
@@ -162,6 +123,31 @@ function openTab(context: vscode.ExtensionContext) {
     panel.webview.html = htmlContent;
     // Listen for messages from the webview
     panel.webview.onDidReceiveMessage(async (message) => {
+      if (message.command === 'checkHealth') {
+        try {
+          // Make a request to the server health endpoint
+          const response = await axios.get(`http://localhost:3000/health`);
+
+          if (response.status === 200) {
+            panel.webview.postMessage({
+              command: 'healthCheckResult',
+              message: `Server responded: ${response.data}`, // Expect "OK"
+            });
+          } else {
+            panel.webview.postMessage({
+              command: 'healthCheckResult',
+              message: `Server error: ${response.status}`,
+            });
+          }
+        } catch (error: any) {
+          const errorMessage =
+            error.response?.data || error.message || 'Unknown error';
+          panel.webview.postMessage({
+            command: 'healthCheckError',
+            message: `Failed to connect to server: ${errorMessage}`,
+          });
+        }
+      }
       if (message.command === 'fetchTree') {
         const { url } = message;
         try {
@@ -213,8 +199,184 @@ function openTab(context: vscode.ExtensionContext) {
 
 // This method is called when your extension is deactivated
 export function deactivate() {
-  if (serverProcess) {
-    process.kill(-serverProcess.pid);
-    serverProcess = null;
-  }
+  // if (serverProcess) {
+  //   process.kill(-serverProcess.pid);
+  //   serverProcess = null;
+  // }
 }
+
+//import axios from 'axios';
+//import { spawn, execSync } from 'child_process'; // spawn runs the server in a detached child process to avoid blocking the extension's (parent process); execSync checks if server is running
+
+//let serverProcess: any; // represents the child process running the server
+
+// The -k flag tells curl to ignore SSL certificate verification. This is necessary when using self-signed certificates for local development.
+// changes http to https
+//maybe try axios because it is a safer http request
+// const isServerActive = () => {
+//   try {
+//     execSync('curl http://localhost:3000'); // execSync utilizes the CLI command to check if client URL is running
+//     return true;
+//   } catch {
+//     return false;
+//   }
+// };
+
+// const isServerActive = async () => {
+//   try {
+//     const response = await axios.get('http://localhost:3000');
+//     return response.status === 200;
+//   } catch (error: any) {
+//     console.error('Server check failed:', error.message);
+//     return false;
+//   }
+// };
+
+// setTimeout(() => {
+//   if (isServerActive()) {
+//     vscode.window.showInformationMessage('Server Successfully Launched!');
+//   } else {
+//     vscode.window.showErrorMessage('Server failed to start.');
+//   }
+// }, 3000);
+
+// This method is called when your extension is activated
+// Your extension is activated the very first time the command is executed
+// export async function activate(context: vscode.ExtensionContext) {
+//   const app = express();
+//   const PORT = 3000;
+
+//   app.get('/', (req, res) => {
+//     res.send('Welcome to the A11y Root Extension Server!');
+//   });
+
+//   app.get('/health', (req, res) => {
+//     res.status(200).send('OK');
+//   });
+
+//   const server = app.listen(PORT, 'localhost', async () => {
+//     const externalUri = await vscode.env.asExternalUri(
+//       vscode.Uri.parse(`http://localhost:${PORT}`)
+//     );
+//     console.log(`Server available at ${externalUri}`);
+//   });
+
+//   // Register cleanup on deactivate
+//   context.subscriptions.push({
+//     dispose: () => {
+//       server.close(() => {
+//         console.log('Server stopped.');
+//       });
+//     },
+//   });
+
+//   context.subscriptions.push(openTab(context));
+// }
+
+///A11y-Root-Extension/src/server.js
+// const serverScript = context.asAbsolutePath('src/server.js'); // launches server when extension activates
+
+// console.log('Resolved server script path:', serverScript);
+
+// if (!isServerActive()) {
+//   try {
+//     serverProcess = spawn('node', [serverScript], {
+//       cwd: context.extensionPath,
+//       detached: true,
+//       stdio: 'ignore',
+//     });
+//     serverProcess.unref();
+//     vscode.window.showInformationMessage('Server Successfully Launched!!!!');
+//     // setTimeout(() => {
+//     //   if (isServerActive()) {
+//     //     vscode.window.showInformationMessage('Server Successfully Launched!');
+//     //   } else {
+//     //     vscode.window.showErrorMessage('Server failed to start.');
+//     //   }
+//     // }, 3000);
+//   } catch (error) {
+//     vscode.window.showInformationMessage(`Error starting server`);
+//   }
+//   // serverProcess.unref();
+//   // vscode.window.showInformationMessage('Server Successfully Launched!!!!');
+// }
+
+// if (isServerActive()) {
+//   vscode.window.showInformationMessage('Server still running');
+// } else {
+//   vscode.window.showInformationMessage('Server no work');
+// }
+
+// // detaches the server process from parent (the extension) so it won't block the extension's lifecycle
+
+// // Use the console to output diagnostic information (console.log) and errors (console.error)
+// // This line of code will only be executed once when your extension is activated
+// console.log(
+//   'Congratulations, your extension "a11y-root-extension" is now active!'
+// );
+
+// vscode.window.showInformationMessage('A11y Root Extension Activated!');
+
+// // Clean up when extension is deactivated
+// context.subscriptions.push({
+//   dispose: () => {
+//     serverProcess ? process.kill(-serverProcess.pid) : (serverProcess = null);
+//   },
+// });
+
+// The command has been defined in the package.json file
+// Now provide the implementation of the command with registerCommand
+// The commandId parameter must match the command field in package.json
+
+// BOILERPLATE COMMAND
+// demonstrates how you can send info messages to users via vscode.window.showInformationMessage
+// const disposable = vscode.commands.registerCommand('a11y-root-extension.helloWorld', () => {
+// 	// The code you place here will be executed every time your command is executed
+// 	// Display a message box to the user
+// 	vscode.window.showInformationMessage('Hello World from A11y-Root-Extension!');
+// });
+
+//context.subscriptions.push(disposable);
+
+//context is an instance of vscode.ExtensionContext that is passed to the activate function of a VS Code extension.
+//subscriptions is a property of context. It is an array that holds disposables.
+//A disposable is any object that implements the dispose() method.
+//Disposables are used to clean up resources(e.g., listeners, commands, panels) when the extension is deactivated or a resource is no longer needed.
+
+// subscribe actions to context.subscriptions
+
+// DEFINE TAB
+
+//  Parameters of createWebviewPanel
+// View Type ('simpleTab')
+// A unique identifier for the webview panel.
+// Used internally to distinguish this panel from others.
+// Example: 'simpleTab'.
+
+// Column (vscode.ViewColumn.One)
+// Specifies which editor column the webview panel will appear in.
+// Options:
+// vscode.ViewColumn.One: Opens the webview in the first editor column.
+// vscode.ViewColumn.Two: Opens the webview in the second editor column.
+// vscode.ViewColumn.Active: Opens the webview in the currently active column.
+// Example: vscode.ViewColumn.One opens it in the first column.
+
+// Options (Configuration Object)
+// An object that configures the behavior and features of the webview panel.
+
+// enableScripts: true
+
+// Allows the webview to run JavaScript.
+// Default: false (disabled for security reasons).
+// Example: enableScripts: true allows you to inject and execute scripts in the HTML displayed by the webview.
+// Additional options (not used here but available):
+
+// retainContextWhenHidden:
+// If true, the webview preserves its state when hidden.
+// Useful for panels that should retain their content and state when switching tabs.
+// enableForms:
+// Allows the webview to use forms.
+// Default: true.
+
+// The Return Value
+// The function returns an instance of WebviewPanel, assigned to panel. You can use this object to manage the webview.

@@ -1,10 +1,29 @@
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
-const https = require('https');
+// const express = require('express');
+// //const fs = require('fs');
+// //const path = require('path');
+// //const https = require('https');
 
-const app = express();
-const PORT = 3000;
+// const app = express();
+// const PORT = 3000;
+
+// app.get('/', (req, res) => {
+//   res.send('Welcome to the A11y Root Extension Server!');
+// });
+
+// app.get('/health', (req, res) => {
+//   res.status(200).send('OK');
+// });
+
+// app.listen(PORT, () => {
+//   console.log(`Server is running on http://localhost:${PORT}`);
+// });
+
+// function start() {
+//   const PORT = 3000;
+//   app.listen(PORT, 'localhost', () => {
+//     console.log(`HTTP server running on http://localhost:${PORT}`);
+//   });
+// }
 
 // try {
 //   // Resolve certificate paths
@@ -24,16 +43,16 @@ const PORT = 3000;
 //   console.error('Failed to start server:', error);
 // }
 
-const options = {
-  key: fs.readFileSync(path.join(__dirname, 'cert/localhost-key.pem')),
-  cert: fs.readFileSync(path.join(__dirname, 'cert/localhost.pem')),
-};
+// const options = {
+//   key: fs.readFileSync(path.join(__dirname, 'cert/localhost-key.pem')),
+//   cert: fs.readFileSync(path.join(__dirname, 'cert/localhost.pem')),
+// };
 
-const server = https.createServer(options, app);
+// const server = https.createServer(options, app);
 
-server.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
-});
+// server.listen(PORT, () => {
+//   console.log(`App listening on port ${PORT}`);
+// });
 
 // https.createServer(sslOptions, app).listen(3000, () => {
 //   console.log('Secure server running on https://localhost:3000');
