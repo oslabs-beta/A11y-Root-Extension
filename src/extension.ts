@@ -7,9 +7,10 @@ import * as path from 'path';
 import express from 'express';
 import * as net from 'net';
 import axios from 'axios';
+import a11yTreeCommands from './commands/A11yTreeCommands';
 
 export async function activate(context: vscode.ExtensionContext) {
-  const PORT = 3000;
+  const PORT = 3333;
   const app = express();
 
   // Middleware to log requests
@@ -149,49 +150,58 @@ function openTab(context: vscode.ExtensionContext) {
         }
       }
       if (message.command === 'fetchTree') {
-        const { url } = message;
-        try {
-          vscode.window.showInformationMessage(
-            `Fetching accessibility data for: ${url}`
-          );
-
-          // Step 1: Launch Puppeteer and open the page
-          const browser = await puppeteer.launch();
-          const page = await browser.newPage();
-          await page.goto(url);
-
-          // Step 2: Generate Puppeteer accessibility tree snapshot
-          const a11yTree = await page.accessibility.snapshot();
-          await browser.close();
-
-          // Step 3: Save results
-          const outputFolder = path.join(context.extensionPath, 'results');
-          fs.mkdirSync(outputFolder, { recursive: true });
-
-          const treeResultPath = path.join(outputFolder, 'a11y-tree.json');
-
-          fs.writeFileSync(treeResultPath, JSON.stringify(a11yTree, null, 2));
-
-          // Step 6: Send results back to the webview
-          panel.webview.postMessage({
-            command: 'result',
-            message: `Results saved to:\n- ${treeResultPath}`,
-          });
-
-          vscode.window.showInformationMessage(
-            `Accessibility results saved: ${treeResultPath}`
-          );
-        } catch (error: unknown) {
-          const errorMessage =
-            error instanceof Error ? error.message : 'Unknown error occurred.';
-          vscode.window.showErrorMessage(
-            `Failed to fetch accessibility data: ${errorMessage}`
-          );
+        if (message.url) {
+          await a11yTreeCommands.handleFetchTree(panel, context, message.url);
+        } else {
           panel.webview.postMessage({
             command: 'error',
-            message: `Failed to fetch accessibility data: ${errorMessage}`,
+            message: 'No URL provided for fetchTree command.',
           });
         }
+        // const { url } = message;
+
+        // try {
+        //   vscode.window.showInformationMessage(
+        //     `Fetching accessibility data for: ${url}`
+        //   );
+
+        //   // Step 1: Launch Puppeteer and open the page
+        //   const browser = await puppeteer.launch();
+        //   const page = await browser.newPage();
+        //   await page.goto(url);
+
+        //   // Step 2: Generate Puppeteer accessibility tree snapshot
+        //   const a11yTree = await page.accessibility.snapshot();
+        //   await browser.close();
+
+        //   // Step 3: Save results
+        //   const outputFolder = path.join(context.extensionPath, 'results');
+        //   fs.mkdirSync(outputFolder, { recursive: true });
+
+        //   const treeResultPath = path.join(outputFolder, 'a11y-tree.json');
+
+        //   fs.writeFileSync(treeResultPath, JSON.stringify(a11yTree, null, 2));
+
+        //   // Step 6: Send results back to the webview
+        //   panel.webview.postMessage({
+        //     command: 'result',
+        //     message: `Results saved to:\n- ${treeResultPath}`,
+        //   });
+
+        //   vscode.window.showInformationMessage(
+        //     `Accessibility results saved: ${treeResultPath}`
+        //   );
+        // } catch (error: unknown) {
+        //   const errorMessage =
+        //     error instanceof Error ? error.message : 'Unknown error occurred.';
+        //   vscode.window.showErrorMessage(
+        //     `Failed to fetch accessibility data: ${errorMessage}`
+        //   );
+        //   panel.webview.postMessage({
+        //     command: 'error',
+        //     message: `Failed to fetch accessibility data: ${errorMessage}`,
+        //   });
+        //}
       }
     });
   });

@@ -1,69 +1,71 @@
-// const express = require('express');
-// //const fs = require('fs');
-// //const path = require('path');
-// //const https = require('https');
+// import express from 'express';
+// import * as net from 'net';
+// import * as vscode from 'vscode';
 
-// const app = express();
-// const PORT = 3000;
+// export default async function startServer(
+//   context: vscode.ExtensionContext,
+//   port = 3000
+// ): Promise<void> {
+//   const app = express();
 
-// app.get('/', (req, res) => {
-//   res.send('Welcome to the A11y Root Extension Server!');
-// });
+//   // Middleware to log requests
+//   app.use((req, res, next) => {
+//     console.log(`Received request: ${req.method} ${req.url}`);
+//     next();
+//   });
 
-// app.get('/health', (req, res) => {
-//   res.status(200).send('OK');
-// });
+//   app.get('/', (req, res) => {
+//     res.send('Welcome to the A11y Root Extension Server!');
+//   });
 
-// app.listen(PORT, () => {
-//   console.log(`Server is running on http://localhost:${PORT}`);
-// });
+//   app.get('/health', (req, res) => {
+//     res.status(200).send('What up!');
+//   });
 
-// function start() {
-//   const PORT = 3000;
-//   app.listen(PORT, 'localhost', () => {
-//     console.log(`HTTP server running on http://localhost:${PORT}`);
+//   const isPortAvailable = async (port: number): Promise<boolean> => {
+//     return new Promise((resolve) => {
+//       const tester = net
+//         .createServer()
+//         .once('error', (err: any) => {
+//           if (err.code === 'EADDRINUSE') {
+//             resolve(false);
+//           } else {
+//             resolve(true);
+//           }
+//         })
+//         .once('listening', () => {
+//           tester.close(() => resolve(true));
+//         })
+//         .listen(port);
+//     });
+//   };
+
+//   if (!(await isPortAvailable(port))) {
+//     vscode.window.showErrorMessage(`Port ${port} is already in use.`);
+//     return;
+//   }
+
+//   // Start the server
+//   const server = app.listen(port, 'localhost', async () => {
+//     const externalUri = await vscode.env.asExternalUri(
+//       vscode.Uri.parse(`http://localhost:${port}`)
+//     );
+//     console.log(`Server available at ${externalUri}`);
+//     vscode.window.showInformationMessage(`Server started at ${externalUri}`);
+//   });
+
+//   server.on('error', (error) => {
+//     console.error('Server encountered an error:', error);
+//     vscode.window.showErrorMessage(`Server failed to start: ${error.message}`);
+//   });
+
+//   // Cleanup server on deactivate
+//   context.subscriptions.push({
+//     dispose: () => {
+//       server.close(() => {
+//         console.log('Server stopped.');
+//         vscode.window.showInformationMessage('Server stopped.');
+//       });
+//     },
 //   });
 // }
-
-// try {
-//   // Resolve certificate paths
-//   const keyPath = path.join(__dirname, 'cert', 'localhost-cert.pem');
-//   const certPath = path.join(__dirname, 'cert', 'localhost.pem');
-
-//   console.log(`Loading key from ${keyPath}`);
-//   console.log(`Loading cert from ${certPath}`);
-
-//   const key = fs.readFileSync(keyPath);
-//   const cert = fs.readFileSync(certPath);
-
-//   https.createServer({ key, cert }, app).listen(3000, () => {
-//     console.log('Server is running at https://localhost:3000');
-//   });
-// } catch (error) {
-//   console.error('Failed to start server:', error);
-// }
-
-// const options = {
-//   key: fs.readFileSync(path.join(__dirname, 'cert/localhost-key.pem')),
-//   cert: fs.readFileSync(path.join(__dirname, 'cert/localhost.pem')),
-// };
-
-// const server = https.createServer(options, app);
-
-// server.listen(PORT, () => {
-//   console.log(`App listening on port ${PORT}`);
-// });
-
-// https.createServer(sslOptions, app).listen(3000, () => {
-//   console.log('Secure server running on https://localhost:3000');
-// });
-
-//openssl req -new -newkey -nodes -keyout server.key -out server.csr -days 365
-
-//openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
-
-// Step 1 => generate key-pairs to output [file] with specifications for key size // openssl genrsa -out [key-pair-file] [## size]
-// Step 2 => Extract public key from key pair // openssl rsa -in [key-pair-file] -pubout -out [pub-key-file]
-// Step 3 => Create certificate signing request to be self-signed (normally CSR in production is sent to CA to be signed) // openssl req -new -key [key-pair-file] -out [csr-file]
-// Step 4 => Fill in fields in terminal for CSR
-//
