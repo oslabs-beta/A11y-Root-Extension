@@ -29,6 +29,8 @@ import path from 'path';
 
 //dotenv.config();
 
+// !!!! wil need to handle .env to use vscode secrets!
+
 dotenv.config({ path: path.join(__dirname, '..', '.env') });
 
 // Contact Warren for URI key

@@ -51,26 +51,6 @@ type AccessibilityTree = AccessibilityNode & {
   h1?: boolean; // flag for if tree contains one unique h1 (placed above main content)
 };
 
-// export async function getUserSelectedRoot(): Promise<string | undefined> {
-//   const workspaceFolders = vscode.workspace.workspaceFolders;
-//   // Check if workspaceFolders exists and has at least one folder
-//   if (workspaceFolders?.length) {
-//     // If there are multiple folders, prompt the user to select one
-//     if (workspaceFolders.length > 1) {
-//       const folder = await vscode.window.showQuickPick(
-//         workspaceFolders.map((folder) => folder.uri.fsPath),
-//         { placeHolder: 'Select a project root' }
-//       );
-//       // Return the selected folder or undefined if the user cancels the selection
-//       return folder || undefined;
-//     }
-//     // If there is only one folder, return its path
-//     return workspaceFolders[0].uri.fsPath;
-//   }
-//   // Return undefined if no workspace folders are open
-//   return undefined;
-// }
-
 const a11yTreeCommands: A11yTreeCommands = {
   async handleFetchTree(
     panel: vscode.WebviewPanel,

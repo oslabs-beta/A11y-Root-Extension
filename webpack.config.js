@@ -51,7 +51,7 @@ const extensionConfig = {
       module: /yargs/,
     },
     {
-      module: /puppeteer-core/,
+      module: /puppeteer/,
     },
   ],
 };
