@@ -12,7 +12,7 @@ const cookieController = {
       });
     }
     console.log('SSID:', res.locals.ssid);
-    res.cookie('ssid', res.locals.ssid, { httpOnly: true, maxAge: 50 });
+    res.cookie('ssid', res.locals.ssid, { httpOnly: true, maxAge: 6 * 60 * 60 * 1000 });
     //expires and maxage properties
     //secure: process.env.NODE_ENV === 'production' (may need this for https)
     return next();

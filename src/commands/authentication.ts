@@ -21,8 +21,8 @@ export async function githubOauth(
     const token = await startServer(redirect_uri);
     await context.globalState.update('githubToken', token);
 
-    // const code = await startServer(redirect_uri);
-    // const token = await getGithubToken(code, client_id, client_secret);
+    //const code = await startServer(redirect_uri);
+     //const token = await getGithubToken(code, client_id, client_secret);
     // const userData = '';
 
     //get user data using the token

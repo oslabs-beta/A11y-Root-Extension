@@ -8,16 +8,34 @@ import * as net from 'net';
 import axios from 'axios';
 import cors from 'cors';
 
-//import from other files
+//import from other files.
 import a11yTreeCommands from './commands/A11yTreeCommands';
 import dbConnect from './server/dbConnect';
 import userRoute from './server/routes/userRoute';
 import projectRoute from './server/routes/projectRoute';
 import pageRoute from './server/routes/pageRoute';
+import oAuthController from './server/controllers/oAuthController';
+import cookieController from './server/controllers/cookieController';
+import sessionController from './server/controllers/sessionController';
 import dotenv from 'dotenv';
 dotenv.config();
 
 export async function activate(context: vscode.ExtensionContext) {
+  // vscode://a11y-root.a11y-root-extension/auth/callback
+  vscode.window.registerUriHandler({
+    async handleUri(uri: vscode.Uri) {
+      if (uri.path === '/auth/callback') {
+        vscode.window.showInformationMessage(`Received callback`);
+        const response = await axios.get(`http://localhost:3333`);
+
+        if (response.status === 200) {
+          vscode.window.showInformationMessage(
+            `Successfully sent to server! -> ${response.data}`
+          );
+        }
+      }
+    },
+  });
   // Load environment variables in development
 
   // Check if in development mode
@@ -70,9 +88,29 @@ export async function activate(context: vscode.ExtensionContext) {
   app.use(express.json());
 
   // Health check endpoint
-  app.get('/health', (req, res) => {
+  app.get('/auth/callback', (req, res) => {
+    vscode.window.showInformationMessage(`callback baby!`);
     res.status(200).send('What up!');
   });
+
+  app.get('/auth');
+  //oauth login endpoint
+  app.get(
+    '/auth/callback',
+    oAuthController.getTemporaryCode,
+    oAuthController.requestToken,
+    oAuthController.getUserData,
+    oAuthController.saveUser,
+    cookieController.setSSIDCookie,
+    sessionController.startSession,
+    (req, res) => {
+      res.status(200).send('Auth successful!');
+      // res.status(200).json(res.locals.token);
+      // res.status(200).send('Authorization successful');
+      // server.close();
+      // resolve(res.locals.token as string);
+    }
+  );
 
   //database interaction endpoints
   app.use('/users', userRoute);
@@ -82,7 +120,7 @@ export async function activate(context: vscode.ExtensionContext) {
   // Default endpoint
 
   app.get('/', (req, res) => {
-    res.send('Welcome to the A11y Root Extension Server!!!');
+    res.status(200).send('Welcome to the A11y Root Extension Server!!!');
   });
 
   // Check if the port is available
@@ -177,6 +215,7 @@ function openTab(context: vscode.ExtensionContext) {
       }
     );
 
+
     const htmlPath = path.join(
       context.extensionPath,
       'src',
@@ -205,6 +244,30 @@ function openTab(context: vscode.ExtensionContext) {
     // Listen for messages from the webview
     panel.webview.onDidReceiveMessage(async (message) => {
       //will change this to connect login button to github
+      if (message.command === 'auth') {
+        vscode.window.showInformationMessage(`auth!!!!!`);
+        const response = await axios.get(`http://localhost:3333/auth/callback`);
+      }
+
+      if (message.command === 'beginOAuth') {
+        const client_id = process.env.GITHUB_CLIENT_ID as string;
+        const client_secret = process.env.GITHUB_CLIENT_SECRET as string;
+        const redirect_uri = process.env.REDIRECT_URI as string;
+        try {
+          const authUrl = `https://github.com/login/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}`;
+          //parse the auth url and open it
+          vscode.env.openExternal(vscode.Uri.parse(authUrl));
+          // const response = await axios.get('http://localhost:3333/auth')
+        } catch (error: any) {
+          const errorMessage =
+            error.response?.data || error.message || 'Unknown error';
+          panel.webview.postMessage({
+            command: 'beginOauthError',
+            message: `Failed to start Oauth: ${errorMessage}`,
+          });
+        }
+      }
+
       if (message.command === 'checkHealth') {
         try {
           // Make a request to the server health endpoint
