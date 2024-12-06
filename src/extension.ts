@@ -82,7 +82,7 @@ export async function activate(context: vscode.ExtensionContext) {
   // Default endpoint
 
   app.get('/', (req, res) => {
-    res.send('Welcome to the A11y Root Extension Server!!!');
+    res.send('Welcome to the A11y Root Extension Server!');
   });
 
   // Check if the port is available
@@ -179,7 +179,8 @@ function openTab(context: vscode.ExtensionContext) {
 
     const htmlPath = path.join(
       context.extensionPath,
-      'webview-dist',
+      'dist',
+      'webview',
       'index.html'
     );
     let htmlContent = fs.readFileSync(htmlPath, 'utf8');
@@ -187,7 +188,7 @@ function openTab(context: vscode.ExtensionContext) {
     // Replace placeholders with compiled resource URIs
     const bundleJsUri = panel.webview.asWebviewUri(
       vscode.Uri.file(
-        path.join(context.extensionPath, 'webview-dist', 'bundle.js')
+        path.join(context.extensionPath, 'dist', 'webview', 'bundle.js')
       )
     );
     // const styleCssUri = panel.webview.asWebviewUri(

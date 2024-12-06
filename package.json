@@ -32,7 +32,7 @@
     "build:webview": "webpack --config webpack.webview.config.js",
     "serve:webview": "webpack serve --config webpack.webview.config.js",
     "build:extension": "webpack --config webpack.config.js",
-    "build": "npx tsc --project tsconfig.json && npx tsc --project tsconfig.webview.json"
+    "build": "concurrently \"npm run build:webview\" \"npm run build:extension\""
   },
   "devDependencies": {
     "@babel/cli": "^7.26.4",

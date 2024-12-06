@@ -9,7 +9,7 @@ module.exports = {
   //entry: './src/webview/main.ts', // Entry point for the webview
   // webview-dist / filename bundle.js
   output: {
-    path: path.resolve(__dirname, 'webview-dist'),
+    path: path.resolve(__dirname, 'dist/webview'),
     filename: 'bundle.js',
     // path: path.resolve(__dirname, 'dist'), // Output directory
     // filename: 'webview.bundle.js', // Output file
