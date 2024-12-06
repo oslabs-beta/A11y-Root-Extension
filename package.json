@@ -22,7 +22,7 @@
   "scripts": {
     "vscode:prepublish": "npm run package",
     "compile": "webpack",
-    "watch": "concurrently \"webpack --watch --stats-error-details\" \"npx tsc --project tsconfig.json --watch\" \"npx tsc --project tsconfig.webview.json --watch\"",
+    "watch": "concurrently \"webpack --watch --stats-error-details\" \"npx tsc --project tsconfig.json --watch\"",
     "package": "webpack --mode production --devtool hidden-source-map",
     "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
@@ -35,14 +35,22 @@
     "build": "npx tsc --project tsconfig.json && npx tsc --project tsconfig.webview.json"
   },
   "devDependencies": {
+    "@babel/cli": "^7.26.4",
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.26.3",
+    "@babel/preset-typescript": "^7.26.0",
     "@types/cors": "^2.8.17",
     "@types/mocha": "^10.0.9",
     "@types/node": "20.x",
+    "@types/react": "^18.3.14",
+    "@types/react-dom": "^18.3.2",
     "@types/vscode": "^1.95.0",
     "@typescript-eslint/eslint-plugin": "^8.10.0",
     "@typescript-eslint/parser": "^8.7.0",
     "@vscode/test-cli": "^0.0.10",
     "@vscode/test-electron": "^2.4.1",
+    "babel-loader": "^9.2.1",
     "bufferutil": "^4.0.8",
     "concurrently": "^9.1.0",
     "css-loader": "^7.1.2",
@@ -63,6 +71,8 @@
     "dotenv": "^16.4.7",
     "mongoose": "^8.8.3",
     "puppeteer": "^23.9.0",
-    "puppeteer-core": "^23.10.0"
+    "puppeteer-core": "^23.10.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   }
 }

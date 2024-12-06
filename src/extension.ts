@@ -179,27 +179,25 @@ function openTab(context: vscode.ExtensionContext) {
 
     const htmlPath = path.join(
       context.extensionPath,
-      'src',
-      'webview',
+      'webview-dist',
       'index.html'
     );
     let htmlContent = fs.readFileSync(htmlPath, 'utf8');
 
     // Replace placeholders with compiled resource URIs
-    const mainJsUri = panel.webview.asWebviewUri(
+    const bundleJsUri = panel.webview.asWebviewUri(
       vscode.Uri.file(
-        path.join(context.extensionPath, 'webview-dist', 'main.js')
+        path.join(context.extensionPath, 'webview-dist', 'bundle.js')
       )
     );
-    const styleCssUri = panel.webview.asWebviewUri(
-      vscode.Uri.file(
-        path.join(context.extensionPath, 'src', 'webview', 'style.css')
-      )
-    );
+    // const styleCssUri = panel.webview.asWebviewUri(
+    //   vscode.Uri.file(
+    //     path.join(context.extensionPath, 'src', 'webview', 'style.css')
+    //   )
+    // );
 
-    htmlContent = htmlContent
-      .replace('{{main.js}}', mainJsUri.toString())
-      .replace('{{style.css}}', styleCssUri.toString());
+    htmlContent = htmlContent.replace('bundle.js', bundleJsUri.toString());
+    // .replace('{{style.css}}', styleCssUri.toString());
 
     panel.webview.html = htmlContent;
     // Listen for messages from the webview
@@ -254,3 +252,20 @@ export async function deactivate() {
   //   console.log('Development secret MONGO_URI has been cleared from Secret Storage.');
   // }
 }
+
+// function getWebviewContent(scriptUri: vscode.Uri): string {
+//   return `
+//     <!DOCTYPE html>
+//     <html lang="en">
+//     <head>
+//       <meta charset="UTF-8">
+//       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//       <title>A11y Root</title>
+//     </head>
+//     <body>
+//       <div id="root"></div>
+//       <script src="${scriptUri}"></script>
+//     </body>
+//     </html>
+//   `;
+// }
