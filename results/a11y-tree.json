@@ -1,120 +1,70 @@
 {
   "role": "RootWebArea",
-  "name": "YouTube",
+  "name": "A11y Sprout",
   "children": [
     {
-      "role": "button",
-      "name": "Guide",
-      "children": [
-        {
-          "role": "button",
-          "name": "Guide"
-        }
-      ]
+      "role": "image",
+      "name": "A11y Sprout Logo",
+      "compliance": false,
+      "complianceDetails": ""
     },
     {
-      "role": "link",
-      "name": "YouTube Home"
+      "role": "heading",
+      "name": "A11ySprout",
+      "level": 1,
+      "compliance": false,
+      "complianceDetails": ""
+    },
+    {
+      "role": "StaticText",
+      "name": "* A11y === Accessability",
+      "compliance": false,
+      "complianceDetails": ""
     },
     {
       "role": "button",
-      "name": "Skip navigation"
+      "name": "Login with GitHub",
+      "compliance": false,
+      "complianceDetails": ""
+    },
+    {
+      "role": "StaticText",
+      "name": "Enter URL:",
+      "compliance": false,
+      "complianceDetails": ""
     },
     {
       "role": "textbox",
-      "name": "Search"
+      "name": "Enter URL:",
+      "required": true,
+      "compliance": false,
+      "complianceDetails": ""
     },
     {
       "role": "button",
-      "name": "Search",
-      "description": "Search"
+      "name": "Submit",
+      "compliance": false,
+      "complianceDetails": ""
     },
     {
-      "role": "button",
-      "name": "Search with your voice"
+      "role": "StaticText",
+      "name": "Check out the project on GitHub",
+      "compliance": false,
+      "complianceDetails": ""
     },
     {
-      "role": "tooltip",
-      "name": "tooltip"
-    },
-    {
-      "role": "generic",
-      "name": "",
-      "children": [
-        {
-          "role": "button",
-          "name": "yt-icon-button",
-          "children": [
-            {
-              "role": "button",
-              "name": "Settings"
-            }
-          ]
-        }
-      ]
+      "role": "StaticText",
+      "name": " ",
+      "compliance": false,
+      "complianceDetails": ""
     },
     {
       "role": "link",
-      "name": "Sign in"
-    },
-    {
-      "role": "tab",
-      "name": "Home",
-      "selected": true,
-      "children": [
-        {
-          "role": "link",
-          "name": "Home"
-        }
-      ]
-    },
-    {
-      "role": "tab",
-      "name": "Shorts",
-      "children": [
-        {
-          "role": "link",
-          "name": "Shorts"
-        }
-      ]
-    },
-    {
-      "role": "tab",
-      "name": "Subscriptions",
-      "children": [
-        {
-          "role": "link",
-          "name": "Subscriptions"
-        }
-      ]
-    },
-    {
-      "role": "tab",
-      "name": "You",
-      "children": [
-        {
-          "role": "link",
-          "name": "You"
-        }
-      ]
-    },
-    {
-      "role": "tab",
-      "name": "History",
-      "children": [
-        {
-          "role": "link",
-          "name": "History"
-        }
-      ]
-    },
-    {
-      "role": "StaticText",
-      "name": "Try searching to get started"
-    },
-    {
-      "role": "StaticText",
-      "name": "Start watching videos to help us build a feed of videos you'll love."
+      "name": "Checkout the A11y Sprout on GitHub",
+      "compliance": false,
+      "complianceDetails": ""
     }
-  ]
+  ],
+  "compliance": false,
+  "complianceDetails": ""
 }

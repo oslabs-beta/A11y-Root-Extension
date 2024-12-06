@@ -1,77 +1,167 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import * as puppeteer from 'puppeteer';
 import * as fs from 'fs';
 import * as path from 'path';
+import express from 'express';
+import * as net from 'net';
+import axios from 'axios';
+import cors from 'cors';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
-  // Use the console to output diagnostic information (console.log) and errors (console.error)
-  // This line of code will only be executed once when your extension is activated
-  console.log(
-    'Congratulations, your extension "a11y-root-extension" is now active!'
+//import from other files
+import a11yTreeCommands from './commands/A11yTreeCommands';
+import dbConnect from './server/dbConnect';
+import userRoute from './server/routes/userRoute';
+import projectRoute from './server/routes/projectRoute';
+import pageRoute from './server/routes/pageRoute';
+import dotenv from 'dotenv';
+dotenv.config();
+
+export async function activate(context: vscode.ExtensionContext) {
+  // Load environment variables in development
+
+  // Check if in development mode
+  // const isDevelopment = process.env.NODE_ENV === 'development';
+
+  // if (isDevelopment) {
+  //   // Retrieve secrets from .env
+  //   const MONGO_URI = process.env.MONGO_URI;
+
+  //   if (MONGO_URI) {
+  //     // Store the secret in Secret Storage
+  //     await vscode.secretStorage.store('MONGO_URI', MONGO_URI);
+  //     console.log(
+  //       'MONGO_URI has been loaded from .env and stored in Secret Storage.'
+  //     );
+  //   } else {
+  //     console.warn('.env file is missing the MONGO_URI key.');
+  //   }
+  // }
+
+  // // Example of retrieving the stored secret
+  // const storedURI = await vscode.secretStorage.get('MONGO_URI');
+  // if (storedURI) {
+  //   console.log(`Retrieved MONGO_URI from Secret Storage: ${storedURI}`);
+  // } else {
+  //   vscode.window.showWarningMessage(
+  //     'MongoDB URI is not configured. Please set it in Secret Storage or .env.'
+  //   );
+  // }
+
+  const PORT = 3333;
+  const app = express();
+
+  app.use(
+    cors({
+      origin: ['http://localhost:3333'], // Allow specific origins
+      methods: ['GET', 'POST'], // Restrict to specific HTTP methods
+      credentials: true, // Allow cookies or authentication headers
+    })
   );
 
-  // The command has been defined in the package.json file
-  // Now provide the implementation of the command with registerCommand
-  // The commandId parameter must match the command field in package.json
+  // Middleware to log requests
+  app.use((req, res, next) => {
+    console.log(`Received request: ${req.method} ${req.url}`);
+    next();
+  });
 
-  // BOILERPLATE COMMAND
-  // demonstrates how you can send info messages to users via vscode.window.showInformationMessage
-  // const disposable = vscode.commands.registerCommand('a11y-root-extension.helloWorld', () => {
-  // 	// The code you place here will be executed every time your command is executed
-  // 	// Display a message box to the user
-  // 	vscode.window.showInformationMessage('Hello World from A11y-Root-Extension!');
+  //PARSING MIDDLEWARE
+  app.use(express.urlencoded({ extended: true }));
+  app.use(express.json());
+
+  // Health check endpoint
+  app.get('/health', (req, res) => {
+    res.status(200).send('What up!');
+  });
+
+  //database interaction endpoints
+  app.use('/users', userRoute);
+  app.use('/projects', projectRoute);
+  app.use('/pages', pageRoute);
+
+  // Default endpoint
+
+  app.get('/', (req, res) => {
+    res.send('Welcome to the A11y Root Extension Server!!!');
+  });
+
+  // Check if the port is available
+  const isPortAvailable = async (port: number): Promise<boolean> => {
+    return new Promise((resolve) => {
+      const tester = net
+        .createServer()
+        .once('error', (err: any) => {
+          if (err.code === 'EADDRINUSE') {
+            resolve(false);
+          } else {
+            resolve(true);
+          }
+        })
+        .once('listening', () => {
+          tester.close(() => resolve(true));
+        })
+        .listen(port);
+    });
+  };
+
+  if (!(await isPortAvailable(PORT))) {
+    vscode.window.showErrorMessage(`Port ${PORT} is already in use.`);
+    return;
+  }
+
+  // Possible fixes / problems
+
+  // app.use(
+  //   cors({
+  //     origin: '*', // Allow all origins; restrict to specific origins for better security.
+  //     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  //   })
+  // );
+
+  // app.listen(PORT, HOST, () => {
+  //   console.log(`Server is running on ${HOST}:${PORT}`);
   // });
 
-  //context.subscriptions.push(disposable);
+  //to bind to all available network interfaces (0.0.0.0) instead of localhost.
+  // const server = app.listen(PORT, '0.0.0.0', async () => {
+  //   console.log(`Server is accessible at http://localhost:${PORT}`);
+  // });
 
-  //context is an instance of vscode.ExtensionContext that is passed to the activate function of a VS Code extension.
-  //subscriptions is a property of context. It is an array that holds disposables.
-  //A disposable is any object that implements the dispose() method.
-  //Disposables are used to clean up resources(e.g., listeners, commands, panels) when the extension is deactivated or a resource is no longer needed.
+  // const HOST = process.env.NODE_ENV === 'production' ? '0.0.0.0' : ;
 
-  // subscribe actions to context.subscriptions
+  // misght need to change 127.0.0.1 to localhost?
+
+  // Start the server
+  const server = app.listen(PORT, '127.0.0.1', async () => {
+    const externalUri = await vscode.env.asExternalUri(
+      vscode.Uri.parse(`http://localhost:${PORT}`)
+    );
+    console.log(`Server available at ${externalUri}`);
+    vscode.window.showInformationMessage(`Server started at ${externalUri}`);
+  });
+
+  // Handle server errors
+  server.on('error', (error) => {
+    console.error('Server encountered an error:', error);
+    vscode.window.showErrorMessage(`Server failed to start: ${error.message}`);
+  });
+
+  //once server is running, connect it to the database
+  dbConnect();
+
+  // Cleanup server on extension deactivate
+  context.subscriptions.push({
+    dispose: () => {
+      server.close(() => {
+        console.log('Server stopped.');
+        vscode.window.showInformationMessage('Server stopped.');
+      });
+    },
+  });
+
+  // Add other extension functionality
   context.subscriptions.push(openTab(context));
 }
-
-// DEFINE TAB
-
-//  Parameters of createWebviewPanel
-// View Type ('simpleTab')
-// A unique identifier for the webview panel.
-// Used internally to distinguish this panel from others.
-// Example: 'simpleTab'.
-
-// Column (vscode.ViewColumn.One)
-// Specifies which editor column the webview panel will appear in.
-// Options:
-// vscode.ViewColumn.One: Opens the webview in the first editor column.
-// vscode.ViewColumn.Two: Opens the webview in the second editor column.
-// vscode.ViewColumn.Active: Opens the webview in the currently active column.
-// Example: vscode.ViewColumn.One opens it in the first column.
-
-// Options (Configuration Object)
-// An object that configures the behavior and features of the webview panel.
-
-// enableScripts: true
-
-// Allows the webview to run JavaScript.
-// Default: false (disabled for security reasons).
-// Example: enableScripts: true allows you to inject and execute scripts in the HTML displayed by the webview.
-// Additional options (not used here but available):
-
-// retainContextWhenHidden:
-// If true, the webview preserves its state when hidden.
-// Useful for panels that should retain their content and state when switching tabs.
-// enableForms:
-// Allows the webview to use forms.
-// Default: true.
-
-// The Return Value
-// The function returns an instance of WebviewPanel, assigned to panel. You can use this object to manage the webview.
 
 function openTab(context: vscode.ExtensionContext) {
   return vscode.commands.registerCommand('a11y-root-extension.openTab', () => {
@@ -114,48 +204,41 @@ function openTab(context: vscode.ExtensionContext) {
     panel.webview.html = htmlContent;
     // Listen for messages from the webview
     panel.webview.onDidReceiveMessage(async (message) => {
-      if (message.command === 'fetchTree') {
-        const { url } = message;
+      //will change this to connect login button to github
+      if (message.command === 'checkHealth') {
         try {
-          vscode.window.showInformationMessage(
-            `Fetching accessibility data for: ${url}`
-          );
+          // Make a request to the server health endpoint
+          // const serverBaseUrl = process.env.SERVER_BASE_URL || 'http://localhost:3000';
+          // eventually move to using .env.SERVER_BASE_URL or handle when we move to https
+          const response = await axios.get(`http://localhost:3333/health`);
 
-          // Step 1: Launch Puppeteer and open the page
-          const browser = await puppeteer.launch();
-          const page = await browser.newPage();
-          await page.goto(url);
-
-          // Step 2: Generate Puppeteer accessibility tree snapshot
-          const a11yTree = await page.accessibility.snapshot();
-          await browser.close();
-
-          // Step 3: Save results
-          const outputFolder = path.join(context.extensionPath, 'results');
-          fs.mkdirSync(outputFolder, { recursive: true });
-
-          const treeResultPath = path.join(outputFolder, 'a11y-tree.json');
-
-          fs.writeFileSync(treeResultPath, JSON.stringify(a11yTree, null, 2));
-
-          // Step 6: Send results back to the webview
-          panel.webview.postMessage({
-            command: 'result',
-            message: `Results saved to:\n- ${treeResultPath}`,
-          });
-
-          vscode.window.showInformationMessage(
-            `Accessibility results saved: ${treeResultPath}`
-          );
-        } catch (error: unknown) {
+          if (response.status === 200) {
+            panel.webview.postMessage({
+              command: 'healthCheckResult',
+              message: `Server responded: ${response.data}`, // Expect "OK"
+            });
+          } else {
+            panel.webview.postMessage({
+              command: 'healthCheckResult',
+              message: `Server error: ${response.status}`,
+            });
+          }
+        } catch (error: any) {
           const errorMessage =
-            error instanceof Error ? error.message : 'Unknown error occurred.';
-          vscode.window.showErrorMessage(
-            `Failed to fetch accessibility data: ${errorMessage}`
-          );
+            error.response?.data || error.message || 'Unknown error';
+          panel.webview.postMessage({
+            command: 'healthCheckError',
+            message: `Failed to connect to server: ${errorMessage}`,
+          });
+        }
+      }
+      if (message.command === 'fetchTree') {
+        if (message.url) {
+          await a11yTreeCommands.handleFetchTree(panel, context, message.url);
+        } else {
           panel.webview.postMessage({
             command: 'error',
-            message: `Failed to fetch accessibility data: ${errorMessage}`,
+            message: 'No URL provided for fetchTree command.',
           });
         }
       }
@@ -164,4 +247,10 @@ function openTab(context: vscode.ExtensionContext) {
 }
 
 // This method is called when your extension is deactivated
-export function deactivate() {}
+export async function deactivate() {
+  // const isDevelopment = process.env.NODE_ENV === 'development';
+  // if (isDevelopment) {
+  //   await vscode.secretStorage.delete('MONGO_URI');
+  //   console.log('Development secret MONGO_URI has been cleared from Secret Storage.');
+  // }
+}

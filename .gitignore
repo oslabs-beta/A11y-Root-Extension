@@ -1,2 +1,6 @@
 .env
 node_modules
+*.pem
+cert
+webview-dist
+dist
