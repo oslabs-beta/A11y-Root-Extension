@@ -52,9 +52,11 @@ getElementById<HTMLButtonElement>('loginButton').addEventListener(
   () => {
     const statusMessage = getElementById<HTMLParagraphElement>('statusMessage');
     statusMessage.innerText = 'Checking server health...';
+    //statusMessage.innerText = 'Starting OAuth process...';
 
     // Send a message to the extension to check server health
     vscode.postMessage({ command: 'checkHealth' });
+    //vscode.postMessage({command: 'beginOAuth' });
   }
 );
 

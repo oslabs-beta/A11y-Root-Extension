@@ -51,6 +51,26 @@ type AccessibilityTree = AccessibilityNode & {
   h1?: boolean; // flag for if tree contains one unique h1 (placed above main content)
 };
 
+// export async function getUserSelectedRoot(): Promise<string | undefined> {
+//   const workspaceFolders = vscode.workspace.workspaceFolders;
+//   // Check if workspaceFolders exists and has at least one folder
+//   if (workspaceFolders?.length) {
+//     // If there are multiple folders, prompt the user to select one
+//     if (workspaceFolders.length > 1) {
+//       const folder = await vscode.window.showQuickPick(
+//         workspaceFolders.map((folder) => folder.uri.fsPath),
+//         { placeHolder: 'Select a project root' }
+//       );
+//       // Return the selected folder or undefined if the user cancels the selection
+//       return folder || undefined;
+//     }
+//     // If there is only one folder, return its path
+//     return workspaceFolders[0].uri.fsPath;
+//   }
+//   // Return undefined if no workspace folders are open
+//   return undefined;
+// }
+
 const a11yTreeCommands: A11yTreeCommands = {
   async handleFetchTree(
     panel: vscode.WebviewPanel,
@@ -61,6 +81,8 @@ const a11yTreeCommands: A11yTreeCommands = {
       vscode.window.showInformationMessage(
         `Fetching accessibility data for: ${url}`
       );
+
+      //const pageName = path.basename(url);
 
       // Launch Puppeteer and open the page
       const browser = await puppeteer.launch();
@@ -80,6 +102,9 @@ const a11yTreeCommands: A11yTreeCommands = {
       // pass to guideline creator function
       guidelineCreator(a11yTree);
 
+      // Accessibility results saved: /Users/ianbuchanan/Codesmith/A11y-Root-Extension/results/a11y-tree.json
+      const projectDirectoryName = await getUserSelectedProjectDirectoryName();
+
       // Save results
       const outputFolder = path.join(context.extensionPath, 'results');
       fs.mkdirSync(outputFolder, { recursive: true });
@@ -90,7 +115,7 @@ const a11yTreeCommands: A11yTreeCommands = {
       // Send results back to the webview
       panel.webview.postMessage({
         command: 'result',
-        message: `Results saved to:\n- ${treeResultPath}`,
+        message: `Results saved to:\n- ${treeResultPath} Project root dir ${projectDirectoryName}`,
       });
 
       vscode.window.showInformationMessage(
@@ -110,6 +135,32 @@ const a11yTreeCommands: A11yTreeCommands = {
 };
 
 export default a11yTreeCommands;
+
+export async function getUserSelectedProjectDirectoryName(): Promise<
+  string | undefined
+> {
+  const workspaceFolders = vscode.workspace.workspaceFolders;
+
+  if (!workspaceFolders || workspaceFolders.length === 0) {
+    vscode.window.showErrorMessage('No workspace folders are open.');
+    return undefined;
+  }
+
+  if (workspaceFolders.length === 1) {
+    // Automatically select the single folder
+    return path.basename(workspaceFolders[0].uri.fsPath);
+  }
+
+  // Allow the user to select a folder if multiple are open
+  const selectedFolder = await vscode.window.showQuickPick(
+    workspaceFolders.map((folder) => folder.uri.fsPath),
+    {
+      placeHolder: 'Select a workspace folder',
+    }
+  );
+
+  return selectedFolder;
+}
 
 function guidelineCreator(tree: AccessibilityTree): void {
   //tree.skipLink = //logic to determine true or false

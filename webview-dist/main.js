@@ -34,8 +34,10 @@ getElementById('submitButton').addEventListener('click', () => {
 getElementById('loginButton').addEventListener('click', () => {
     const statusMessage = getElementById('statusMessage');
     statusMessage.innerText = 'Checking server health...';
+    //statusMessage.innerText = 'Starting OAuth process...';
     // Send a message to the extension to check server health
     vscode.postMessage({ command: 'checkHealth' });
+    //vscode.postMessage({command: 'beginOAuth' });
 });
 // Listen for messages from the extension
 window.addEventListener('message', (event) => {

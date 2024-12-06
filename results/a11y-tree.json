@@ -1,330 +1,66 @@
 {
   "role": "RootWebArea",
-  "name": "Excalidraw | Hand-drawn look & feel • Collaborative • Secure",
+  "name": "A11y Sprout",
   "children": [
     {
+      "role": "image",
+      "name": "A11y Sprout Logo",
+      "compliance": false,
+      "complianceDetails": ""
+    },
+    {
       "role": "heading",
-      "name": "Excalidraw",
+      "name": "A11ySprout",
       "level": 1,
       "compliance": false,
       "complianceDetails": ""
     },
     {
-      "role": "generic",
-      "name": "All your data is saved locally in your browser. Open Cmd+O Help ? Live collaboration... Sign up Export, preferences, languages, ... Shapes Live collaboration... Library Library Drawing canvas",
-      "focused": true,
-      "children": [
-        {
-          "role": "StaticText",
-          "name": "All your data is saved locally in your browser.",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "button",
-          "name": "Open Cmd+O",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "button",
-          "name": "Help ?",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "button",
-          "name": "Live collaboration...",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "link",
-          "name": "Sign up",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "button",
-          "name": "",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "StaticText",
-          "name": "Export, preferences, languages, ...",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "StaticText",
-          "name": "Pick a tool & Start drawing!",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "StaticText",
-          "name": "To move canvas, hold mouse wheel or spacebar while dragging, or use the hand tool",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "heading",
-          "name": "Shapes",
-          "level": 2,
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "checkbox",
-          "name": "Keep selected tool active after drawing",
-          "checked": false,
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "radio",
-          "name": "Hand (panning tool) — H",
-          "keyshortcuts": "h",
-          "checked": false,
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "radio",
-          "name": "Selection",
-          "keyshortcuts": "V or 1",
-          "checked": true,
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "StaticText",
-          "name": "1",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "radio",
-          "name": "Rectangle",
-          "keyshortcuts": "R or 2",
-          "checked": false,
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "StaticText",
-          "name": "2",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "radio",
-          "name": "Diamond",
-          "keyshortcuts": "D or 3",
-          "checked": false,
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "StaticText",
-          "name": "3",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "radio",
-          "name": "Ellipse",
-          "keyshortcuts": "O or 4",
-          "checked": false,
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "StaticText",
-          "name": "4",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "radio",
-          "name": "Arrow",
-          "keyshortcuts": "A or 5",
-          "checked": false,
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "StaticText",
-          "name": "5",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "radio",
-          "name": "Line",
-          "keyshortcuts": "L or 6",
-          "checked": false,
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "StaticText",
-          "name": "6",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "radio",
-          "name": "Draw",
-          "keyshortcuts": "P or 7",
-          "checked": false,
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "StaticText",
-          "name": "7",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "radio",
-          "name": "Text",
-          "keyshortcuts": "T or 8",
-          "checked": false,
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "StaticText",
-          "name": "8",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "radio",
-          "name": "Insert image",
-          "keyshortcuts": "9",
-          "checked": false,
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "StaticText",
-          "name": "9",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "radio",
-          "name": "Eraser",
-          "keyshortcuts": "E or 0",
-          "checked": false,
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "StaticText",
-          "name": "0",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "button",
-          "name": "AI",
-          "description": "More tools",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "button",
-          "name": "Live collaboration...",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "checkbox",
-          "name": "Library",
-          "keyshortcuts": "0",
-          "checked": false,
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "StaticText",
-          "name": "Library",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "heading",
-          "name": "Canvas actions",
-          "level": 2,
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "button",
-          "name": "Zoom out",
-          "description": "Zoom out — Cmd+-",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "button",
-          "name": "Reset zoom",
-          "description": "Reset zoom",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "button",
-          "name": "Zoom in",
-          "description": "Zoom in — Cmd++",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "button",
-          "name": "Undo",
-          "disabled": true,
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "button",
-          "name": "Redo",
-          "disabled": true,
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "link",
-          "name": "Blog post on end-to-end encryption in Excalidraw",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "StaticText",
-          "name": "Shortcuts & help",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "button",
-          "name": "Help",
-          "description": "Help — ?",
-          "compliance": false,
-          "complianceDetails": ""
-        },
-        {
-          "role": "StaticText",
-          "name": "Drawing canvas",
-          "compliance": false,
-          "complianceDetails": ""
-        }
-      ],
+      "role": "StaticText",
+      "name": "* A11y === Accessability",
+      "compliance": false,
+      "complianceDetails": ""
+    },
+    {
+      "role": "button",
+      "name": "Login with GitHub",
+      "compliance": false,
+      "complianceDetails": ""
+    },
+    {
+      "role": "StaticText",
+      "name": "Enter URL:",
+      "compliance": false,
+      "complianceDetails": ""
+    },
+    {
+      "role": "textbox",
+      "name": "Enter URL:",
+      "required": true,
+      "compliance": false,
+      "complianceDetails": ""
+    },
+    {
+      "role": "button",
+      "name": "Submit",
+      "compliance": false,
+      "complianceDetails": ""
+    },
+    {
+      "role": "StaticText",
+      "name": "Check out the project on GitHub",
+      "compliance": false,
+      "complianceDetails": ""
+    },
+    {
+      "role": "StaticText",
+      "name": " ",
+      "compliance": false,
+      "complianceDetails": ""
+    },
+    {
+      "role": "link",
+      "name": "Checkout the A11y Sprout on GitHub",
       "compliance": false,
       "complianceDetails": ""
     }
