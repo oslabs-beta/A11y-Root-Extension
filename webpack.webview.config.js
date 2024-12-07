@@ -4,33 +4,53 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'development',
-  entry: './src/webview/main.ts', // Entry point for the webview
+  // change to index.tsx
+  entry: './src/webview/index.tsx',
+  //entry: './src/webview/main.ts', // Entry point for the webview
+  // webview-dist / filename bundle.js
   output: {
-    path: path.resolve(__dirname, 'dist'), // Output directory
-    filename: 'webview.bundle.js', // Output file
+    path: path.resolve(__dirname, 'dist/webview'),
+    filename: 'bundle.js',
+    // path: path.resolve(__dirname, 'dist'), // Output directory
+    // filename: 'webview.bundle.js', // Output file
   },
   resolve: {
-    extensions: ['.ts', '.js'], // Resolve TypeScript and JavaScript files
+    extensions: ['.tsx', '.ts', '.js'], // Resolve TypeScript and JavaScript files
   },
   watch: true,
   module: {
     rules: [
       {
-        test: /\.ts$/,
-        use: 'ts-loader',
+        test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
+        use: 'babel-loader', // Use Babel for React and TypeScript
       },
       {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'], // Load CSS files
+        test: /\.css$/, // Add this rule
+        use: ['style-loader', 'css-loader'], // Process CSS files
       },
     ],
+
+    // rules: [
+    //   {
+    //     test: /\.ts$/,
+    //     use: 'ts-loader',
+    //     exclude: /node_modules/,
+    //   },
+    //   {
+    //     test: /\.css$/,
+    //     use: ['style-loader', 'css-loader'], // Load CSS files
+    //   },
+    // ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/webview/index.html', // HTML template for the webview
-      filename: 'index.html',
+      template: './src/webview/index.html', // Updated path for React webview
     }),
+    // new HtmlWebpackPlugin({
+    //   template: './src/webview/index.html', // HTML template for the webview
+    //   filename: 'index.html',
+    // }),
   ],
   devServer: {
     static: {

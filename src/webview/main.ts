@@ -65,10 +65,9 @@ getElementById<HTMLButtonElement>('githubOauth').addEventListener(
     statusMessage.innerText = 'Starting OAuth process...';
 
     // Send a message to the extension to check server health
-    vscode.postMessage({command: 'beginOAuth' });
+    vscode.postMessage({ command: 'beginOAuth' });
   }
 );
-
 
 // Listen for messages from the extension
 window.addEventListener('message', (event: MessageEvent) => {
