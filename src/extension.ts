@@ -25,13 +25,22 @@ export async function activate(context: vscode.ExtensionContext) {
   vscode.window.registerUriHandler({
     async handleUri(uri: vscode.Uri) {
       if (uri.path === '/auth/callback') {
+        const query = new URLSearchParams(uri.query);
+        const code = query.get('code');
         vscode.window.showInformationMessage(`Received callback`);
-        const response = await axios.get(`http://localhost:3333`);
-
-        if (response.status === 200) {
-          vscode.window.showInformationMessage(
-            `Successfully sent to server! -> ${response.data}`
+        try {
+          const response = await axios.get(
+            `http://localhost:3333/auth/callback?code=${code}`
           );
+          // ,{code}
+
+          if (response.status === 200) {
+            vscode.window.showInformationMessage(
+              `200 : Successfully sent to server! -> ${response.data}`
+            );
+          }
+        } catch (error: any) {
+          vscode.window.showInformationMessage(`Error : -> ${error.message}`);
         }
       }
     },
@@ -88,12 +97,12 @@ export async function activate(context: vscode.ExtensionContext) {
   app.use(express.json());
 
   // Health check endpoint
-  app.get('/auth/callback', (req, res) => {
-    vscode.window.showInformationMessage(`callback baby!`);
-    res.status(200).send('What up!');
-  });
+  // app.get('/auth/callback', (req, res) => {
+  //   vscode.window.showInformationMessage(`callback baby!`);
+  //   res.status(200).send('What up!');
+  // });
 
-  app.get('/auth');
+  // app.get('/auth');
   //oauth login endpoint
   app.get(
     '/auth/callback',
@@ -101,10 +110,11 @@ export async function activate(context: vscode.ExtensionContext) {
     oAuthController.requestToken,
     oAuthController.getUserData,
     oAuthController.saveUser,
-    cookieController.setSSIDCookie,
     sessionController.startSession,
-    (req, res) => {
-      res.status(200).send('Auth successful!');
+    async (req, res) => {
+      await context.secrets.store('ssid', res.locals.user._id);
+      const secret = await context.secrets.get('ssid');
+      res.status(200).send(`Auth successful! Secret ${secret}`);
       // res.status(200).json(res.locals.token);
       // res.status(200).send('Authorization successful');
       // server.close();
@@ -214,7 +224,6 @@ function openTab(context: vscode.ExtensionContext) {
         enableForms: true, // not sure if we need this
       }
     );
-
 
     const htmlPath = path.join(
       context.extensionPath,
