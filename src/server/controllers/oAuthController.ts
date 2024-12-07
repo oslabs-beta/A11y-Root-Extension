@@ -1,5 +1,12 @@
+import * as vscode from 'vscode';
 import { Request, Response, NextFunction } from 'express';
 import UserModel from '../models/userModel';
+import dotenv from 'dotenv';
+import path from 'path';
+
+dotenv.config();
+
+const outputChannel = vscode.window.createOutputChannel('My Server Logs');
 
 const oAuthController = {
   getTemporaryCode: (req: Request, res: Response, next: NextFunction): void => {
@@ -17,6 +24,11 @@ const oAuthController = {
   },
   requestToken: async (req: Request, res: Response, next: NextFunction) => {
     try {
+      outputChannel.appendLine(`temporaryCode ${res.locals.temporaryCode}`);
+      outputChannel.appendLine(`clientid ${process.env.GITHUB_CLIENT_ID}`);
+      outputChannel.appendLine(
+        `clientsecret ${process.env.GITHUB_CLIENT_SECRET}`
+      );
       const response = await fetch(
         'https://github.com/login/oauth/access_token',
         {
@@ -39,13 +51,18 @@ const oAuthController = {
           message: { err: 'Failed to obtain access token from GitHub' },
         });
       }
+
       const data = await response.json();
       console.log('Data:', data);
+      outputChannel.appendLine(`!!!!!!! Data ${response}`);
+      outputChannel.appendLine(`!!!!!!! Data ${data.access_token}`);
+      outputChannel.appendLine(`!!!!!!! Data ${JSON.stringify(data, null, 2)}`);
+      outputChannel.show();
       const githubToken = data.access_token;
       if (!githubToken) {
         return next({
           log: 'Failed to get access token from Github',
-          status: 500,
+          status: 501,
           message: { err: 'An error occurred while obtaining access token' },
         });
       }
@@ -54,7 +71,7 @@ const oAuthController = {
     } catch {
       return next({
         log: 'Error in oAuthController.requestToken:Failed to obtain access token from Github',
-        status: 500,
+        status: 502,
         message: { err: 'An error occurred while obtaining access token' },
       });
     }
