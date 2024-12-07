@@ -1,5 +1,6 @@
 {
   "name": "a11y-root-extension",
+  "publisher": "a11y-root",
   "displayName": "A11y-Root-Extension",
   "description": "vscode extension ",
   "version": "0.0.1",
