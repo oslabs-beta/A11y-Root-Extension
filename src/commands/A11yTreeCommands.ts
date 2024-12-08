@@ -92,7 +92,30 @@ const a11yTreeCommands: A11yTreeCommands = {
       const treeResultPath = path.join(outputFolder, 'a11y-tree.json');
       fs.writeFileSync(treeResultPath, JSON.stringify(a11yTree, null, 2));
 
+      // const pageSchema = new Schema({
+      //   projectId: { type: Schema.Types.ObjectId, ref: 'Project' },
+      //   url: { type: String, required: true },
+      //   pageRole: { type: String },
+      //   pageName: { type: String },
+      //   tree: { type: String, required: true },
+      //   skipLink: {
+      //     type: Boolean,
+      //     required: [true, 'A skip link must be present'],
+      //   },
+      //   h1: { type: Boolean, required: [true, 'An h1 tag must be present'] },
+      // });
+
       // Send results back to the webview
+
+      const result = {
+        url: url,
+        pageRole: '',
+        pageName: '',
+        tree: a11yTree,
+        skipLink: false,
+        h1: false,
+      };
+
       panel.webview.postMessage({
         command: 'result',
         message: `Results saved to:\n- ${treeResultPath} Project root dir ${projectDirectoryName}`,
@@ -161,6 +184,8 @@ function treeCrawl(node: AccessibilityTree | AccessibilityNode): void {
     for (const child of node.children) {
       treeCrawl(child);
     }
+  } else {
+    checkNode(node);
   }
 
   // if node add guideline properties (compliance: Boolean, complianceDetails: String)
@@ -170,33 +195,54 @@ function treeCrawl(node: AccessibilityTree | AccessibilityNode): void {
 }
 
 //   // Add guideline properties based on node role
-//   switch (node.role) {
-//     case 'button':
-//       node.compliance = node.name ? true : false;
-//       node.complianceDetails = node.name
-//         ? ''
-//         : 'Button does not have an accessible name.';
-//       break;
+function checkNode(node: AccessibilityNode) {
+  switch (node.role) {
+    case 'link':
+      if (testLink(node)) {
+        node.compliance = true;
+        node.complianceDetails = 'link must contain meaningful context';
+      }
+    case 'button':
+      node.compliance = node.name ? true : false;
+      node.complianceDetails = node.name
+        ? ''
+        : 'Button does not have an accessible name.';
+      break;
 
-//     case 'heading':
-//       node.compliance = !!node.name;
-//       node.complianceDetails = node.name
-//         ? ''
-//         : 'Heading is missing an accessible name.';
-//       break;
+    case 'heading':
+      node.compliance = !!node.name;
+      node.complianceDetails = node.name
+        ? ''
+        : 'Heading is missing an accessible name.';
+      break;
 
-//     case 'StaticText':
-//       node.compliance = true; // Assuming static text is always compliant
-//       node.complianceDetails = '';
-//       break;
+    case 'StaticText':
+      node.compliance = true; // Assuming static text is always compliant
+      node.complianceDetails = '';
+      break;
 
-//     default:
-//       node.compliance = true;
-//       node.complianceDetails = '';
-//       break;
-//   }
-// }
+    default:
+      node.compliance = true;
+      node.complianceDetails = '';
+      break;
+  }
+}
 
+const skipLinkRegex =
+  /^#.*(skip|main|content|primary|main-content|page-content|primary-content|body-content|wrapper|container|app-content|app|site-content).*/;
+const nonSemanticRegex =
+  /\b(click here|here|more details|more info|more|details|read more|learn more|go here|this link|link)\b/i;
+// const text = link.innerText.trim().toLowerCase();
+// nonSemanticRegex.test(link.text);
+
+function testLink(node: AccessibilityNode) {
+  const text = node.name?.trim().toLocaleLowerCase();
+  let isNotMeaningful = false;
+  if (text) {
+    isNotMeaningful = nonSemanticRegex.test(text);
+  }
+  return isNotMeaningful;
+}
 // The SerializedAXNode type represents nodes in an accessibility tree, and its role property defines the role of an element. These roles are based on the ARIA (Accessible Rich Internet Applications) roles and include native HTML roles as well as additional accessibility roles.
 
 // Categories of Roles in ARIA
