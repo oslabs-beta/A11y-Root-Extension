@@ -1,19 +1,10 @@
 import React from 'react';
+import { postMessage } from '../helpers/vscodeHelper';
 
-interface LogoutButtonProps {
-  isLoggedIn: boolean;
-  setIsLoggedIn: (loggedIn: boolean) => void;
-}
-
-function LogoutButton({ isLoggedIn, setIsLoggedIn }: LogoutButtonProps) {
+function LogoutButton() {
   const handleClick = () => {
     //postmessage command beginLogout
-    //vscode.postMessage({ command: 'beginLogout' }); //need to implement this in extension.ts
-
-    //assuming it goes according to plan
-    setIsLoggedIn(false);
-
-    //else error: cannot log out try again
+    postMessage({ command: 'beginLogout' }); //need to implement this in extension.ts
   };
   return (
     <div className='logout-button'>
