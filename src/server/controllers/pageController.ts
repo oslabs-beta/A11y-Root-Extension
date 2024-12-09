@@ -21,16 +21,16 @@ PageController.getPage = async (req, res, next) => {
 			message: {err: 'An error occurred retrieving the page.'},
 			status: 500
 	});
-	})
-}
+	});
+};
 
 PageController.postPage = async (req, res, next) => {
-	const { projectId, url, pageRole, pageName, tree, skipLink, h1 } = req.body;
+	const { projectId, url, tree, skipLink, h1, tabIndex } = req.body;
 
 	try {
 		const page = await PageModel.findOneAndUpdate(
 			{ _id: projectId, url: url },
-			{ $set: {pageRole, pageName, tree, skipLink, h1} } ,
+			{ $set: {tree, skipLink, h1, tabIndex} } ,
 			{ new: true, upsert: true },
 		);
 
@@ -41,9 +41,9 @@ PageController.postPage = async (req, res, next) => {
 			log: `Error in PageController.postPage: missing required data in request body: ${error}`,
 			message: { err: 'Missing data to update existing page.'},
 			status: 400
-		})
+		});
 	}
-}
+};
 
 
 PageController.deletePage = async (req, res, next) => {
@@ -63,8 +63,8 @@ PageController.deletePage = async (req, res, next) => {
 			log: `Error in PageController.deletePage: ERROR: ${err}`,
 			message: { err: 'An error occurred while trying to delete the page.' },
 			status: 500
-		})
-	})
-}
+		});
+	});
+};
 
 export default PageController;

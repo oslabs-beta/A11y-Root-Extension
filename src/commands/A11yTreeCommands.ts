@@ -2,12 +2,15 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as puppeteer from 'puppeteer';
+import axios from 'axios';
+import {User} from '../webview/types';
 
 type A11yTreeCommands = {
   handleFetchTree: (
     panel: vscode.WebviewPanel,
     context: vscode.ExtensionContext,
-    url: string
+    url: string,
+    user: User
   ) => Promise<void>;
 };
 
@@ -57,7 +60,8 @@ const a11yTreeCommands: A11yTreeCommands = {
   async handleFetchTree(
     panel: vscode.WebviewPanel,
     context: vscode.ExtensionContext,
-    url: string
+    url: string,
+    user: User
   ) {
     outputChannel.appendLine(`url passed to a11yTreeCommands${url}`);
     outputChannel.show();
@@ -119,6 +123,15 @@ const a11yTreeCommands: A11yTreeCommands = {
       //   skipLink: false,
       //   h1: false,
       // };
+
+      //look at user's directory.
+      //if project with that directory name already exists, create a page using the a11ytree and attach to it.
+      //if the project does not exist, we must 1.) create project, 2.) attach project to user, 3.) create a page using the a11ytree and attach to it.
+      const projectName = await getUserSelectedProjectDirectoryName();
+      const response = await axios.post('http:localhost:3333/projects', {
+        userGithubId: user.githubId,
+        projectName
+      });
 
       panel.webview.postMessage({
         command: 'parseTreeResult',

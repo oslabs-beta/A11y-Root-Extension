@@ -1,4 +1,5 @@
 import DisplayA11yTree from './components/DisplayA11yTree';
+import { Types } from 'mongoose';
 
 export type SerializedAXNode = {
   role: string; // The role of the node
@@ -40,6 +41,19 @@ export type AccessibilityTree = AccessibilityNode & {
   h1?: boolean; // flag for if tree contains one unique h1 (placed above main content)
 };
 
+export interface User {
+  githubId: string; // Required and unique
+  username: string; // Required
+  profileUrl?: string; // Optional
+  avatarUrl?: string; // Optional
+  projects?: Types.ObjectId[]; // References to Project documents
+}
+
+export interface EventData {
+  command: string;
+  message: User;
+}
+
 export interface DisplayA11yTreeProps {
   a11yTree: AccessibilityTree | null;
   activeTab: string;
@@ -57,4 +71,10 @@ export interface ElementProps {
 
 export interface URLInputFormProps {
   setA11yTree: (a11yTree: AccessibilityTree) => void;
+  user: User
 }
+
+export interface MainContainerProps {
+  user: User
+}
+
