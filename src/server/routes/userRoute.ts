@@ -3,7 +3,7 @@ import UserController from '../controllers/userController';
 
 const userRoute = express.Router();
 
-userRoute.get('/:githubId', UserController.getUser, (req, res) => {
+userRoute.get('/:userId', UserController.getUser, (req, res) => {
   res.status(200).json(res.locals.user);
 });
 

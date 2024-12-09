@@ -3,7 +3,7 @@ import './style.css';
 import HeaderContainer from './containers/HeaderContainer';
 import MainContainer from './containers/MainContainer';
 import { Types } from 'mongoose';
-
+import { postMessage } from './helpers/vscodeHelper';
 //import * as vscode from 'vscode';
 
 interface User {
@@ -16,42 +16,40 @@ interface User {
 
 interface EventData {
   command: string;
-  username: string;
+  message: User;
 }
-
-// const userSchema = new Schema({
-//   githubId: { type: String, required: true, unique: true },
-//   username: { type: String, required: true },
-//   profileUrl: String,
-//   avatarUrl: String,
-//   projects: [{ type: Schema.Types.ObjectId, ref: 'Project' }],
-// });
 
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  // username used for testing, can get full github data back by updating what is returned in extension.ts
-  const [username, setUsername] = useState<string>('');
 
+  //how to handle information received from the extension (as EventData)
   function globalMessageHandler(event: MessageEvent) {
-    const { command, username } = event.data as EventData;
+    const { command, message } = event.data as EventData;
     switch (command) {
       case 'loggedIn':
         setIsLoggedIn(true);
-        setUsername(username);
+        setUser(message);
         break;
+      case 'loggedOut':
+        setIsLoggedIn(false);
+        setUser(null);
+        break;
+      case 'error':
+        //add a default error handler here for how webview handles "errors" from extension
       default:
         console.warn('Unknown command received:', command);
     }
   }
-
-  // }
+  //listens for information from the extension
   window.addEventListener('message', globalMessageHandler);
-  useEffect(() => {
-    window.addEventListener('message', globalMessageHandler);
-  }, [isLoggedIn]);
 
-  // project
+  //on webview load, check if a user ssid exists in secret memory. if they do, we want to persist their login status
+  useEffect(() => {
+    postMessage({command:'checkLogin'});
+  },[])
+
+
 
   return (
     // header container that has login/logout and or session status such as username
@@ -62,8 +60,6 @@ const App: React.FC = () => {
       <HeaderContainer
         user={user}
         isLoggedIn={isLoggedIn}
-        setIsLoggedIn={setIsLoggedIn}
-        username={username}
       />
       <MainContainer />
     </div>

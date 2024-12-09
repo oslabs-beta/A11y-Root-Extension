@@ -15,7 +15,6 @@ import userRoute from './server/routes/userRoute';
 import projectRoute from './server/routes/projectRoute';
 import pageRoute from './server/routes/pageRoute';
 import oAuthController from './server/controllers/oAuthController';
-import cookieController from './server/controllers/cookieController';
 import sessionController from './server/controllers/sessionController';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -102,13 +101,6 @@ export async function activate(context: vscode.ExtensionContext) {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
 
-  // Health check endpoint
-  // app.get('/auth/callback', (req, res) => {
-  //   vscode.window.showInformationMessage(`callback baby!`);
-  //   res.status(200).send('What up!');
-  // });
-
-  // app.get('/auth');
   //oauth login endpoint
   app.get(
     '/auth/callback',
@@ -119,12 +111,7 @@ export async function activate(context: vscode.ExtensionContext) {
     sessionController.startSession,
     async (req, res) => {
       await context.secrets.store('ssid', res.locals.user._id);
-      const secret = await context.secrets.get('ssid');
-      res.status(200).json(res.locals.githubUser);
-      // res.status(200).json(res.locals.token);
-      // res.status(200).send('Authorization successful');
-      // server.close();
-      // resolve(res.locals.token as string);
+      res.status(200).json(res.locals.user);
     }
   );
 
@@ -134,7 +121,6 @@ export async function activate(context: vscode.ExtensionContext) {
   app.use('/pages', pageRoute);
 
   // Default endpoint
-
   app.get('/', (req, res) => {
     res.send('Welcome to the A11y Root Extension Server!!!');
   });
@@ -234,25 +220,22 @@ function openTab(context: vscode.ExtensionContext) {
       async handleUri(uri: vscode.Uri) {
         if (uri.path === '/auth/callback') {
           const query = new URLSearchParams(uri.query);
+          //temporary code from github that is needed to continue oauth
           const code = query.get('code');
           vscode.window.showInformationMessage(`Received callback`);
           try {
             const response = await axios.get(
               `http://localhost:3333/auth/callback?code=${code}`
             );
-            // ,{code}
-
-            if (response.status === 200) {
-              vscode.window.showInformationMessage(
-                `200 : Successfully sent to server! -> ${JSON.stringify(
-                  response.data
-                )}`
-              );
-              panel.webview.postMessage({
-                command: 'loggedIn',
-                username: response.data.login,
-              });
-            }
+            const user = JSON.stringify(response.data);
+            vscode.window.showInformationMessage(
+              `oauth response.data -> ${user}`
+            );
+            panel.webview.postMessage({
+              command: 'loggedIn',
+              //pass entire user instead of username
+              message: response.data,
+            });
           } catch (error: any) {
             vscode.window.showInformationMessage(`Error : -> ${error.message}`);
           }
@@ -326,29 +309,65 @@ function openTab(context: vscode.ExtensionContext) {
     // .replace('{{style.css}}', styleCssUri.toString());
 
     panel.webview.html = htmlContent;
+
     // Listen for messages from the webview
     panel.webview.onDidReceiveMessage(async (message) => {
-      //will change this to connect login button to github
-      if (message.command === 'auth') {
-        vscode.window.showInformationMessage(`auth!!!!!`);
-        const response = await axios.get(`http://localhost:3333/auth/callback`);
-      }
-
       if (message.command === 'beginOAuth') {
         const client_id = process.env.GITHUB_CLIENT_ID as string;
         const client_secret = process.env.GITHUB_CLIENT_SECRET as string;
         const redirect_uri = process.env.REDIRECT_URI as string;
         try {
           const authUrl = `https://github.com/login/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}`;
-          //parse the auth url and open it
+          //parse the auth url and open it externally. after login, github will reroute to app (see: vscode.window.registerUriHandler line 233)
           vscode.env.openExternal(vscode.Uri.parse(authUrl));
-          const response = await axios.get('http://localhost:3333/auth');
         } catch (error: any) {
           const errorMessage =
             error.response?.data || error.message || 'Unknown error';
+          //passes error to front end in the form of command/message - not sure when this would actually trigger?
           panel.webview.postMessage({
-            command: 'beginOauthError',
+            command: 'error',
             message: `Failed to start Oauth: ${errorMessage}`,
+          });
+        }
+      }
+
+      if (message.command === 'beginLogout') {
+        try {
+          await context.secrets.delete('ssid');
+          panel.webview.postMessage({
+            command: 'loggedOut',
+          });
+        } catch (error: any) {
+          const errorMessage =
+            error.response?.data || error.message || 'Unknown error';
+          //passes error to front end in the form of command/message - not sure when this would actually trigger?
+          panel.webview.postMessage({
+            command: 'error',
+            message: `Failed to logout: ${errorMessage}`,
+          });
+        }
+      }
+
+      if (message.command === 'checkLogin') {
+        try {
+          const userId = await context.secrets.get('ssid');
+          if (userId) {
+            const response = await axios.get(
+              `http://localhost:3333/users/${userId}`
+            );
+            panel.webview.postMessage({
+              command: 'loggedIn',
+              //pass entire user instead of username
+              message: response.data,
+            });
+          }
+        } catch (error: any) {
+          const errorMessage =
+            error.response?.data || error.message || 'Unknown error';
+          //passes error to front end in the form of command/message - not sure when this would actually trigger?
+          panel.webview.postMessage({
+            command: 'error',
+            message: `Failed to logout: ${errorMessage}`,
           });
         }
       }
