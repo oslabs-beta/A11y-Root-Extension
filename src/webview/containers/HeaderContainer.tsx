@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useDeferredValue } from 'react';
 import LoginButton from '../components/LoginButton';
 import LogoutButton from '../components/LogoutButton';
 import UserInfo from '../components/UserInfo';
@@ -16,27 +16,25 @@ interface User {
 interface HeaderContainerProps {
   user: User | null;
   isLoggedIn: boolean; // Indicates if the user is logged in
-  setIsLoggedIn: (loggedIn: boolean) => void; // Function to update login status
-  username: string;
 }
 
 function HeaderContainer({
   user,
   isLoggedIn,
-  setIsLoggedIn,
-  username,
 }: HeaderContainerProps) {
   //command message to check global storage for if user is logged in
 
+  //if user is logged in, show username and logout button. else show login button.
+  //buttons do not directly set state, but rather post a message to the extension which handles state and globalmemory logic
   return (
     <header>
-      {isLoggedIn ? (
+      {(isLoggedIn && user) ? (
         <div>
-          <LogoutButton setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
-          <UserInfo username={username} />
+          <UserInfo username={user.username} />
+          <LogoutButton/>
         </div>
       ) : (
-        <LoginButton setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
+        <LoginButton/>
       )}
     </header>
   );

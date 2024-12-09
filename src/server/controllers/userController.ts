@@ -7,11 +7,11 @@ import { userController } from '../type';
 const UserController = {} as userController;
 
 UserController.getUser = async (req, res, next) => {  // req: Request, res: Response, next: NextFunction
-  const githubId = req.params.githubId;
+  const userId = req.params.userId;
 
-	UserModel.find({githubId}) // use githubId to find user
+	UserModel.findById({_id: userId}) // use _id to find user
 		.then((user) => {
-			if (!user.length) {
+			if (!user) {
 				return res.status(404).send('No user found.');
 			}
 
