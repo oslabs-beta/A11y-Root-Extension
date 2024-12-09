@@ -22,29 +22,35 @@ dotenv.config();
 
 export async function activate(context: vscode.ExtensionContext) {
   // vscode://a11y-root.a11y-root-extension/auth/callback
-  vscode.window.registerUriHandler({
-    async handleUri(uri: vscode.Uri) {
-      if (uri.path === '/auth/callback') {
-        const query = new URLSearchParams(uri.query);
-        const code = query.get('code');
-        vscode.window.showInformationMessage(`Received callback`);
-        try {
-          const response = await axios.get(
-            `http://localhost:3333/auth/callback?code=${code}`
-          );
-          // ,{code}
+  // vscode.window.registerUriHandler({
+  //   async handleUri(uri: vscode.Uri) {
+  //     if (uri.path === '/auth/callback') {
+  //       const query = new URLSearchParams(uri.query);
+  //       const code = query.get('code');
+  //       vscode.window.showInformationMessage(`Received callback`);
+  //       try {
+  //         const response = await axios.get(
+  //           `http://localhost:3333/auth/callback?code=${code}`
+  //         );
+  //         // ,{code}
 
-          if (response.status === 200) {
-            vscode.window.showInformationMessage(
-              `200 : Successfully sent to server! -> ${response.data}`
-            );
-          }
-        } catch (error: any) {
-          vscode.window.showInformationMessage(`Error : -> ${error.message}`);
-        }
-      }
-    },
-  });
+  //         if (response.status === 200) {
+  //           vscode.window.showInformationMessage(
+  //             `200 : Successfully sent to server! -> ${JSON.stringify(
+  //               response.data
+  //             )}`
+  //           );
+  //           vscode.webview.postMessage({
+  //             command: 'loggedIn',
+  //             username: response.data,
+  //           });
+  //         }
+  //       } catch (error: any) {
+  //         vscode.window.showInformationMessage(`Error : -> ${error.message}`);
+  //       }
+  //     }
+  //   },
+  // });
   // Load environment variables in development
 
   // Check if in development mode
@@ -114,7 +120,7 @@ export async function activate(context: vscode.ExtensionContext) {
     async (req, res) => {
       await context.secrets.store('ssid', res.locals.user._id);
       const secret = await context.secrets.get('ssid');
-      res.status(200).send(`Auth successful! Secret ${secret}`);
+      res.status(200).json(res.locals.githubUser);
       // res.status(200).json(res.locals.token);
       // res.status(200).send('Authorization successful');
       // server.close();
@@ -130,7 +136,7 @@ export async function activate(context: vscode.ExtensionContext) {
   // Default endpoint
 
   app.get('/', (req, res) => {
-    res.send('Welcome to the A11y Root Extension Server!');
+    res.send('Welcome to the A11y Root Extension Server!!!');
   });
 
   // Check if the port is available
@@ -224,6 +230,77 @@ function openTab(context: vscode.ExtensionContext) {
         enableForms: true, // not sure if we need this
       }
     );
+    vscode.window.registerUriHandler({
+      async handleUri(uri: vscode.Uri) {
+        if (uri.path === '/auth/callback') {
+          const query = new URLSearchParams(uri.query);
+          const code = query.get('code');
+          vscode.window.showInformationMessage(`Received callback`);
+          try {
+            const response = await axios.get(
+              `http://localhost:3333/auth/callback?code=${code}`
+            );
+            // ,{code}
+
+            if (response.status === 200) {
+              vscode.window.showInformationMessage(
+                `200 : Successfully sent to server! -> ${JSON.stringify(
+                  response.data
+                )}`
+              );
+              panel.webview.postMessage({
+                command: 'loggedIn',
+                username: response.data.login,
+              });
+            }
+          } catch (error: any) {
+            vscode.window.showInformationMessage(`Error : -> ${error.message}`);
+          }
+        }
+      },
+    });
+
+    // git hub data response
+    // const data = {
+    //   login: 'ianbuchanan42',
+    //   id: 107963806,
+    //   node_id: 'U_kgDOBm9lng',
+    //   avatar_url: 'https://avatars.githubusercontent.com/u/107963806?v=4',
+    //   gravatar_id: '',
+    //   url: 'https://api.github.com/users/ianbuchanan42',
+    //   html_url: 'https://github.com/ianbuchanan42',
+    //   followers_url: 'https://api.github.com/users/ianbuchanan42/followers',
+    //   following_url:
+    //     'https://api.github.com/users/ianbuchanan42/following{/other_user}',
+    //   gists_url: 'https://api.github.com/users/ianbuchanan42/gists{/gist_id}',
+    //   starred_url:
+    //     'https://api.github.com/users/ianbuchanan42/starred{/owner}{/repo}',
+    //   subscriptions_url:
+    //     'https://api.github.com/users/ianbuchanan42/subscriptions',
+    //   organizations_url: 'https://api.github.com/users/ianbuchanan42/orgs',
+    //   repos_url: 'https://api.github.com/users/ianbuchanan42/repos',
+    //   events_url: 'https://api.github.com/users/ianbuchanan42/events{/privacy}',
+    //   received_events_url:
+    //     'https://api.github.com/users/ianbuchanan42/received_events',
+    //   type: 'User',
+    //   user_view_type: 'public',
+    //   site_admin: false,
+    //   name: null,
+    //   company: null,
+    //   blog: '',
+    //   location: null,
+    //   email: null,
+    //   hireable: null,
+    //   bio: null,
+    //   twitter_username: null,
+    //   notification_email: null,
+    //   public_repos: 6,
+    //   public_gists: 0,
+    //   followers: 0,
+    //   following: 10,
+    //   created_at: '2022-06-21T23:36:16Z',
+    //   updated_at: '2024-11-29T19:59:24Z',
+    // };
 
     const htmlPath = path.join(
       context.extensionPath,
@@ -265,7 +342,7 @@ function openTab(context: vscode.ExtensionContext) {
           const authUrl = `https://github.com/login/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}`;
           //parse the auth url and open it
           vscode.env.openExternal(vscode.Uri.parse(authUrl));
-          // const response = await axios.get('http://localhost:3333/auth')
+          const response = await axios.get('http://localhost:3333/auth');
         } catch (error: any) {
           const errorMessage =
             error.response?.data || error.message || 'Unknown error';
@@ -276,34 +353,7 @@ function openTab(context: vscode.ExtensionContext) {
         }
       }
 
-      if (message.command === 'checkHealth') {
-        try {
-          // Make a request to the server health endpoint
-          // const serverBaseUrl = process.env.SERVER_BASE_URL || 'http://localhost:3000';
-          // eventually move to using .env.SERVER_BASE_URL or handle when we move to https
-          const response = await axios.get(`http://localhost:3333/health`);
-
-          if (response.status === 200) {
-            panel.webview.postMessage({
-              command: 'healthCheckResult',
-              message: `Server responded: ${response.data}`, // Expect "OK"
-            });
-          } else {
-            panel.webview.postMessage({
-              command: 'healthCheckResult',
-              message: `Server error: ${response.status}`,
-            });
-          }
-        } catch (error: any) {
-          const errorMessage =
-            error.response?.data || error.message || 'Unknown error';
-          panel.webview.postMessage({
-            command: 'healthCheckError',
-            message: `Failed to connect to server: ${errorMessage}`,
-          });
-        }
-      }
-      if (message.command === 'fetchTree') {
+      if (message.command === 'parseTree') {
         if (message.url) {
           await a11yTreeCommands.handleFetchTree(panel, context, message.url);
         } else {
@@ -325,20 +375,3 @@ export async function deactivate() {
   //   console.log('Development secret MONGO_URI has been cleared from Secret Storage.');
   // }
 }
-
-// function getWebviewContent(scriptUri: vscode.Uri): string {
-//   return `
-//     <!DOCTYPE html>
-//     <html lang="en">
-//     <head>
-//       <meta charset="UTF-8">
-//       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//       <title>A11y Root</title>
-//     </head>
-//     <body>
-//       <div id="root"></div>
-//       <script src="${scriptUri}"></script>
-//     </body>
-//     </html>
-//   `;
-// }
