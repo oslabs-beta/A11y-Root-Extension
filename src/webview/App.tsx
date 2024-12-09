@@ -65,7 +65,7 @@ const App: React.FC = () => {
         setIsLoggedIn={setIsLoggedIn}
         username={username}
       />
-      {isLoggedIn && <MainContainer />}
+      <MainContainer />
     </div>
   );
 };

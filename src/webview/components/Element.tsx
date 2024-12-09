@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import URLInputForm from '../components/URLInputForm';
+import React from 'react';
 
 type SerializedAXNode = {
   role: string; // The role of the node
@@ -28,26 +27,19 @@ type SerializedAXNode = {
   children?: SerializedAXNode[]; // Children of this node in the accessibility tree
 };
 
-//add additional properties to the SerializedAXNode to create our AccessibilityNode
 type AccessibilityNode = SerializedAXNode & {
   compliance?: boolean; // Optional: Indicates compliance status
   complianceDetails?: string; // Optional: Additional details about compliance
 };
 
-//add additional properties to the AccessibilityNode to create our AccessibilityTree
-type AccessibilityTree = AccessibilityNode & {
-  role: 'RootWebArea';
-  skipLink?: boolean; // flag for if tree contains a skipLink
-  h1?: boolean; // flag for if tree contains one unique h1 (placed above main content)
-};
-function MainContainer() {
-  const [tree, setTree] = useState<AccessibilityTree | null>(null);
+function Element(node: AccessibilityNode) {
   return (
-    <>
-      <h2>Accessability Tree Checker</h2>
-      <URLInputForm setTree={setTree} />
-    </>
+    <li>
+      <span>{`role : ${node.name}`}</span>
+      <span>{`name: ${node.name}`}</span>
+      <span>{`compliance issue ${node.complianceDetails}`}</span>
+    </li>
   );
 }
 
-export default MainContainer;
+export default Element;

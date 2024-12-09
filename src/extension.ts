@@ -353,7 +353,7 @@ function openTab(context: vscode.ExtensionContext) {
         }
       }
 
-      if (message.command === 'fetchTree') {
+      if (message.command === 'parseTree') {
         if (message.url) {
           await a11yTreeCommands.handleFetchTree(panel, context, message.url);
         } else {

@@ -17,3 +17,21 @@
   margin-top: 20px;
   color: red;
 }
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(-15deg);
+  }
+  50% {
+    transform: rotate(15deg);
+  }
+}
+
+.wiggle-emoji {
+  margin: 1.1em;
+  display: inline-block;
+  animation: wiggle 0.5s ease-in-out infinite;
+  height: auto;
+  font-size: 26px;
+}

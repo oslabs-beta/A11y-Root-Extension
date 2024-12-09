@@ -1,6 +1,5 @@
 import React from 'react';
-
-const vscode = acquireVsCodeApi();
+import { postMessage } from '../helpers/vscodeHelper';
 
 interface LoginButtonProps {
   isLoggedIn: boolean;
@@ -10,10 +9,9 @@ interface LoginButtonProps {
 function LoginButton({ isLoggedIn, setIsLoggedIn }: LoginButtonProps) {
   const handleClick = () => {
     //postmessage command Oauth
-    vscode.postMessage({ command: 'beginOAuth' });
+    postMessage({ command: 'beginOAuth' });
     // //assuming that goes according to plan,
     // setIsLoggedIn(true);
-
     // //if it doesn't go well, don't change login state, error message here
   };
   return (

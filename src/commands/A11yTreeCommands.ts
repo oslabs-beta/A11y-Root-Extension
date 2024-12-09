@@ -51,12 +51,16 @@ type AccessibilityTree = AccessibilityNode & {
   h1?: boolean; // flag for if tree contains one unique h1 (placed above main content)
 };
 
+const outputChannel = vscode.window.createOutputChannel('a11yTreeCommands');
+
 const a11yTreeCommands: A11yTreeCommands = {
   async handleFetchTree(
     panel: vscode.WebviewPanel,
     context: vscode.ExtensionContext,
     url: string
   ) {
+    outputChannel.appendLine(`url passed to a11yTreeCommands${url}`);
+    outputChannel.show();
     try {
       vscode.window.showInformationMessage(
         `Fetching accessibility data for: ${url}`
@@ -83,7 +87,7 @@ const a11yTreeCommands: A11yTreeCommands = {
       guidelineCreator(a11yTree);
 
       // Accessibility results saved: /Users/ianbuchanan/Codesmith/A11y-Root-Extension/results/a11y-tree.json
-      const projectDirectoryName = await getUserSelectedProjectDirectoryName();
+      //const projectDirectoryName = await getUserSelectedProjectDirectoryName();
 
       // Save results
       const outputFolder = path.join(context.extensionPath, 'results');
@@ -107,18 +111,19 @@ const a11yTreeCommands: A11yTreeCommands = {
 
       // Send results back to the webview
 
-      const result = {
-        url: url,
-        pageRole: '',
-        pageName: '',
-        tree: a11yTree,
-        skipLink: false,
-        h1: false,
-      };
+      // const result = {
+      //   url: url,
+      //   pageRole: '',
+      //   pageName: '',
+      //   tree: a11yTree,
+      //   skipLink: false,
+      //   h1: false,
+      // };
 
       panel.webview.postMessage({
-        command: 'result',
-        message: `Results saved to:\n- ${treeResultPath} Project root dir ${projectDirectoryName}`,
+        command: 'parseTreeResult',
+        success: true,
+        message: a11yTree,
       });
 
       vscode.window.showInformationMessage(
@@ -200,7 +205,7 @@ function checkNode(node: AccessibilityNode) {
     case 'link':
       if (testLink(node)) {
         node.compliance = true;
-        node.complianceDetails = 'link must contain meaningful context';
+        node.complianceDetails = 'link text must provide meaningful context';
       }
     case 'button':
       node.compliance = node.name ? true : false;
@@ -231,7 +236,7 @@ function checkNode(node: AccessibilityNode) {
 const skipLinkRegex =
   /^#.*(skip|main|content|primary|main-content|page-content|primary-content|body-content|wrapper|container|app-content|app|site-content).*/;
 const nonSemanticRegex =
-  /\b(click here|here|more details|more info|more|details|read more|learn more|go here|this link|link)\b/i;
+  /\b(click here|here|more details|details|info|more info|more|details|read more|learn more|go here|this link|link)\b/i;
 // const text = link.innerText.trim().toLowerCase();
 // nonSemanticRegex.test(link.text);
 
