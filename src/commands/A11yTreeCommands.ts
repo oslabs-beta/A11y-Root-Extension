@@ -2,12 +2,16 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as puppeteer from 'puppeteer';
+import axios from 'axios';
+import { User } from '../webview/types';
+import { json } from 'stream/consumers';
 
 type A11yTreeCommands = {
   handleFetchTree: (
     panel: vscode.WebviewPanel,
     context: vscode.ExtensionContext,
-    url: string
+    url: string,
+    user: User
   ) => Promise<void>;
 };
 
@@ -61,7 +65,8 @@ const a11yTreeCommands: A11yTreeCommands = {
   async handleFetchTree(
     panel: vscode.WebviewPanel,
     context: vscode.ExtensionContext,
-    url: string
+    url: string,
+    user: User
   ) {
     outputChannel.appendLine(`url passed to a11yTreeCommands${url}`);
     outputChannel.show();
@@ -73,7 +78,10 @@ const a11yTreeCommands: A11yTreeCommands = {
       //const pageName = path.basename(url);
 
       // Launch Puppeteer and open the page
-      const browser = await puppeteer.launch();
+      const browser = await puppeteer.launch({
+        headless: true, // Runs in headless mode
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      });
       const page = await browser.newPage();
       await page.goto(url);
 
@@ -185,6 +193,35 @@ const a11yTreeCommands: A11yTreeCommands = {
       //     required: [true, 'A tabIndex must be present'],
       //   },
       // });
+
+      //look at user's directory.
+      //if project with that directory name already exists, create a page using the a11ytree and attach to it.
+      //if the project does not exist, we must 1.) create project, 2.) attach project to user, 3.) create a page using the a11ytree and attach to it.
+
+      const myNewPage = {
+        url: 'hi',
+        tree: 'hi',
+        skipLink: 'hi',
+        h1: 'hi',
+        tabIndex: ['hi', 'hello'],
+      };
+
+      const resultDB = {
+        url: result.url.toString(),
+        tree: JSON.stringify(result.tree),
+        skipLink: JSON.stringify(result.skipLink),
+        h1: JSON.stringify(result.h1),
+        tabIndex: result.tabIndex.map((node) => {
+          return JSON.stringify(node);
+        }),
+      };
+
+      const projectName = await getUserSelectedProjectDirectoryName();
+      const response = await axios.post('http:localhost:3333/pages', {
+        userGithubId: user.githubId,
+        projectName,
+        newPage: resultDB,
+      });
 
       panel.webview.postMessage({
         command: 'parseTreeResult',

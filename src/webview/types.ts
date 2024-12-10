@@ -1,4 +1,5 @@
 import DisplayA11yTree from './components/DisplayA11yTree';
+import { Types } from 'mongoose';
 
 export type SerializedAXNode = {
   role: string; // The role of the node
@@ -48,6 +49,19 @@ export type PageResults = {
   tabIndex: TabIndexEntry[]; // List of tab index entries
 };
 
+export interface User {
+  githubId: string; // Required and unique
+  username: string; // Required
+  profileUrl?: string; // Optional
+  avatarUrl?: string; // Optional
+  projects?: Types.ObjectId[]; // References to Project documents
+}
+
+export interface EventData {
+  command: string;
+  message: User;
+}
+
 export interface DisplayA11yTreeProps {
   pageResults: PageResults | null;
   activeTab: string;
@@ -72,4 +86,10 @@ export interface ElementProps {
 
 export interface URLInputFormProps {
   setPageResults: (pageResults: PageResults) => void;
+  user: User
 }
+
+export interface MainContainerProps {
+  user: User
+}
+

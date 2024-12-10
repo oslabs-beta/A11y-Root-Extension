@@ -4,20 +4,8 @@ import HeaderContainer from './containers/HeaderContainer';
 import MainContainer from './containers/MainContainer';
 import { Types } from 'mongoose';
 import { postMessage } from './helpers/vscodeHelper';
+import {User, EventData} from './types'
 //import * as vscode from 'vscode';
-
-interface User {
-  githubId: string; // Required and unique
-  username: string; // Required
-  profileUrl?: string; // Optional
-  avatarUrl?: string; // Optional
-  projects?: Types.ObjectId[]; // References to Project documents
-}
-
-interface EventData {
-  command: string;
-  message: User;
-}
 
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -53,7 +41,7 @@ const App: React.FC = () => {
 
   return (
     // header container that has login/logout and or session status such as username
-    //
+    //if we are logged in and have user details, display the main container.
     <div>
       <h1>A11y Root Webview</h1>
       <p>Welcome to the A11y Root VS Code extension!</p>
@@ -61,7 +49,7 @@ const App: React.FC = () => {
         user={user}
         isLoggedIn={isLoggedIn}
       />
-      <MainContainer />
+      {(isLoggedIn && user) ? (<MainContainer user={user}/>): <></>}
     </div>
   );
 };

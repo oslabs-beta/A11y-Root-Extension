@@ -2,7 +2,11 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const pageSchema = new Schema({
-  projectId: { type: Schema.Types.ObjectId, ref: 'Project' },
+  projectId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Project',
+    required: [true, 'Must have projectId!'],
+  },
   url: { type: String, required: true },
   tree: { type: String, required: true },
   skipLink: { type: String, required: [true, 'A skip link must be present'] },

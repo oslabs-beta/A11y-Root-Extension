@@ -3,7 +3,7 @@ import { postMessage } from '../helpers/vscodeHelper';
 
 import { URLInputFormProps } from '../types';
 
-function URLInputForm({ setPageResults }: URLInputFormProps) {
+function URLInputForm({ setPageResults, user }: URLInputFormProps) {
   const [url, setUrl] = useState<string>('http://localhost:8080/');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -24,7 +24,7 @@ function URLInputForm({ setPageResults }: URLInputFormProps) {
       console.log(`Submitting URL: ${url}`);
 
       // Post the message to the VS Code extension
-      postMessage({ command: 'parseTree', url });
+      postMessage({ command: 'parseTree', url, user });
     } catch (err) {
       setError('Please enter a valid URL.');
       console.error('URL validation error:', err);
@@ -50,9 +50,9 @@ function URLInputForm({ setPageResults }: URLInputFormProps) {
     };
 
     window.addEventListener('message', messageHandler);
-    // return () => {
-    //   window.removeEventListener('message', messageHandler);
-    // };
+    return () => {
+      window.removeEventListener('message', messageHandler);
+    };
   }, []);
 
   return (
