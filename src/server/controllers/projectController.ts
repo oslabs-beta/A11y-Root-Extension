@@ -41,7 +41,7 @@ ProjectController.postProject = async (req, res, next) => {
     const updatedDate = new Date();
     const project = await ProjectModel.findOneAndUpdate(
       {
-        userGithubId: req.body.userGithudId,
+        userGithubId: req.body.userGithubId,
         projectName: req.body.projectName,
       },
       { $set: { updatedAt: updatedDate } },
@@ -60,12 +60,12 @@ ProjectController.postProject = async (req, res, next) => {
 
 ProjectController.updateProject = async (req, res, next) => {
   const pageId = res.locals.page._id;
-  if (req.body.projectName && req.body.projectId) {
+  if (req.body.projectName && res.locals.project._id) {
     //update the projectName of the given projectId
     const date = new Date();
 
     ProjectModel.findOneAndUpdate(
-      { _id: req.body.projectId },
+      { _id: res.locals.project._id },
       { $addToSet: { pages: pageId } },
       { new: true }
     )

@@ -12,40 +12,39 @@ PageController.getPage = async (req, res, next) => {
         return res.status(404).send('No page found.');
       }
 
-		res.locals.page = page;
-		return next();
-	})
-	.catch((error) => {
-		return next({
-			log: `Error in PageController.getPage: ${error}`,
-			message: {err: 'An error occurred retrieving the page.'},
-			status: 500
-	});
-	});
+      res.locals.page = page;
+      return next();
+    })
+    .catch((error) => {
+      return next({
+        log: `Error in PageController.getPage: ${error}`,
+        message: { err: 'An error occurred retrieving the page.' },
+        status: 500,
+      });
+    });
 };
 
 PageController.postPage = async (req, res, next) => {
-	const { url, tree, skipLink, h1, tabIndex } = req.body.newPage;
-	const projectId = res.locals.project._id;
+  const { url, tree, skipLink, h1, tabIndex } = req.body.newPage;
+  const projectId = res.locals.project._id;
 
-	try {
-		const page = await PageModel.findOneAndUpdate(
-			{ _id: projectId, url: url },
-			{ $set: {tree, skipLink, h1, tabIndex} } ,
-			{ new: true, upsert: true },
-		);
+  try {
+    const page = await PageModel.findOneAndUpdate(
+      { projectId, url: url },
+      { $set: { tree, skipLink, h1, tabIndex } },
+      { new: true, upsert: true }
+    );
 
-         res.locals.page = page;
-        return next();
-	} catch(error) {
-		return next({
-			log: `Error in PageController.postPage: missing required data in request body: ${error}`,
-			message: { err: 'Missing data to update existing page.'},
-			status: 400
-		});
-	}
+    res.locals.page = page;
+    return next();
+  } catch (error) {
+    return next({
+      log: `Error in PageController.postPage: missing required data in request body: ${error}`,
+      message: { err: 'Missing data to update existing page.' },
+      status: 400,
+    });
+  }
 };
-
 
 PageController.deletePage = async (req, res, next) => {
   const pageId = req.params.pageId;
@@ -56,16 +55,16 @@ PageController.deletePage = async (req, res, next) => {
         return res.status(404).send('No page found.');
       }
 
-		res.locals.page = page;
-		return next();
-	})
-	.catch((err) => {
-		return next({
-			log: `Error in PageController.deletePage: ERROR: ${err}`,
-			message: { err: 'An error occurred while trying to delete the page.' },
-			status: 500
-		});
-	});
+      res.locals.page = page;
+      return next();
+    })
+    .catch((err) => {
+      return next({
+        log: `Error in PageController.deletePage: ERROR: ${err}`,
+        message: { err: 'An error occurred while trying to delete the page.' },
+        status: 500,
+      });
+    });
 };
 
 export default PageController;

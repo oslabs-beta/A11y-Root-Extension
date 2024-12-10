@@ -4,6 +4,7 @@ import * as path from 'path';
 import * as puppeteer from 'puppeteer';
 import axios from 'axios';
 import { User } from '../webview/types';
+import { json } from 'stream/consumers';
 
 type A11yTreeCommands = {
   handleFetchTree: (
@@ -193,17 +194,6 @@ const a11yTreeCommands: A11yTreeCommands = {
       //   },
       // });
 
-      // Send results back to the webview
-
-      // const result = {
-      //   url: url,
-      //   pageRole: '',
-      //   pageName: '',
-      //   tree: a11yTree,
-      //   skipLink: false,
-      //   h1: false,
-      // };
-
       //look at user's directory.
       //if project with that directory name already exists, create a page using the a11ytree and attach to it.
       //if the project does not exist, we must 1.) create project, 2.) attach project to user, 3.) create a page using the a11ytree and attach to it.
@@ -216,11 +206,21 @@ const a11yTreeCommands: A11yTreeCommands = {
         tabIndex: ['hi', 'hello'],
       };
 
+      const resultDB = {
+        url: result.url.toString(),
+        tree: JSON.stringify(result.tree),
+        skipLink: JSON.stringify(result.skipLink),
+        h1: JSON.stringify(result.h1),
+        tabIndex: result.tabIndex.map((node) => {
+          return JSON.stringify(node);
+        }),
+      };
+
       const projectName = await getUserSelectedProjectDirectoryName();
       const response = await axios.post('http:localhost:3333/pages', {
         userGithubId: user.githubId,
         projectName,
-        newPage: myNewPage,
+        newPage: resultDB,
       });
 
       panel.webview.postMessage({

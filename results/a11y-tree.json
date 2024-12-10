@@ -6,7 +6,7 @@
     "children": [
       {
         "role": "link",
-        "name": "skip link test",
+        "name": "skip link test!!!!!!!!!",
         "compliance": true,
         "complianceDetails": ""
       },
@@ -32,8 +32,8 @@
         "role": "heading",
         "name": "Build fast, responsive sites with Bootstrap",
         "level": 1,
-        "compliance": false,
-        "complianceDetails": "Only one h1 per page"
+        "compliance": true,
+        "complianceDetails": ""
       },
       {
         "role": "StaticText",
@@ -1085,13 +1085,13 @@
     "role": "heading",
     "name": "Build fast, responsive sites with Bootstrap",
     "level": 1,
-    "compliance": false,
-    "complianceDetails": "Only one h1 per page"
+    "compliance": true,
+    "complianceDetails": ""
   },
   "tabIndex": [
     {
       "role": "link",
-      "name": "skip link test",
+      "name": "skip link test!!!!!!!!!",
       "focused": true,
       "compliance": true,
       "complianceDetails": ""
