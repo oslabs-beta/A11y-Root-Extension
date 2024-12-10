@@ -32,34 +32,41 @@ ProjectController.postProject = async (req, res, next) => {
     });
   }
 
-  const newProject = {
-    userGithubId: req.body.userGithubId,
-    projectName: req.body.projectName,
-    pages: [],
-  };
-
-  ProjectModel.create(newProject)
-    .then((project) => {
-      res.locals.project = project;
-      return next();
-    })
-    .catch((error) => {
-      return next({
-        log: `Error in ProjectController.postProject: ${error}`,
-        merssage: { err: 'An error occurred creating new project.' },
-        status: 500,
-      });
+  // const newProject = {
+  //   userGithubId: req.body.userGithubId,
+  //   projectName: req.body.projectName,
+  //   pages: [],
+  // };
+  try {
+    const updatedDate = new Date();
+    const project = await ProjectModel.findOneAndUpdate(
+      {
+        userGithubId: req.body.userGithudId,
+        projectName: req.body.projectName,
+      },
+      { $set: { updatedAt: updatedDate } },
+      { new: true, upsert: true }
+    );
+    res.locals.project = project;
+    return next();
+  } catch (error) {
+    return next({
+      log: `Error in ProjectController.postProject: ${error}`,
+      merssage: { err: 'An error occurred creating new project.' },
+      status: 500,
     });
+  }
 };
 
 ProjectController.updateProject = async (req, res, next) => {
+  const pageId = res.locals.page._id;
   if (req.body.projectName && req.body.projectId) {
     //update the projectName of the given projectId
     const date = new Date();
 
     ProjectModel.findOneAndUpdate(
       { _id: req.body.projectId },
-      { $set: { projectName: req.body.projectName, updatedAt: date } },
+      { $addToSet: { pages: pageId } },
       { new: true }
     )
       .then((project) => {

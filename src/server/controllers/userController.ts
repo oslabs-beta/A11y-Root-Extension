@@ -57,18 +57,19 @@ UserController.postUser = async (req, res, next) => {
 					message: { err: 'An error occurred creating new User.' },
 					status: 500
 				});
-			})
-}
+			});
+};
 
 //need to test once projectRoute is complete, since we need a valid project object ID in order to update user.projects
 UserController.updateUser = async (req, res, next) => {
-	const { githubId, projectId } = req.body;
+	const githubId = req.body.userGithubId;
+	const projectId = res.locals.project._id;
 
 	try {
 		const user = await UserModel.findOneAndUpdate(
 			{githubId},
-			{$push: {projects: projectId}},
-      {new: true}
+			{$addToSet: {projects: projectId}},
+      		{new: true}
 		);
 
 		if (user) {
@@ -79,17 +80,17 @@ UserController.updateUser = async (req, res, next) => {
 				log: `user not found`,
 				message: `user not found in UserController.updateUser`,
 				status: 400
-			})
+			});
 		}
 	} catch(error) {
 		const err = {
 			log: `Express error handler caught error in updateUser middleware` + error,
 			message: { err: 'An error occurred while updating the user.'},
 			status: 500
-		}
+		};
 		return next(err);
 	}
-}
+};
 
 UserController.deleteUser = async (req, res, next) => {  // req: Request, res: Response, next: NextFunction
   const githubId = req.params.githubId;

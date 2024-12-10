@@ -127,10 +127,20 @@ const a11yTreeCommands: A11yTreeCommands = {
       //look at user's directory.
       //if project with that directory name already exists, create a page using the a11ytree and attach to it.
       //if the project does not exist, we must 1.) create project, 2.) attach project to user, 3.) create a page using the a11ytree and attach to it.
+
+      const myNewPage = {
+        url: 'hi',
+        tree: 'hi',
+        skipLink: 'hi',
+        h1: 'hi',
+        tabIndex: ['hi', 'hello']
+      };
+
       const projectName = await getUserSelectedProjectDirectoryName();
-      const response = await axios.post('http:localhost:3333/projects', {
+      const response = await axios.post('http:localhost:3333/pages', {
         userGithubId: user.githubId,
-        projectName
+        projectName,
+        newPage: myNewPage
       });
 
       panel.webview.postMessage({

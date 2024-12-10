@@ -25,7 +25,8 @@ PageController.getPage = async (req, res, next) => {
 };
 
 PageController.postPage = async (req, res, next) => {
-	const { projectId, url, tree, skipLink, h1, tabIndex } = req.body;
+	const { url, tree, skipLink, h1, tabIndex } = req.body.newPage;
+	const projectId = res.locals.project._id;
 
 	try {
 		const page = await PageModel.findOneAndUpdate(
