@@ -3,7 +3,7 @@ import { DisplayElementsProps } from '../types';
 
 function DisplayElements({ title, children, aside }: DisplayElementsProps) {
   return (
-    <section className='branch'>
+    <section className=''>
       <h2>{title}</h2>
       <aside>{aside}</aside>
       <ul>{children}</ul>

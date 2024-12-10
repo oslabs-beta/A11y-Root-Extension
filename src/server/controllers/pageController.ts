@@ -4,13 +4,13 @@ import { pageController } from '../type';
 const PageController = {} as pageController;
 
 PageController.getPage = async (req, res, next) => {
-	const pageId = req.params.pageId;
+  const pageId = req.params.pageId;
 
-	PageModel.find({_id: pageId})
-	.then((page) => {
-		if(!page.length) {
-			return res.status(404).send('No page found.');
-		}
+  PageModel.find({ _id: pageId })
+    .then((page) => {
+      if (!page.length) {
+        return res.status(404).send('No page found.');
+      }
 
 		res.locals.page = page;
 		return next();
@@ -48,13 +48,13 @@ PageController.postPage = async (req, res, next) => {
 
 
 PageController.deletePage = async (req, res, next) => {
-	const pageId = req.params.pageId;
+  const pageId = req.params.pageId;
 
-	PageModel.findOneAndDelete({ _id: pageId })
-	.then((page) => {
-		if (page === null) {
-			return res.status(404).send('No page found.');
-		}
+  PageModel.findOneAndDelete({ _id: pageId })
+    .then((page) => {
+      if (page === null) {
+        return res.status(404).send('No page found.');
+      }
 
 		res.locals.page = page;
 		return next();
