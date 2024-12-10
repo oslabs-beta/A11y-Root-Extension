@@ -3,8 +3,8 @@ import { postMessage } from '../helpers/vscodeHelper';
 
 import { URLInputFormProps } from '../types';
 
-function URLInputForm({ setA11yTree }: URLInputFormProps) {
-  const [url, setUrl] = useState<string>('https://excalidraw.com/');
+function URLInputForm({ setPageResults }: URLInputFormProps) {
+  const [url, setUrl] = useState<string>('http://localhost:8080/');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -39,7 +39,8 @@ function URLInputForm({ setA11yTree }: URLInputFormProps) {
 
       if (command === 'parseTreeResult') {
         if (success) {
-          setA11yTree(message);
+          setPageResults(message);
+
           console.log('Tree parsed successfully:', message);
           setError(null);
         } else {

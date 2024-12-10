@@ -4,11 +4,10 @@ import {
   DisplayA11yTreeProps,
   AccessibilityNode,
   AccessibilityTree,
+  TabIndexEntry,
 } from '../types';
 import {
-  //   h1Aside,
   headerAside,
-  //   skipLinkFound,
   skipLinkAside,
   linksAside,
   treeAside,
@@ -18,19 +17,31 @@ import {
 import { nanoid } from 'nanoid';
 import DisplayElements from '../containers/DisplayElements';
 
-function DisplayA11yTree({ a11yTree, activeTab }: DisplayA11yTreeProps) {
+function DisplayA11yTree({ pageResults, activeTab }: DisplayA11yTreeProps) {
   //const skipLink = tree.skipLink;
   //const h1 = tree.h1;
   //handle addToPriorities here?
   const [elements, setElements] = useState<React.ReactElement[]>([]);
   const [links, setLinks] = useState<React.ReactElement[]>([]);
   const [headings, setHeadings] = useState<React.ReactElement[]>([]);
+  const [tabIndex, setTabIndex] = useState<React.ReactElement[]>([]);
+  const [nonContextualLinks, setNonContextualLinks] = useState<
+    React.ReactElement[]
+  >([]);
+  const [skipLink, setSkipLink] = useState<React.ReactElement | null>(
+    pageResults && pageResults.skipLink ? (
+      <Element node={pageResults.skipLink} />
+    ) : null
+  );
 
   function setNode(node: AccessibilityNode) {
     setElements((prev) => [...prev, <Element node={node} />]);
     switch (node.role) {
       case 'link':
         setLinks((prev) => [...prev, <Element node={node} />]);
+        if (!node.compliance) {
+          setNonContextualLinks((prev) => [...prev, <Element node={node} />]);
+        }
         break;
       case 'button':
         break;
@@ -56,40 +67,35 @@ function DisplayA11yTree({ a11yTree, activeTab }: DisplayA11yTreeProps) {
     }
   }
 
+  // would be nice if tabIndex elements were regular a11y nodes
+
+  function buildTabIndexElements(tabIndex: AccessibilityNode[]) {
+    return tabIndex.map((node) => {
+      return <Element node={node} />;
+    });
+  }
+
   useEffect(() => {
-    if (a11yTree) {
+    if (pageResults) {
       setLinks([]); // Clear links
       setElements([]); // Clear elements
-      treeCrawl(a11yTree);
+      setHeadings([]);
+      if (pageResults.tree) {
+        treeCrawl(pageResults.tree);
+      }
+
+      if (pageResults.skipLink) {
+        const skipLinkElement = <Element node={pageResults.skipLink} />;
+        setSkipLink(skipLinkElement);
+      }
+
+      setTabIndex(buildTabIndexElements(pageResults.tabIndex));
     }
-  }, [a11yTree]);
+  }, [pageResults]);
 
   //   const nonSemanticLinks = tree.nonSemanticLinks.map(({ text, link }) => {
   //     return <Link text={text} link={link} key={nanoid()} />;
   //   });
-
-  //   const tabElements = tree.tabIndex.map(({ role, name, level, rating }) => {
-  //     return (
-  //       <Element
-  //         role={role}
-  //         name={name}
-  //         level={level}
-  //         rating={rating}
-  //         key={nanoid()}
-  //       />
-  //     );
-  //   });
-
-  //   const h1Aside =
-  //     h1 === false ? (
-  //       <p>
-  //         <span className='bad'>No h1 found! </span>The h1 tag is the main heading
-  //         or title of a page, and it should match the page's title closely. This
-  //         helps screen reader users understand what the page is about.
-  //       </p>
-  //     ) : (
-  //       ''
-  //     );
 
   //   const skipLinkFound = skipLink.text.length ? (
   //     <Link text={skipLink.text} link={skipLink.link} />
@@ -99,14 +105,13 @@ function DisplayA11yTree({ a11yTree, activeTab }: DisplayA11yTreeProps) {
 
   return (
     <section id='tree'>
-      <h2>Tree info...</h2>
       {activeTab === 'Full Tree' && (
         <DisplayElements key={nanoid()} aside={treeAside} title={'Full Tree'}>
           {elements}
         </DisplayElements>
       )}
       {activeTab === 'Headers' && (
-        <DisplayElements key={nanoid()} aside={linksAside} title={'Headers'}>
+        <DisplayElements key={nanoid()} aside={headerAside} title={'Headers'}>
           {headings}
         </DisplayElements>
       )}
@@ -116,8 +121,41 @@ function DisplayA11yTree({ a11yTree, activeTab }: DisplayA11yTreeProps) {
           {links}
         </DisplayElements>
       )}
+      {activeTab === 'Tab Index' && (
+        <DisplayElements
+          key={nanoid()}
+          aside={tabIndexAside}
+          title={'Tab Index'}
+        >
+          {tabIndex}
+        </DisplayElements>
+      )}
+      {activeTab === 'Non Contextual Links' && (
+        <DisplayElements
+          key={nanoid()}
+          aside={tabIndexAside}
+          title={'Non Contextual Links'}
+        >
+          {nonContextualLinks}
+        </DisplayElements>
+      )}
+      {activeTab === 'Skip Link' && (
+        <DisplayElements
+          key={nanoid()}
+          aside={skipLinkAside}
+          title={'Non Contextual Links'}
+        >
+          {skipLink ? (
+            skipLink
+          ) : (
+            <Element node={{ name: 'N/A', role: 'link' }} />
+          )}
+        </DisplayElements>
+      )}
     </section>
   );
 }
+
+//NonContextualLinks
 
 export default DisplayA11yTree;

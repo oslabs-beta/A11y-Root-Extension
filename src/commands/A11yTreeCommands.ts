@@ -51,6 +51,10 @@ type AccessibilityTree = AccessibilityNode & {
   h1?: boolean; // flag for if tree contains one unique h1 (placed above main content)
 };
 
+interface Compliance {
+  h1: AccessibilityNode | null;
+}
+
 const outputChannel = vscode.window.createOutputChannel('a11yTreeCommands');
 
 const a11yTreeCommands: A11yTreeCommands = {
@@ -73,6 +77,63 @@ const a11yTreeCommands: A11yTreeCommands = {
       const page = await browser.newPage();
       await page.goto(url);
 
+      // get skip link from list of links?!!!!!!
+
+      async function findFocusedNode(
+        node: AccessibilityNode
+      ): Promise<AccessibilityNode | undefined> {
+        if (node.focused) {
+          return node;
+        }
+
+        for (const child of node.children || []) {
+          const focusedNode = await findFocusedNode(child);
+          if (focusedNode) {
+            return focusedNode;
+          }
+        }
+
+        return undefined;
+      }
+
+      let linkCount = 0;
+      let skipLink: AccessibilityNode | undefined;
+
+      async function getTabIndex(page: any): Promise<AccessibilityNode[]> {
+        let snap: AccessibilityNode | null =
+          await page.accessibility.snapshot();
+        const tabIndex: AccessibilityNode[] = [];
+
+        while (snap) {
+          await page.keyboard.press('Tab');
+          snap = await page.accessibility.snapshot();
+
+          if (!snap) {
+            break; // Ensure snap is not null before proceeding
+          }
+
+          const focusedNode = await findFocusedNode(snap);
+          if (!focusedNode) {
+            break;
+          }
+
+          if ((focusedNode.role = 'link') && linkCount < 3) {
+            if (testForSkipLink(focusedNode)) {
+              skipLink = focusedNode;
+            }
+            linkCount++;
+          }
+          // janky, but need to pass node to add compliances;
+          checkNode(focusedNode, { h1: null });
+
+          tabIndex.push(focusedNode);
+        }
+
+        return tabIndex;
+      }
+
+      const tabIndex = await getTabIndex(page);
+
       // Generate Puppeteer accessibility tree snapshot and cast it to our custom AccessibilityTree type
       const a11yTree =
         (await page.accessibility.snapshot()) as AccessibilityTree | null;
@@ -84,46 +145,51 @@ const a11yTreeCommands: A11yTreeCommands = {
       await browser.close();
 
       // pass to guideline creator function
-      guidelineCreator(a11yTree);
+      // need to find a better way to get h1 compliance
+      let compliance = { h1: null };
+      guidelineCreator(a11yTree, compliance);
 
       // Accessibility results saved: /Users/ianbuchanan/Codesmith/A11y-Root-Extension/results/a11y-tree.json
       //const projectDirectoryName = await getUserSelectedProjectDirectoryName();
+
+      const result = {
+        url: url,
+        tree: a11yTree,
+        skipLink: skipLink || null,
+        h1: compliance.h1,
+        tabIndex: tabIndex,
+      };
+
+      // tabIndex -> {} ?
 
       // Save results
       const outputFolder = path.join(context.extensionPath, 'results');
       fs.mkdirSync(outputFolder, { recursive: true });
 
       const treeResultPath = path.join(outputFolder, 'a11y-tree.json');
-      fs.writeFileSync(treeResultPath, JSON.stringify(a11yTree, null, 2));
+      fs.writeFileSync(treeResultPath, JSON.stringify(result, null, 2));
+
+      // Send results back to the webview
 
       // const pageSchema = new Schema({
       //   projectId: { type: Schema.Types.ObjectId, ref: 'Project' },
       //   url: { type: String, required: true },
-      //   pageRole: { type: String },
-      //   pageName: { type: String },
       //   tree: { type: String, required: true },
       //   skipLink: {
-      //     type: Boolean,
+      //     type: String,
       //     required: [true, 'A skip link must be present'],
       //   },
-      //   h1: { type: Boolean, required: [true, 'An h1 tag must be present'] },
+      //   h1: { type: String, required: [true, 'An h1 tag must be present'] },
+      //   tabIndex: {
+      //     type: [String],
+      //     required: [true, 'A tabIndex must be present'],
+      //   },
       // });
-
-      // Send results back to the webview
-
-      // const result = {
-      //   url: url,
-      //   pageRole: '',
-      //   pageName: '',
-      //   tree: a11yTree,
-      //   skipLink: false,
-      //   h1: false,
-      // };
 
       panel.webview.postMessage({
         command: 'parseTreeResult',
         success: true,
-        message: a11yTree,
+        message: result,
       });
 
       vscode.window.showInformationMessage(
@@ -170,7 +236,10 @@ export async function getUserSelectedProjectDirectoryName(): Promise<
   return selectedFolder;
 }
 
-function guidelineCreator(tree: AccessibilityTree): void {
+function guidelineCreator(
+  tree: AccessibilityTree,
+  compliance: Compliance
+): void {
   //tree.skipLink = //logic to determine true or false
   //tree.h1 = //logic to determine true or false
 
@@ -178,33 +247,38 @@ function guidelineCreator(tree: AccessibilityTree): void {
 
   // possibly pass in a issue object tracker
 
-  treeCrawl(tree);
+  treeCrawl(tree, compliance);
 
   //check for issues
 }
 
-function treeCrawl(node: AccessibilityTree | AccessibilityNode): void {
+function treeCrawl(
+  node: AccessibilityTree | AccessibilityNode,
+  compliance: Compliance
+): void {
   // if node has children array, loop through the children
+
   if (node.children && Array.isArray(node.children)) {
     for (const child of node.children) {
-      treeCrawl(child);
+      treeCrawl(child, compliance);
     }
   } else {
-    checkNode(node);
+    checkNode(node, compliance);
   }
 
   // if node add guideline properties (compliance: Boolean, complianceDetails: String)
   // add logic depending on what the role of the node is (eg. statictext, button, heading, etc.)
-  node.compliance = false;
-  node.complianceDetails = '';
 }
 
 //   // Add guideline properties based on node role
-function checkNode(node: AccessibilityNode) {
+
+function checkNode(node: AccessibilityNode, compliance: Compliance) {
+  node.compliance = true;
+  node.complianceDetails = '';
   switch (node.role) {
     case 'link':
       if (testLink(node)) {
-        node.compliance = true;
+        node.compliance = false;
         node.complianceDetails = 'link text must provide meaningful context';
       }
     case 'button':
@@ -215,39 +289,85 @@ function checkNode(node: AccessibilityNode) {
       break;
 
     case 'heading':
-      node.compliance = !!node.name;
-      node.complianceDetails = node.name
-        ? ''
-        : 'Heading is missing an accessible name.';
+      if (node.level === 1) {
+        compliance.h1 = node;
+      }
+      testHeadersAndUpdateCompliance(node);
       break;
 
-    case 'StaticText':
-      node.compliance = true; // Assuming static text is always compliant
-      node.complianceDetails = '';
-      break;
+    // case 'StaticText':
+    //   node.compliance = true; // Assuming static text is always compliant
+    //   node.complianceDetails = '';
+    //   break;
 
     default:
-      node.compliance = true;
-      node.complianceDetails = '';
+      // node.compliance = true;
+      // node.complianceDetails = '';
       break;
   }
 }
 
 const skipLinkRegex =
-  /^#.*(skip|main|content|primary|main-content|page-content|primary-content|body-content|wrapper|container|app-content|app|site-content).*/;
-const nonSemanticRegex =
-  /\b(click here|here|more details|details|info|more info|more|details|read more|learn more|go here|this link|link)\b/i;
+  /^#(skip(-?link)?|main(-?content)?|primary(-?content)?|page(-?content)?|body(-?content)?|wrapper|container|app(-?content)?|site(-?content)?)$/i;
+
+const nonContextualLinksRegex =
+  /\b(click|click here|here|details|info|more info|read more|learn more|go here|this link|check this|tap here|see here|go to link|link)\b/i;
+
 // const text = link.innerText.trim().toLowerCase();
 // nonSemanticRegex.test(link.text);
 
+function testForSkipLink(node: AccessibilityNode) {
+  const text = node.name?.trim().toLocaleLowerCase();
+  let isSkipLink = false;
+  if (text) {
+    isSkipLink = skipLinkRegex.test(text);
+  }
+  return isSkipLink;
+}
 function testLink(node: AccessibilityNode) {
   const text = node.name?.trim().toLocaleLowerCase();
   let isNotMeaningful = false;
   if (text) {
-    isNotMeaningful = nonSemanticRegex.test(text);
+    isNotMeaningful = nonContextualLinksRegex.test(text);
   }
   return isNotMeaningful;
 }
+
+let lastHeadingLevel = 0;
+let firstH1 = false;
+
+function testHeadersAndUpdateCompliance(node: AccessibilityNode) {
+  if (!node.name) {
+    node.compliance = false;
+    node.complianceDetails = 'Heading is missing an accessible name.';
+    return;
+  }
+  // Validate heading hierarchy
+  if (node.level !== undefined) {
+    if (node.level === 1) {
+      if (!firstH1) {
+        firstH1 = true;
+      } else {
+        node.compliance = false;
+        node.complianceDetails = 'Only one h1 per page';
+      }
+    } else if (lastHeadingLevel !== null && node.level > lastHeadingLevel + 1) {
+      node.compliance = false;
+      node.complianceDetails = `Improper heading hierarchy: ${
+        node.level > lastHeadingLevel
+          ? `Skipped from h${lastHeadingLevel} to h${node.level}.`
+          : `Heading level decreased unexpectedly to h${node.level}.`
+      }`;
+    } else {
+      // Update the last heading level if hierarchy is correct
+      lastHeadingLevel = node.level;
+    }
+  } else {
+    node.compliance = false;
+    node.complianceDetails = 'Heading level is missing.';
+  }
+}
+
 // The SerializedAXNode type represents nodes in an accessibility tree, and its role property defines the role of an element. These roles are based on the ARIA (Accessible Rich Internet Applications) roles and include native HTML roles as well as additional accessibility roles.
 
 // Categories of Roles in ARIA

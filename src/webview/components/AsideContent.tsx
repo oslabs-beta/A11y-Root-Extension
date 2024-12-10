@@ -4,7 +4,7 @@ const headerAside = (
   <p>
     <a
       href='https://www.w3.org/WAI/tutorials/page-structure/headings/'
-      className='good'
+      className=''
     >
       Header ranking
     </a>
@@ -13,11 +13,31 @@ const headerAside = (
   </p>
 );
 
+// const headerAside = (
+//   <section>
+//     <p>
+//       <span className='bad'>No h1 found! </span>The h1 tag is the main heading
+//       or title of a page, and it should match the page's title closely. This
+//       helps screen reader users understand what the page is about.
+//     </p>
+//     <p>
+//       <a
+//         href='https://www.w3.org/WAI/tutorials/page-structure/headings/'
+//         className='good'
+//       >
+//         Header ranking
+//       </a>
+//       , making sure that only one h1 is on a page and that the h1-h6 element
+//       hierarchy is semantic and not stylistically driven.
+//     </p>
+//   </section>
+// );
+
 const skipLinkAside = (
   <>
     <p>
       A{' '}
-      <a className='good' href='https://webaim.org/techniques/skipnav/'>
+      <a className='' href='https://webaim.org/techniques/skipnav/'>
         skip link
       </a>{' '}
       is an essential accessibility feature that allows users, especially those
@@ -36,7 +56,7 @@ const linksAside = (
   <p>
     Looking for{' '}
     <a
-      className='good'
+      className=''
       href='https://digital.accessibility.princeton.edu/how/content/links'
     >
       Meaningful
@@ -48,7 +68,7 @@ const treeAside = (
   <p>
     This is a breakdown of the meaningful elements found in the{' '}
     <a
-      className='good'
+      className=''
       href='https://developer.mozilla.org/en-US/docs/Glossary/Accessibility_tree'
     >
       Accessability Tree
@@ -60,7 +80,7 @@ const tabIndexAside = (
   <p>
     This is an ordered list of the{' '}
     <a
-      className='good'
+      className=''
       href='https://www.a11y-collective.com/blog/tabindex-accessibility/'
     >
       tabindex
@@ -72,7 +92,7 @@ const nonSemanticLinksAside = (
   <p>
     When a link has{' '}
     <a
-      className='good'
+      className=''
       href='https://stevenmouret.github.io/web-accessibility-guidelines/accessibility/links/empty-link.html#:~:text=Explanation,text%20link%20for%20each%20link.'
     >
       no text (empty link)
