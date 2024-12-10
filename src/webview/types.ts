@@ -40,14 +40,29 @@ export type AccessibilityTree = AccessibilityNode & {
   h1?: boolean; // flag for if tree contains one unique h1 (placed above main content)
 };
 
+export type PageResults = {
+  url: string; // The URL of the analyzed page
+  tree: AccessibilityTree | null; // The accessibility tree
+  skipLink: AccessibilityNode | null; // Information about skip links
+  h1: string; // Information about the main heading (h1)
+  tabIndex: TabIndexEntry[]; // List of tab index entries
+};
+
 export interface DisplayA11yTreeProps {
-  a11yTree: AccessibilityTree | null;
+  pageResults: PageResults | null;
   activeTab: string;
+}
+
+// Supporting interfaces
+
+export interface TabIndexEntry {
+  role: string;
+  name?: string;
 }
 
 export interface DisplayElementsProps {
   title: string;
-  children: React.ReactElement[];
+  children: React.ReactElement[] | React.ReactElement;
   aside: React.ReactElement;
 }
 
@@ -56,5 +71,5 @@ export interface ElementProps {
 }
 
 export interface URLInputFormProps {
-  setA11yTree: (a11yTree: AccessibilityTree) => void;
+  setPageResults: (pageResults: PageResults) => void;
 }

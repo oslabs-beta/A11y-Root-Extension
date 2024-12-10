@@ -36,8 +36,8 @@ const TabNavigation: React.FC<TabNavigationProps> = ({
         Links
       </button>
       <button
-        className={activeTab === 'Non Semantic Links' ? 'active' : ''}
-        onClick={() => handleTabChange('Non Semantic Links')}
+        className={activeTab === 'Non Contextual Links' ? 'active' : ''}
+        onClick={() => handleTabChange('Non Contextual Links')}
       >
         Non Semantic Links
       </button>
