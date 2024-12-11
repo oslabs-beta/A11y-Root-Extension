@@ -86,10 +86,9 @@ export interface ElementProps {
 
 export interface URLInputFormProps {
   setPageResults: (pageResults: PageResults) => void;
-  user: User
+  user: User;
 }
 
 export interface MainContainerProps {
-  user: User
+  user: User;
 }
-
