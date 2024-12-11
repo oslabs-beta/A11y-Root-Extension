@@ -6,9 +6,9 @@
     "children": [
       {
         "role": "link",
-        "name": "skip link test!!!!!!!!!",
-        "compliance": true,
-        "complianceDetails": ""
+        "name": "skip link",
+        "compliance": false,
+        "complianceDetails": " link text must provide meaningful context"
       },
       {
         "role": "link",
@@ -110,9 +110,9 @@
       {
         "role": "heading",
         "name": "Get started any way you want",
-        "level": 2,
+        "level": 1,
         "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h2."
+        "complianceDetails": "Only one h1 per page"
       },
       {
         "role": "StaticText",
@@ -131,7 +131,7 @@
         "name": "Install via package manager",
         "level": 3,
         "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h3."
+        "complianceDetails": "Improper heading hierarchy: Skipped from h1 to h3."
       },
       {
         "role": "StaticText",
@@ -180,7 +180,7 @@
         "name": "Include via CDN",
         "level": 3,
         "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h3."
+        "complianceDetails": "Improper heading hierarchy: Skipped from h1 to h3."
       },
       {
         "role": "StaticText",
@@ -253,7 +253,7 @@
         "name": "Read our getting started guides",
         "level": 4,
         "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h4."
+        "complianceDetails": "Improper heading hierarchy: Skipped from h1 to h4."
       },
       {
         "role": "StaticText",
@@ -283,8 +283,8 @@
         "role": "heading",
         "name": "Customize everything with Sass",
         "level": 2,
-        "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h2."
+        "compliance": true,
+        "complianceDetails": ""
       },
       {
         "role": "StaticText",
@@ -295,15 +295,15 @@
       {
         "role": "link",
         "name": "Learn more about customizing →",
-        "compliance": true,
-        "complianceDetails": ""
+        "compliance": false,
+        "complianceDetails": " link text must provide meaningful context"
       },
       {
         "role": "heading",
         "name": "Include all of Bootstrap’s Sass",
         "level": 3,
-        "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h3."
+        "compliance": true,
+        "complianceDetails": ""
       },
       {
         "role": "StaticText",
@@ -339,8 +339,8 @@
         "role": "heading",
         "name": "Include what you need",
         "level": 3,
-        "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h3."
+        "compliance": true,
+        "complianceDetails": ""
       },
       {
         "role": "StaticText",
@@ -376,8 +376,8 @@
         "role": "heading",
         "name": "Build and extend in real-time with CSS variabless",
         "level": 2,
-        "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h2."
+        "compliance": true,
+        "complianceDetails": ""
       },
       {
         "role": "StaticText",
@@ -400,15 +400,15 @@
       {
         "role": "link",
         "name": "Learn more about customizing →",
-        "compliance": true,
-        "complianceDetails": ""
+        "compliance": false,
+        "complianceDetails": " link text must provide meaningful context"
       },
       {
         "role": "heading",
         "name": "Using CSS variables",
         "level": 3,
-        "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h3."
+        "compliance": true,
+        "complianceDetails": ""
       },
       {
         "role": "StaticText",
@@ -438,8 +438,8 @@
         "role": "heading",
         "name": "Customizing via CSS variables",
         "level": 3,
-        "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h3."
+        "compliance": true,
+        "complianceDetails": ""
       },
       {
         "role": "StaticText",
@@ -457,8 +457,8 @@
         "role": "heading",
         "name": "Components, meet the Utility API",
         "level": 2,
-        "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h2."
+        "compliance": true,
+        "complianceDetails": ""
       },
       {
         "role": "StaticText",
@@ -488,8 +488,8 @@
         "role": "heading",
         "name": "Quickly customize components",
         "level": 3,
-        "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h3."
+        "compliance": true,
+        "complianceDetails": ""
       },
       {
         "role": "StaticText",
@@ -549,8 +549,8 @@
         "role": "heading",
         "name": "Create and extend utilities",
         "level": 3,
-        "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h3."
+        "compliance": true,
+        "complianceDetails": ""
       },
       {
         "role": "StaticText",
@@ -574,8 +574,8 @@
         "role": "heading",
         "name": "Powerful JavaScript plugins without jQuery",
         "level": 2,
-        "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h2."
+        "compliance": true,
+        "complianceDetails": ""
       },
       {
         "role": "StaticText",
@@ -598,15 +598,15 @@
       {
         "role": "link",
         "name": "Learn more about Bootstrap JavaScript →",
-        "compliance": true,
-        "complianceDetails": ""
+        "compliance": false,
+        "complianceDetails": " link text must provide meaningful context"
       },
       {
         "role": "heading",
         "name": "Data attribute API",
         "level": 3,
-        "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h3."
+        "compliance": true,
+        "complianceDetails": ""
       },
       {
         "role": "StaticText",
@@ -660,8 +660,8 @@
         "role": "heading",
         "name": "Comprehensive set of plugins",
         "level": 3,
-        "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h3."
+        "compliance": true,
+        "complianceDetails": ""
       },
       {
         "role": "StaticText",
@@ -674,7 +674,7 @@
         "name": "Alert",
         "level": 5,
         "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h5."
+        "complianceDetails": "Improper heading hierarchy: Skipped from h3 to h5."
       },
       {
         "role": "StaticText",
@@ -687,7 +687,7 @@
         "name": "Carousel",
         "level": 5,
         "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h5."
+        "complianceDetails": "Improper heading hierarchy: Skipped from h3 to h5."
       },
       {
         "role": "StaticText",
@@ -700,7 +700,7 @@
         "name": "Dropdown",
         "level": 5,
         "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h5."
+        "complianceDetails": "Improper heading hierarchy: Skipped from h3 to h5."
       },
       {
         "role": "StaticText",
@@ -713,7 +713,7 @@
         "name": "Offcanvas",
         "level": 5,
         "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h5."
+        "complianceDetails": "Improper heading hierarchy: Skipped from h3 to h5."
       },
       {
         "role": "StaticText",
@@ -726,7 +726,7 @@
         "name": "Scrollspy",
         "level": 5,
         "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h5."
+        "complianceDetails": "Improper heading hierarchy: Skipped from h3 to h5."
       },
       {
         "role": "StaticText",
@@ -739,7 +739,7 @@
         "name": "Toast",
         "level": 5,
         "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h5."
+        "complianceDetails": "Improper heading hierarchy: Skipped from h3 to h5."
       },
       {
         "role": "StaticText",
@@ -752,7 +752,7 @@
         "name": "Button",
         "level": 5,
         "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h5."
+        "complianceDetails": "Improper heading hierarchy: Skipped from h3 to h5."
       },
       {
         "role": "StaticText",
@@ -765,7 +765,7 @@
         "name": "Collapse",
         "level": 5,
         "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h5."
+        "complianceDetails": "Improper heading hierarchy: Skipped from h3 to h5."
       },
       {
         "role": "StaticText",
@@ -778,7 +778,7 @@
         "name": "Modal",
         "level": 5,
         "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h5."
+        "complianceDetails": "Improper heading hierarchy: Skipped from h3 to h5."
       },
       {
         "role": "StaticText",
@@ -791,7 +791,7 @@
         "name": "Popover",
         "level": 5,
         "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h5."
+        "complianceDetails": "Improper heading hierarchy: Skipped from h3 to h5."
       },
       {
         "role": "StaticText",
@@ -804,7 +804,7 @@
         "name": "Tab",
         "level": 5,
         "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h5."
+        "complianceDetails": "Improper heading hierarchy: Skipped from h3 to h5."
       },
       {
         "role": "StaticText",
@@ -817,7 +817,7 @@
         "name": "Tooltip",
         "level": 5,
         "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h5."
+        "complianceDetails": "Improper heading hierarchy: Skipped from h3 to h5."
       },
       {
         "role": "StaticText",
@@ -829,8 +829,8 @@
         "role": "heading",
         "name": "Personalize it with Bootstrap Icons",
         "level": 2,
-        "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h2."
+        "compliance": true,
+        "complianceDetails": ""
       },
       {
         "role": "link",
@@ -860,8 +860,8 @@
         "role": "heading",
         "name": "Make it yours with official Bootstrap Themes",
         "level": 2,
-        "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h2."
+        "compliance": true,
+        "complianceDetails": ""
       },
       {
         "role": "StaticText",
@@ -898,7 +898,7 @@
         "name": "Bootstrap",
         "level": 4,
         "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h4."
+        "complianceDetails": "Improper heading hierarchy: Skipped from h2 to h4."
       },
       {
         "role": "StaticText",
@@ -923,7 +923,7 @@
         "name": "Links",
         "level": 4,
         "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h4."
+        "complianceDetails": "Improper heading hierarchy: Skipped from h2 to h4."
       },
       {
         "role": "link",
@@ -972,7 +972,7 @@
         "name": "Guides",
         "level": 4,
         "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h4."
+        "complianceDetails": "Improper heading hierarchy: Skipped from h2 to h4."
       },
       {
         "role": "link",
@@ -1009,7 +1009,7 @@
         "name": "Projects",
         "level": 4,
         "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h4."
+        "complianceDetails": "Improper heading hierarchy: Skipped from h2 to h4."
       },
       {
         "role": "link",
@@ -1046,7 +1046,7 @@
         "name": "Community",
         "level": 4,
         "compliance": false,
-        "complianceDetails": "Improper heading hierarchy: Skipped from h0 to h4."
+        "complianceDetails": "Improper heading hierarchy: Skipped from h2 to h4."
       },
       {
         "role": "link",
@@ -1080,7 +1080,13 @@
       }
     ]
   },
-  "skipLink": null,
+  "skipLink": {
+    "role": "link",
+    "name": "skip link",
+    "focused": true,
+    "compliance": false,
+    "complianceDetails": " link text must provide meaningful context"
+  },
   "h1": {
     "role": "heading",
     "name": "Build fast, responsive sites with Bootstrap",
@@ -1091,10 +1097,10 @@
   "tabIndex": [
     {
       "role": "link",
-      "name": "skip link test!!!!!!!!!",
+      "name": "skip link",
       "focused": true,
-      "compliance": true,
-      "complianceDetails": ""
+      "compliance": false,
+      "complianceDetails": " link text must provide meaningful context"
     },
     {
       "role": "link",
@@ -1111,14 +1117,14 @@
       "complianceDetails": ""
     },
     {
-      "role": "link",
+      "role": "button",
       "name": "Get Security Update for Bootstrap 3 & 4 →",
       "focused": true,
       "compliance": true,
       "complianceDetails": ""
     },
     {
-      "role": "link",
+      "role": "button",
       "name": "Read the docs",
       "focused": true,
       "compliance": true,
@@ -1174,14 +1180,14 @@
       "complianceDetails": ""
     },
     {
-      "role": "link",
+      "role": "code",
       "name": "<script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js\" integrity=\"sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz\" crossorigin=\"anonymous\"></script>",
       "focused": true,
       "compliance": true,
       "complianceDetails": ""
     },
     {
-      "role": "link",
+      "role": "code",
       "name": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH\" crossorigin=\"anonymous\">",
       "focused": true,
       "compliance": true,
@@ -1191,8 +1197,8 @@
       "role": "link",
       "name": "Learn more about customizing →",
       "focused": true,
-      "compliance": true,
-      "complianceDetails": ""
+      "compliance": false,
+      "complianceDetails": " link text must provide meaningful context"
     },
     {
       "role": "link",
@@ -1212,8 +1218,8 @@
       "role": "link",
       "name": "Learn more about customizing →",
       "focused": true,
-      "compliance": true,
-      "complianceDetails": ""
+      "compliance": false,
+      "complianceDetails": " link text must provide meaningful context"
     },
     {
       "role": "link",
@@ -1230,42 +1236,42 @@
       "complianceDetails": ""
     },
     {
-      "role": "link",
+      "role": "button",
       "name": "Home",
       "focused": true,
       "compliance": true,
       "complianceDetails": ""
     },
     {
-      "role": "link",
+      "role": "button",
       "name": "Profile",
       "focused": true,
       "compliance": true,
       "complianceDetails": ""
     },
     {
-      "role": "link",
+      "role": "button",
       "name": "Contact",
       "focused": true,
       "compliance": true,
       "complianceDetails": ""
     },
     {
-      "role": "link",
+      "role": "button",
       "name": "Home",
       "focused": true,
       "compliance": true,
       "complianceDetails": ""
     },
     {
-      "role": "link",
+      "role": "button",
       "name": "Profile",
       "focused": true,
       "compliance": true,
       "complianceDetails": ""
     },
     {
-      "role": "link",
+      "role": "button",
       "name": "Contact",
       "focused": true,
       "compliance": true,
@@ -1289,11 +1295,11 @@
       "role": "link",
       "name": "Learn more about Bootstrap JavaScript →",
       "focused": true,
-      "compliance": true,
-      "complianceDetails": ""
+      "compliance": false,
+      "complianceDetails": " link text must provide meaningful context"
     },
     {
-      "role": "link",
+      "role": "button",
       "name": "Dropdown ▼",
       "focused": true,
       "compliance": true,

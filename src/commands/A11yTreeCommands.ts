@@ -57,6 +57,7 @@ type AccessibilityTree = AccessibilityNode & {
 
 interface Compliance {
   h1: AccessibilityNode | null;
+  skipLink: AccessibilityNode | null;
 }
 
 const outputChannel = vscode.window.createOutputChannel('a11yTreeCommands');
@@ -105,9 +106,12 @@ const a11yTreeCommands: A11yTreeCommands = {
       }
 
       let linkCount = 0;
-      let skipLink: AccessibilityNode | undefined;
+      let compliance = { h1: null, skipLink: null };
 
-      async function getTabIndex(page: any): Promise<AccessibilityNode[]> {
+      async function getTabIndex(
+        page: any,
+        compliance: Compliance
+      ): Promise<AccessibilityNode[]> {
         let snap: AccessibilityNode | null =
           await page.accessibility.snapshot();
         const tabIndex: AccessibilityNode[] = [];
@@ -125,14 +129,18 @@ const a11yTreeCommands: A11yTreeCommands = {
             break;
           }
 
-          if ((focusedNode.role = 'link') && linkCount < 3) {
+          if (
+            !compliance.skipLink &&
+            (focusedNode.role = 'link') &&
+            linkCount < 3
+          ) {
             if (testForSkipLink(focusedNode)) {
-              skipLink = focusedNode;
+              compliance.skipLink = focusedNode;
             }
             linkCount++;
           }
           // janky, but need to pass node to add compliances;
-          checkNode(focusedNode, { h1: null });
+          checkNode(focusedNode, compliance);
 
           tabIndex.push(focusedNode);
         }
@@ -140,7 +148,7 @@ const a11yTreeCommands: A11yTreeCommands = {
         return tabIndex;
       }
 
-      const tabIndex = await getTabIndex(page);
+      const tabIndex = await getTabIndex(page, compliance);
 
       // Generate Puppeteer accessibility tree snapshot and cast it to our custom AccessibilityTree type
       const a11yTree =
@@ -154,7 +162,7 @@ const a11yTreeCommands: A11yTreeCommands = {
 
       // pass to guideline creator function
       // need to find a better way to get h1 compliance
-      let compliance = { h1: null };
+
       guidelineCreator(a11yTree, compliance);
 
       // Accessibility results saved: /Users/ianbuchanan/Codesmith/A11y-Root-Extension/results/a11y-tree.json
@@ -163,7 +171,7 @@ const a11yTreeCommands: A11yTreeCommands = {
       const result = {
         url: url,
         tree: a11yTree,
-        skipLink: skipLink || null,
+        skipLink: compliance.skipLink,
         h1: compliance.h1,
         tabIndex: tabIndex,
       };
@@ -197,14 +205,6 @@ const a11yTreeCommands: A11yTreeCommands = {
       //look at user's directory.
       //if project with that directory name already exists, create a page using the a11ytree and attach to it.
       //if the project does not exist, we must 1.) create project, 2.) attach project to user, 3.) create a page using the a11ytree and attach to it.
-
-      const myNewPage = {
-        url: 'hi',
-        tree: 'hi',
-        skipLink: 'hi',
-        h1: 'hi',
-        tabIndex: ['hi', 'hello'],
-      };
 
       const resultDB = {
         url: result.url.toString(),
@@ -277,16 +277,7 @@ function guidelineCreator(
   tree: AccessibilityTree,
   compliance: Compliance
 ): void {
-  //tree.skipLink = //logic to determine true or false
-  //tree.h1 = //logic to determine true or false
-
-  //call treeCrawl on the root (tree.children)
-
-  // possibly pass in a issue object tracker
-
   treeCrawl(tree, compliance);
-
-  //check for issues
 }
 
 function treeCrawl(
@@ -302,12 +293,9 @@ function treeCrawl(
   } else {
     checkNode(node, compliance);
   }
-
-  // if node add guideline properties (compliance: Boolean, complianceDetails: String)
-  // add logic depending on what the role of the node is (eg. statictext, button, heading, etc.)
 }
 
-//   // Add guideline properties based on node role
+// Add guideline properties based on node role
 
 function checkNode(node: AccessibilityNode, compliance: Compliance) {
   node.compliance = true;
@@ -316,8 +304,9 @@ function checkNode(node: AccessibilityNode, compliance: Compliance) {
     case 'link':
       if (testLink(node)) {
         node.compliance = false;
-        node.complianceDetails = 'link text must provide meaningful context';
+        node.complianceDetails += ' link text must provide meaningful context';
       }
+      break;
     case 'button':
       node.compliance = node.name ? true : false;
       node.complianceDetails = node.name
@@ -326,29 +315,22 @@ function checkNode(node: AccessibilityNode, compliance: Compliance) {
       break;
 
     case 'heading':
-      if (node.level === 1) {
+      if (!compliance.h1 && node.level === 1) {
         compliance.h1 = node;
       }
       testHeadersAndUpdateCompliance(node);
       break;
 
-    // case 'StaticText':
-    //   node.compliance = true; // Assuming static text is always compliant
-    //   node.complianceDetails = '';
-    //   break;
-
     default:
-      // node.compliance = true;
-      // node.complianceDetails = '';
       break;
   }
 }
 
 const skipLinkRegex =
-  /^#(skip(-?link)?|main(-?content)?|primary(-?content)?|page(-?content)?|body(-?content)?|wrapper|container|app(-?content)?|site(-?content)?)$/i;
+  /^(skip(\s|-)?link|main(\s|-)?content|primary(\s|-)?content|page(\s|-)?content|body(\s|-)?content|wrapper|container|app(\s|-)?content|site(\s|-)?content)$/i;
 
 const nonContextualLinksRegex =
-  /\b(click|click here|here|details|info|more info|read more|learn more|go here|this link|check this|tap here|see here|go to link|link)\b/i;
+  /\b(click|click here|here|details|info|more|more info|read more|learn more|go here|this link|check this|tap here|see here|go to link|link)\b[.,!?]*/i;
 
 // const text = link.innerText.trim().toLowerCase();
 // nonSemanticRegex.test(link.text);
@@ -363,11 +345,13 @@ function testForSkipLink(node: AccessibilityNode) {
 }
 function testLink(node: AccessibilityNode) {
   const text = node.name?.trim().toLocaleLowerCase();
-  let isNotMeaningful = false;
-  if (text) {
-    isNotMeaningful = nonContextualLinksRegex.test(text);
-  }
-  return isNotMeaningful;
+
+  if (!text) {
+    return false;
+  } // Early exit if text is empty or undefined
+
+  const cleanedText = text.replace(/[.,!?]/g, ''); // Remove punctuation
+  return nonContextualLinksRegex.test(cleanedText); // Test against regex
 }
 
 let lastHeadingLevel = 0;
@@ -388,6 +372,7 @@ function testHeadersAndUpdateCompliance(node: AccessibilityNode) {
         node.compliance = false;
         node.complianceDetails = 'Only one h1 per page';
       }
+      lastHeadingLevel = node.level;
     } else if (lastHeadingLevel !== null && node.level > lastHeadingLevel + 1) {
       node.compliance = false;
       node.complianceDetails = `Improper heading hierarchy: ${
