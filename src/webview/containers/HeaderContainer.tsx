@@ -4,7 +4,7 @@ import LogoutButton from '../components/LogoutButton';
 import UserInfo from '../components/UserInfo';
 import { Types } from 'mongoose';
 import { HeaderContainerProps } from '../types';
-import GitHubIcon from './GitHubIcon';
+import GitHubIcon from '../components/GitHubIcon';
 
 function HeaderContainer({
   user,

@@ -24,7 +24,8 @@ h1 {
   padding: 0px;
 }
 
-#logged-in {
+#logged-in,
+#logged-out {
   display: flex;
   flex-direction: row;
   justify-content: space-around;

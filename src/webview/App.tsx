@@ -14,14 +14,15 @@ const App: React.FC = () => {
 
   //how to handle information received from the extension (as EventData)
   function globalMessageHandler(event: MessageEvent) {
-    setIsCheckingLogin(false);
     const { command, message } = event.data as EventData;
     switch (command) {
       case 'loggedIn':
+        setIsCheckingLogin(false);
         setIsLoggedIn(true);
         setUser(message);
         break;
       case 'loggedOut':
+        setIsCheckingLogin(false);
         setIsLoggedIn(false);
         setUser(null);
         break;
@@ -36,7 +37,7 @@ const App: React.FC = () => {
 
   //on webview load, check if a user ssid exists in secret memory. if they do, we want to persist their login status
   useEffect(() => {
-    setIsCheckingLogin(true);
+    //setIsCheckingLogin(true);
     postMessage({ command: 'checkLogin' });
   }, []);
 
