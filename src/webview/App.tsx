@@ -4,15 +4,17 @@ import HeaderContainer from './containers/HeaderContainer';
 import MainContainer from './containers/MainContainer';
 import { Types } from 'mongoose';
 import { postMessage } from './helpers/vscodeHelper';
-import {User, EventData} from './types'
+import { User, EventData } from './types';
 //import * as vscode from 'vscode';
 
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isCheckingLogin, setIsCheckingLogin] = useState(false);
 
   //how to handle information received from the extension (as EventData)
   function globalMessageHandler(event: MessageEvent) {
+    setIsCheckingLogin(false);
     const { command, message } = event.data as EventData;
     switch (command) {
       case 'loggedIn':
@@ -24,7 +26,7 @@ const App: React.FC = () => {
         setUser(null);
         break;
       case 'error':
-        //add a default error handler here for how webview handles "errors" from extension
+      //add a default error handler here for how webview handles "errors" from extension
       default:
         console.warn('Unknown command received:', command);
     }
@@ -34,22 +36,20 @@ const App: React.FC = () => {
 
   //on webview load, check if a user ssid exists in secret memory. if they do, we want to persist their login status
   useEffect(() => {
-    postMessage({command:'checkLogin'});
-  },[])
-
-
+    setIsCheckingLogin(true);
+    postMessage({ command: 'checkLogin' });
+  }, []);
 
   return (
     // header container that has login/logout and or session status such as username
     //if we are logged in and have user details, display the main container.
-    <div>
-      <h1>A11y Root Webview</h1>
-      <p>Welcome to the A11y Root VS Code extension!</p>
+    <div id='app-container'>
       <HeaderContainer
         user={user}
         isLoggedIn={isLoggedIn}
+        isCheckingLogin={isCheckingLogin}
       />
-      {(isLoggedIn && user) ? (<MainContainer user={user}/>): <></>}
+      {isLoggedIn && user ? <MainContainer user={user} /> : <></>}
     </div>
   );
 };

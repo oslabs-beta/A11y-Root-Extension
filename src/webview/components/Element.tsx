@@ -3,12 +3,22 @@ import { ElementProps } from '../types';
 
 function Element({ node }: ElementProps) {
   return (
-    <li>
-      <span>{`role : ${node.role} | `}</span>
-      <span>{node.level && `level:${node.level} | `}</span>
-      <span>{`name: ${node.name} `}</span>
-      <span>
-        {!node.compliance && `| compliance issue: ${node.complianceDetails}`}
+    <li className='element'>
+      <span className='role'>{`role : ${node.role}  `}</span>
+      <span
+        className={
+          node.level
+            ? `${
+                !node.compliance ? 'non-compliant-header' : 'compliant-header'
+              }`
+            : ''
+        }
+      >
+        {node.level && `level:${node.level} `}
+      </span>
+      <span className={node.role}>{`name: ${node.name} `}</span>
+      <span className={!node.compliance ? 'non-compliance' : ''}>
+        {!node.compliance && ` compliance issue: ${node.complianceDetails}`}
       </span>
     </li>
   );
