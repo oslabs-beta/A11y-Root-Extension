@@ -4,6 +4,7 @@ import LogoutButton from '../components/LogoutButton';
 import UserInfo from '../components/UserInfo';
 import { Types } from 'mongoose';
 import { HeaderContainerProps } from '../types';
+import GitHubIcon from './GitHubIcon';
 
 function HeaderContainer({
   user,
@@ -20,11 +21,17 @@ function HeaderContainer({
       {isCheckingLogin && '...loading'}
       {!isCheckingLogin && isLoggedIn && user && (
         <div id='logged-in'>
+          <GitHubIcon />
           <UserInfo username={user.username} />
           <LogoutButton />
         </div>
       )}
-      {!isCheckingLogin && !isLoggedIn && <LoginButton />}
+      {!isCheckingLogin && !isLoggedIn && (
+        <div id='logged-out'>
+          <GitHubIcon />
+          <LoginButton />
+        </div>
+      )}
     </header>
   );
 }

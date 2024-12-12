@@ -15,8 +15,15 @@ function MainContainer({ user }: MainContainerProps) {
   return (
     <main id='main'>
       <URLInputForm setPageResults={setPageResults} user={user} />
-      <TabNavigation activeTab={activeTab} handleTabChange={handleTabChange} />
-      <DisplayA11yTree activeTab={activeTab} pageResults={pageResults} />
+      {pageResults && (
+        <TabNavigation
+          activeTab={activeTab}
+          handleTabChange={handleTabChange}
+        />
+      )}
+      {pageResults && (
+        <DisplayA11yTree activeTab={activeTab} pageResults={pageResults} />
+      )}
     </main>
   );
 }
