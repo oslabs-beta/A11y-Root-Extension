@@ -92,3 +92,9 @@ export interface URLInputFormProps {
 export interface MainContainerProps {
   user: User;
 }
+
+export interface HeaderContainerProps {
+  user: User | null;
+  isLoggedIn: boolean; // Indicates if the user is logged in
+  isCheckingLogin: boolean;
+}

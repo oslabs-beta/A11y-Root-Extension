@@ -4,7 +4,7 @@ import TabNavigation from '../components/TabNavigation';
 import DisplayA11yTree from '../components/DisplayA11yTree';
 import { PageResults, MainContainerProps } from '../types';
 
-function MainContainer({ user}:MainContainerProps) {
+function MainContainer({ user }: MainContainerProps) {
   const [pageResults, setPageResults] = useState<PageResults | null>(null);
   const [activeTab, setActiveTab] = useState('Full Tree');
 
@@ -13,12 +13,18 @@ function MainContainer({ user}:MainContainerProps) {
   };
 
   return (
-    <>
-      <h2>Accessability Tree Checker !</h2>
+    <main id='main'>
       <URLInputForm setPageResults={setPageResults} user={user} />
-      <TabNavigation activeTab={activeTab} handleTabChange={handleTabChange} />
-      <DisplayA11yTree activeTab={activeTab} pageResults={pageResults} />
-    </>
+      {pageResults && (
+        <TabNavigation
+          activeTab={activeTab}
+          handleTabChange={handleTabChange}
+        />
+      )}
+      {pageResults && (
+        <DisplayA11yTree activeTab={activeTab} pageResults={pageResults} />
+      )}
+    </main>
   );
 }
 

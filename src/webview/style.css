@@ -1,6 +1,70 @@
-#urlInput {
-  width: 80%;
-  padding: 8px;
+body {
+  font-size: 16px;
+}
+
+#main,
+#header,
+#url-from {
+  border: 1px solid gray;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 2px;
+}
+
+#header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 30px;
+}
+
+h1 {
+  font-size: 18px;
+  margin: 0px;
+  padding: 0px;
+}
+
+#logged-in {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+#logged-in .username {
+  margin-right: 10px;
+}
+/* 
+#github-icon svg {
+  width: 30px;
+  height: 30px;
+} */
+
+#github-icon {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+}
+
+#github-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+form {
+  height: 2em;
+  border: 1px solid gray;
+  margin: 10px;
+  padding: 10px;
+}
+
+form label,
+form input {
+  margin-right: 10px;
+}
+
+form input {
+  width: 300px;
 }
 
 #submitButton {
@@ -18,7 +82,7 @@
   color: red;
 }
 
-@keyframes wiggle {
+/* @keyframes wiggle {
   0%,
   100% {
     transform: rotate(-15deg);
@@ -34,4 +98,50 @@
   animation: wiggle 0.5s ease-in-out infinite;
   height: auto;
   font-size: 26px;
+} */
+
+#tabs button {
+  margin: 10px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.element {
+  border: 1px solid rgb(52, 51, 51);
+  margin: 5px;
+  padding: 8px;
+}
+
+.element span {
+  padding-right: 10px;
+}
+
+.element .role {
+  background-color: rgb(67, 63, 63);
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.element .link {
+  padding: 5px;
+  text-decoration: underline rgb(69, 104, 233);
+}
+
+.element .compliant-header {
+  padding: 5px;
+  text-decoration: underline turquoise;
+}
+
+.element .non-compliant-header {
+  padding: 5px;
+  text-decoration: underline rgb(164, 10, 10);
+}
+
+.non-compliance {
+  text-decoration: underline rgb(164, 10, 10);
+  font-weight: 300;
+  border-radius: 10px;
+  padding: 3px;
 }

@@ -4,7 +4,7 @@ import { postMessage } from '../helpers/vscodeHelper';
 import { URLInputFormProps } from '../types';
 
 function URLInputForm({ setPageResults, user }: URLInputFormProps) {
-  const [url, setUrl] = useState<string>('http://localhost:8080/');
+  const [url, setUrl] = useState<string>('http://127.0.0.1:5500/index.html');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -50,13 +50,10 @@ function URLInputForm({ setPageResults, user }: URLInputFormProps) {
     };
 
     window.addEventListener('message', messageHandler);
-    return () => {
-      window.removeEventListener('message', messageHandler);
-    };
   }, []);
 
   return (
-    <form id='url-form' onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <label htmlFor='url'>Enter URL:</label>
       <input
         type='url'
@@ -72,7 +69,7 @@ function URLInputForm({ setPageResults, user }: URLInputFormProps) {
           🌱
         </span>
       ) : (
-        <button type='submit'>Submit</button>
+        <button type='submit'>Check Page</button>
       )}
     </form>
   );
