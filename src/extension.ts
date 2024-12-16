@@ -5,7 +5,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import express from 'express';
 import * as net from 'net';
-import axios from 'axios';
 import cors from 'cors';
 
 //import from other files.
@@ -20,66 +19,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export async function activate(context: vscode.ExtensionContext) {
-  // vscode://a11y-root.a11y-root-extension/auth/callback
-  // vscode.window.registerUriHandler({
-  //   async handleUri(uri: vscode.Uri) {
-  //     if (uri.path === '/auth/callback') {
-  //       const query = new URLSearchParams(uri.query);
-  //       const code = query.get('code');
-  //       vscode.window.showInformationMessage(`Received callback`);
-  //       try {
-  //         const response = await axios.get(
-  //           `http://localhost:3333/auth/callback?code=${code}`
-  //         );
-  //         // ,{code}
-
-  //         if (response.status === 200) {
-  //           vscode.window.showInformationMessage(
-  //             `200 : Successfully sent to server! -> ${JSON.stringify(
-  //               response.data
-  //             )}`
-  //           );
-  //           vscode.webview.postMessage({
-  //             command: 'loggedIn',
-  //             username: response.data,
-  //           });
-  //         }
-  //       } catch (error: any) {
-  //         vscode.window.showInformationMessage(`Error : -> ${error.message}`);
-  //       }
-  //     }
-  //   },
-  // });
-  // Load environment variables in development
-
-  // Check if in development mode
-  // const isDevelopment = process.env.NODE_ENV === 'development';
-
-  // if (isDevelopment) {
-  //   // Retrieve secrets from .env
-  //   const MONGO_URI = process.env.MONGO_URI;
-
-  //   if (MONGO_URI) {
-  //     // Store the secret in Secret Storage
-  //     await vscode.secretStorage.store('MONGO_URI', MONGO_URI);
-  //     console.log(
-  //       'MONGO_URI has been loaded from .env and stored in Secret Storage.'
-  //     );
-  //   } else {
-  //     console.warn('.env file is missing the MONGO_URI key.');
-  //   }
-  // }
-
-  // // Example of retrieving the stored secret
-  // const storedURI = await vscode.secretStorage.get('MONGO_URI');
-  // if (storedURI) {
-  //   console.log(`Retrieved MONGO_URI from Secret Storage: ${storedURI}`);
-  // } else {
-  //   vscode.window.showWarningMessage(
-  //     'MongoDB URI is not configured. Please set it in Secret Storage or .env.'
-  //   );
-  // }
-
   const PORT = 3333;
   const app = express();
 
@@ -151,17 +90,6 @@ export async function activate(context: vscode.ExtensionContext) {
 
   // Possible fixes / problems
 
-  // app.use(
-  //   cors({
-  //     origin: '*', // Allow all origins; restrict to specific origins for better security.
-  //     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  //   })
-  // );
-
-  // app.listen(PORT, HOST, () => {
-  //   console.log(`Server is running on ${HOST}:${PORT}`);
-  // });
-
   //to bind to all available network interfaces (0.0.0.0) instead of localhost.
   // const server = app.listen(PORT, '0.0.0.0', async () => {
   //   console.log(`Server is accessible at http://localhost:${PORT}`);
@@ -169,7 +97,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
   // const HOST = process.env.NODE_ENV === 'production' ? '0.0.0.0' : ;
 
-  // misght need to change 127.0.0.1 to localhost?
+  // might need to change 127.0.0.1 to localhost?
 
   // Start the server
   const server = app.listen(PORT, '127.0.0.1', async () => {
@@ -224,17 +152,25 @@ function openTab(context: vscode.ExtensionContext) {
           const code = query.get('code');
           vscode.window.showInformationMessage(`Received callback`);
           try {
-            const response = await axios.get(
-              `http://localhost:3333/auth/callback?code=${code}`
+            const response = await fetch(
+              `http://localhost:3333/auth/callback?code=${code}`,
+              {
+                method: 'GET',
+              }
             );
-            const user = JSON.stringify(response.data);
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json(); // Parse the JSON response
+            const user = JSON.stringify(data);
             vscode.window.showInformationMessage(
               `oauth response.data -> ${user}`
             );
             panel.webview.postMessage({
               command: 'loggedIn',
               //pass entire user instead of username
-              message: response.data,
+              message: data,
             });
           } catch (error: any) {
             vscode.window.showInformationMessage(`Error : -> ${error.message}`);
@@ -242,48 +178,6 @@ function openTab(context: vscode.ExtensionContext) {
         }
       },
     });
-
-    // git hub data response
-    // const data = {
-    //   login: 'ianbuchanan42',
-    //   id: 107963806,
-    //   node_id: 'U_kgDOBm9lng',
-    //   avatar_url: 'https://avatars.githubusercontent.com/u/107963806?v=4',
-    //   gravatar_id: '',
-    //   url: 'https://api.github.com/users/ianbuchanan42',
-    //   html_url: 'https://github.com/ianbuchanan42',
-    //   followers_url: 'https://api.github.com/users/ianbuchanan42/followers',
-    //   following_url:
-    //     'https://api.github.com/users/ianbuchanan42/following{/other_user}',
-    //   gists_url: 'https://api.github.com/users/ianbuchanan42/gists{/gist_id}',
-    //   starred_url:
-    //     'https://api.github.com/users/ianbuchanan42/starred{/owner}{/repo}',
-    //   subscriptions_url:
-    //     'https://api.github.com/users/ianbuchanan42/subscriptions',
-    //   organizations_url: 'https://api.github.com/users/ianbuchanan42/orgs',
-    //   repos_url: 'https://api.github.com/users/ianbuchanan42/repos',
-    //   events_url: 'https://api.github.com/users/ianbuchanan42/events{/privacy}',
-    //   received_events_url:
-    //     'https://api.github.com/users/ianbuchanan42/received_events',
-    //   type: 'User',
-    //   user_view_type: 'public',
-    //   site_admin: false,
-    //   name: null,
-    //   company: null,
-    //   blog: '',
-    //   location: null,
-    //   email: null,
-    //   hireable: null,
-    //   bio: null,
-    //   twitter_username: null,
-    //   notification_email: null,
-    //   public_repos: 6,
-    //   public_gists: 0,
-    //   followers: 0,
-    //   following: 10,
-    //   created_at: '2022-06-21T23:36:16Z',
-    //   updated_at: '2024-11-29T19:59:24Z',
-    // };
 
     const htmlPath = path.join(
       context.extensionPath,
@@ -352,13 +246,21 @@ function openTab(context: vscode.ExtensionContext) {
         try {
           const userId = await context.secrets.get('ssid');
           if (userId) {
-            const response = await axios.get(
-              `http://localhost:3333/users/${userId}`
+            const response = await fetch(
+              `http://localhost:3333/users/${userId}`,
+              {
+                method: 'GET',
+              }
             );
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json(); // Parse the JSON response
+
             panel.webview.postMessage({
               command: 'loggedIn',
               //pass entire user instead of username
-              message: response.data,
+              message: data,
             });
           }
         } catch (error: any) {
@@ -374,7 +276,12 @@ function openTab(context: vscode.ExtensionContext) {
 
       if (message.command === 'parseTree') {
         if (message.url) {
-          await a11yTreeCommands.handleFetchTree(panel, context, message.url, message.user);
+          await a11yTreeCommands.handleFetchTree(
+            panel,
+            context,
+            message.url,
+            message.user
+          );
         } else {
           panel.webview.postMessage({
             command: 'error',

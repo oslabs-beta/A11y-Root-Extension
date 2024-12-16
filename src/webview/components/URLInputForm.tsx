@@ -14,8 +14,8 @@ function URLInputForm({ setPageResults, user }: URLInputFormProps) {
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
     setLoading(true);
+    event.preventDefault();
     setError(null);
 
     try {
@@ -28,8 +28,6 @@ function URLInputForm({ setPageResults, user }: URLInputFormProps) {
     } catch (err) {
       setError('Please enter a valid URL.');
       console.error('URL validation error:', err);
-    } finally {
-      setLoading(false); // Stop loading spinner regardless of success or error
     }
   };
 
@@ -39,8 +37,8 @@ function URLInputForm({ setPageResults, user }: URLInputFormProps) {
 
       if (command === 'parseTreeResult') {
         if (success) {
+          setLoading(false);
           setPageResults(message);
-
           console.log('Tree parsed successfully:', message);
           setError(null);
         } else {
@@ -50,6 +48,11 @@ function URLInputForm({ setPageResults, user }: URLInputFormProps) {
     };
 
     window.addEventListener('message', messageHandler);
+
+    // Cleanup listener on component unmount
+    return () => {
+      window.removeEventListener('message', messageHandler);
+    };
   }, []);
 
   return (
@@ -61,15 +64,22 @@ function URLInputForm({ setPageResults, user }: URLInputFormProps) {
         value={url}
         onChange={handleInputChange}
         placeholder='https://example.com'
+        aria-label='URL to parse'
         required
       />
-      {error && <p className='error-message'>{error}</p>}
+      {error && (
+        <p className='error-message' role='alert'>
+          {error}
+        </p>
+      )}
       {loading ? (
-        <span className='wiggle-emoji' aria-label='Loading'>
-          🌱
+        <span aria-label='Parsing' role='status'>
+          Parsing...
         </span>
       ) : (
-        <button type='submit'>Check Page</button>
+        <button type='submit' aria-label='Check Page Accessibility'>
+          Check Page
+        </button>
       )}
     </form>
   );

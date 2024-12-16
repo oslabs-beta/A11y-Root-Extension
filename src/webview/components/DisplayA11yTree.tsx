@@ -18,9 +18,6 @@ import { nanoid } from 'nanoid';
 import DisplayElements from '../containers/DisplayElements';
 
 function DisplayA11yTree({ pageResults, activeTab }: DisplayA11yTreeProps) {
-  //const skipLink = tree.skipLink;
-  //const h1 = tree.h1;
-  //handle addToPriorities here?
   const [elements, setElements] = useState<React.ReactElement[]>([]);
   const [links, setLinks] = useState<React.ReactElement[]>([]);
   const [headings, setHeadings] = useState<React.ReactElement[]>([]);
@@ -67,8 +64,6 @@ function DisplayA11yTree({ pageResults, activeTab }: DisplayA11yTreeProps) {
     }
   }
 
-  // would be nice if tabIndex elements were regular a11y nodes
-
   function buildTabIndexElements(tabIndex: AccessibilityNode[]) {
     return tabIndex.map((node) => {
       return <Element node={node} />;
@@ -92,16 +87,6 @@ function DisplayA11yTree({ pageResults, activeTab }: DisplayA11yTreeProps) {
       setTabIndex(buildTabIndexElements(pageResults.tabIndex));
     }
   }, [pageResults]);
-
-  //   const nonSemanticLinks = tree.nonSemanticLinks.map(({ text, link }) => {
-  //     return <Link text={text} link={link} key={nanoid()} />;
-  //   });
-
-  //   const skipLinkFound = skipLink.text.length ? (
-  //     <Link text={skipLink.text} link={skipLink.link} />
-  //   ) : (
-  //     <span className='bad tan'>No Skip Link Found</span>
-  //   );
 
   return (
     <section id='tree'>
@@ -155,7 +140,5 @@ function DisplayA11yTree({ pageResults, activeTab }: DisplayA11yTreeProps) {
     </section>
   );
 }
-
-//NonContextualLinks
 
 export default DisplayA11yTree;

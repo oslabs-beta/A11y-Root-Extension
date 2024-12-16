@@ -2,7 +2,6 @@ import * as vscode from 'vscode';
 import { Request, Response, NextFunction } from 'express';
 import UserModel from '../models/userModel';
 import dotenv from 'dotenv';
-import path from 'path';
 
 dotenv.config();
 

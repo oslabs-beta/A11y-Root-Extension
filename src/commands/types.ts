@@ -1,7 +1,24 @@
-import DisplayA11yTree from './components/DisplayA11yTree';
+import * as vscode from 'vscode';
 import { Types } from 'mongoose';
 
-export type SerializedAXNode = {
+export interface User {
+  githubId: string; // Required and unique
+  username: string; // Required
+  profileUrl?: string; // Optional
+  avatarUrl?: string; // Optional
+  projects?: Types.ObjectId[]; // References to Project documents
+}
+
+export interface A11yTreeCommands {
+  handleFetchTree: (
+    panel: vscode.WebviewPanel,
+    context: vscode.ExtensionContext,
+    url: string,
+    user: User
+  ) => Promise<void>;
+}
+
+type SerializedAXNode = {
   role: string; // The role of the node
   name?: string; // The accessible name of the node
   value?: string | number; // The accessible value of the node
@@ -41,65 +58,7 @@ export type AccessibilityTree = AccessibilityNode & {
   h1?: boolean; // flag for if tree contains one unique h1 (placed above main content)
 };
 
-export type PageResults = {
-  url: string; // The URL of the analyzed page
-  tree: AccessibilityTree | null; // The accessibility tree
-  skipLink: AccessibilityNode | null; // Information about skip links
-  h1: string; // Information about the main heading (h1)
-  tabIndex: TabIndexEntry[]; // List of tab index entries
-};
-
-export interface User {
-  githubId: string; // Required and unique
-  username: string; // Required
-  profileUrl?: string; // Optional
-  avatarUrl?: string; // Optional
-  projects?: Types.ObjectId[]; // References to Project documents
-}
-
-export interface EventData {
-  command: string;
-  message: User;
-}
-
-export interface DisplayA11yTreeProps {
-  pageResults: PageResults | null;
-  activeTab: string;
-}
-
-// Supporting interfaces
-
-export interface TabIndexEntry {
-  role: string;
-  name?: string;
-}
-
-export interface DisplayElementsProps {
-  title: string;
-  children: React.ReactElement[] | React.ReactElement;
-  aside: React.ReactElement;
-}
-
-export interface ElementProps {
-  node: AccessibilityNode;
-}
-
-export interface URLInputFormProps {
-  setPageResults: (pageResults: PageResults) => void;
-  user: User;
-}
-
-export interface MainContainerProps {
-  user: User;
-}
-
-export interface HeaderContainerProps {
-  user: User | null;
-  isLoggedIn: boolean; // Indicates if the user is logged in
-  isCheckingLogin: boolean;
-}
-
-export interface UserLoginContainerProps {
-  user: User | null;
-  isLoggedIn: boolean;
+export interface Compliance {
+  h1: AccessibilityNode | null;
+  skipLink: AccessibilityNode | null;
 }
