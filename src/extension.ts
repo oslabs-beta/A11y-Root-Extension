@@ -18,7 +18,11 @@ import sessionController from './server/controllers/sessionController';
 import dotenv from 'dotenv';
 dotenv.config();
 
+let globalContext: vscode.ExtensionContext;
+let uriHandlerRegistered = false;
+
 export async function activate(context: vscode.ExtensionContext) {
+  globalContext = context; // Save the context globally
   const PORT = 3333;
   const app = express();
 
@@ -144,40 +148,45 @@ function openTab(context: vscode.ExtensionContext) {
         enableForms: true, // not sure if we need this
       }
     );
-    vscode.window.registerUriHandler({
-      async handleUri(uri: vscode.Uri) {
-        if (uri.path === '/auth/callback') {
-          const query = new URLSearchParams(uri.query);
-          //temporary code from github that is needed to continue oauth
-          const code = query.get('code');
-          vscode.window.showInformationMessage(`Received callback`);
-          try {
-            const response = await fetch(
-              `http://localhost:3333/auth/callback?code=${code}`,
-              {
-                method: 'GET',
+    if (!uriHandlerRegistered) {
+      vscode.window.registerUriHandler({
+        async handleUri(uri: vscode.Uri) {
+          if (uri.path === '/auth/callback') {
+            const query = new URLSearchParams(uri.query);
+            //temporary code from github that is needed to continue oauth
+            const code = query.get('code');
+            vscode.window.showInformationMessage(`Received callback`);
+            try {
+              const response = await fetch(
+                `http://localhost:3333/auth/callback?code=${code}`,
+                {
+                  method: 'GET',
+                }
+              );
+              if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
               }
-            );
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
 
-            const data = await response.json(); // Parse the JSON response
-            const user = JSON.stringify(data);
-            vscode.window.showInformationMessage(
-              `oauth response.data -> ${user}`
-            );
-            panel.webview.postMessage({
-              command: 'loggedIn',
-              //pass entire user instead of username
-              message: data,
-            });
-          } catch (error: any) {
-            vscode.window.showInformationMessage(`Error : -> ${error.message}`);
+              const data = await response.json(); // Parse the JSON response
+              const user = JSON.stringify(data);
+              vscode.window.showInformationMessage(
+                `oauth response.data -> ${user}`
+              );
+              panel.webview.postMessage({
+                command: 'loggedIn',
+                //pass entire user instead of username
+                message: data,
+              });
+            } catch (error: any) {
+              vscode.window.showInformationMessage(
+                `Error : -> ${error.message}`
+              );
+            }
           }
-        }
-      },
-    });
+        },
+      });
+      uriHandlerRegistered = true;
+    }
 
     const htmlPath = path.join(
       context.extensionPath,
@@ -300,4 +309,9 @@ export async function deactivate() {
   //   await vscode.secretStorage.delete('MONGO_URI');
   //   console.log('Development secret MONGO_URI has been cleared from Secret Storage.');
   // }
+  if (globalContext) {
+    globalContext.subscriptions.forEach((subscription) =>
+      subscription.dispose()
+    );
+  }
 }
