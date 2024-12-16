@@ -3,131 +3,33 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
-import express from 'express';
-import * as net from 'net';
-import cors from 'cors';
-
-//import from other files.
+import { createServer } from './server/server';
 import a11yTreeCommands from './commands/A11yTreeCommands';
-import dbConnect from './server/dbConnect';
-import userRoute from './server/routes/userRoute';
-import projectRoute from './server/routes/projectRoute';
-import pageRoute from './server/routes/pageRoute';
-import oAuthController from './server/controllers/oAuthController';
-import sessionController from './server/controllers/sessionController';
 import dotenv from 'dotenv';
 dotenv.config();
 
 let globalContext: vscode.ExtensionContext;
 let uriHandlerRegistered = false;
+let serverManager: { startServer: () => Promise<void>; stopServer: () => void };
 
 export async function activate(context: vscode.ExtensionContext) {
   globalContext = context; // Save the context globally
   const PORT = 3333;
-  const app = express();
 
-  app.use(
-    cors({
-      origin: ['http://localhost:3333'], // Allow specific origins
-      methods: ['GET', 'POST'], // Restrict to specific HTTP methods
-      credentials: true, // Allow cookies or authentication headers
-    })
-  );
+  serverManager = createServer(PORT, context);
 
-  // Middleware to log requests
-  app.use((req, res, next) => {
-    console.log(`Received request: ${req.method} ${req.url}`);
-    next();
-  });
-
-  //PARSING MIDDLEWARE
-  app.use(express.urlencoded({ extended: true }));
-  app.use(express.json());
-
-  //oauth login endpoint
-  app.get(
-    '/auth/callback',
-    oAuthController.getTemporaryCode,
-    oAuthController.requestToken,
-    oAuthController.getUserData,
-    oAuthController.saveUser,
-    sessionController.startSession,
-    async (req, res) => {
-      await context.secrets.store('ssid', res.locals.user._id);
-      res.status(200).json(res.locals.user);
-    }
-  );
-
-  //database interaction endpoints
-  app.use('/users', userRoute);
-  app.use('/projects', projectRoute);
-  app.use('/pages', pageRoute);
-
-  // Default endpoint
-  app.get('/', (req, res) => {
-    res.send('Welcome to the A11y Root Extension Server!!!');
-  });
-
-  // Check if the port is available
-  const isPortAvailable = async (port: number): Promise<boolean> => {
-    return new Promise((resolve) => {
-      const tester = net
-        .createServer()
-        .once('error', (err: any) => {
-          if (err.code === 'EADDRINUSE') {
-            resolve(false);
-          } else {
-            resolve(true);
-          }
-        })
-        .once('listening', () => {
-          tester.close(() => resolve(true));
-        })
-        .listen(port);
-    });
-  };
-
-  if (!(await isPortAvailable(PORT))) {
-    vscode.window.showErrorMessage(`Port ${PORT} is already in use.`);
-    return;
+  try {
+    await serverManager.startServer();
+    vscode.window.showInformationMessage(`Server started on port ${PORT}`);
+  } catch (error: any) {
+    vscode.window.showErrorMessage(`Failed to start server: ${error.message}`);
   }
 
-  // Possible fixes / problems
-
-  //to bind to all available network interfaces (0.0.0.0) instead of localhost.
-  // const server = app.listen(PORT, '0.0.0.0', async () => {
-  //   console.log(`Server is accessible at http://localhost:${PORT}`);
-  // });
-
-  // const HOST = process.env.NODE_ENV === 'production' ? '0.0.0.0' : ;
-
-  // might need to change 127.0.0.1 to localhost?
-
-  // Start the server
-  const server = app.listen(PORT, '127.0.0.1', async () => {
-    const externalUri = await vscode.env.asExternalUri(
-      vscode.Uri.parse(`http://localhost:${PORT}`)
-    );
-    console.log(`Server available at ${externalUri}`);
-    vscode.window.showInformationMessage(`Server started at ${externalUri}`);
-  });
-
-  // Handle server errors
-  server.on('error', (error) => {
-    console.error('Server encountered an error:', error);
-    vscode.window.showErrorMessage(`Server failed to start: ${error.message}`);
-  });
-
-  //once server is running, connect it to the database
-  dbConnect();
-
-  // Cleanup server on extension deactivate
+  // Add subscriptions
   context.subscriptions.push({
     dispose: () => {
-      server.close(() => {
-        console.log('Server stopped.');
-        vscode.window.showInformationMessage('Server stopped.');
-      });
+      serverManager.stopServer();
+      console.log('Server stopped.');
     },
   });
 
@@ -304,11 +206,6 @@ function openTab(context: vscode.ExtensionContext) {
 
 // This method is called when your extension is deactivated
 export async function deactivate() {
-  // const isDevelopment = process.env.NODE_ENV === 'development';
-  // if (isDevelopment) {
-  //   await vscode.secretStorage.delete('MONGO_URI');
-  //   console.log('Development secret MONGO_URI has been cleared from Secret Storage.');
-  // }
   if (globalContext) {
     globalContext.subscriptions.forEach((subscription) =>
       subscription.dispose()
