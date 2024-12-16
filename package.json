@@ -67,7 +67,6 @@
   },
   "dependencies": {
     "@types/mongoose": "^5.11.96",
-    "axios": "^1.7.9",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "mongoose": "^8.8.3",

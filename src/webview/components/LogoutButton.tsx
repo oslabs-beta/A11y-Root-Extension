@@ -4,7 +4,7 @@ import { postMessage } from '../helpers/vscodeHelper';
 function LogoutButton() {
   const handleClick = () => {
     //postmessage command beginLogout
-    postMessage({ command: 'beginLogout' }); //need to implement this in extension.ts
+    postMessage({ command: 'beginLogout' });
   };
   return (
     <div className='logout-button'>

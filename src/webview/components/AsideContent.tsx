@@ -13,26 +13,6 @@ const headerAside = (
   </p>
 );
 
-// const headerAside = (
-//   <section>
-//     <p>
-//       <span className='bad'>No h1 found! </span>The h1 tag is the main heading
-//       or title of a page, and it should match the page's title closely. This
-//       helps screen reader users understand what the page is about.
-//     </p>
-//     <p>
-//       <a
-//         href='https://www.w3.org/WAI/tutorials/page-structure/headings/'
-//         className='good'
-//       >
-//         Header ranking
-//       </a>
-//       , making sure that only one h1 is on a page and that the h1-h6 element
-//       hierarchy is semantic and not stylistically driven.
-//     </p>
-//   </section>
-// );
-
 const skipLinkAside = (
   <>
     <p>

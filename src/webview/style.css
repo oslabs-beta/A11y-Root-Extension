@@ -1,3 +1,5 @@
+/* Base Styles */
+
 body {
   font-size: 16px;
 }
@@ -24,12 +26,19 @@ h1 {
   padding: 0px;
 }
 
+#user-login,
 #logged-in,
 #logged-out {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 }
+
+/* #user-login {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+} */
 
 #logged-in .username {
   margin-right: 10px;
@@ -82,24 +91,6 @@ form input {
   margin-top: 20px;
   color: red;
 }
-
-/* @keyframes wiggle {
-  0%,
-  100% {
-    transform: rotate(-15deg);
-  }
-  50% {
-    transform: rotate(15deg);
-  }
-}
-
-.wiggle-emoji {
-  margin: 1.1em;
-  display: inline-block;
-  animation: wiggle 0.5s ease-in-out infinite;
-  height: auto;
-  font-size: 26px;
-} */
 
 #tabs button {
   margin: 10px;

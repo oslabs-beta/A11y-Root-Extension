@@ -10,7 +10,7 @@ import { User, EventData } from './types';
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [isCheckingLogin, setIsCheckingLogin] = useState(false);
+  const [isCheckingLogin, setIsCheckingLogin] = useState(true);
 
   //how to handle information received from the extension (as EventData)
   function globalMessageHandler(event: MessageEvent) {
