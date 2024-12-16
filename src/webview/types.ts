@@ -89,6 +89,11 @@ export interface URLInputFormProps {
   user: User;
 }
 
+export interface URLSelectionFormProps {
+  setPageResults: (pageResults: PageResults) => void;
+  user: User;
+}
+
 export interface MainContainerProps {
   user: User;
 }

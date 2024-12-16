@@ -62,7 +62,7 @@ h1 {
 }
 
 form {
-  height: 2em;
+  height: 4em;
   border: 1px solid gray;
   margin: 10px;
   padding: 10px;
@@ -77,9 +77,49 @@ form input {
   width: 300px;
 }
 
-#submitButton {
-  padding: 8px 12px;
-  margin-left: 8px;
+label {
+  margin: 8px;
+}
+
+#selection-form {
+  height: 100%;
+}
+
+#generated-url {
+  display: block;
+}
+
+.submit-container {
+  display: inline-block; /* Ensure container shrinks to fit content */
+  width: 150px; /* Set a consistent width */
+  height: 30px; /* Set a consistent height */
+  text-align: center; /* Center content horizontally */
+  line-height: 30px; /* Align text vertically */
+  background-color: #f0f0f0; /* Optional: container background color */
+  border: 1px solid #ccc; /* Optional: container border for consistent appearance */
+  border-radius: 4px; /* Optional: rounded corners */
+  box-sizing: border-box; /* Ensure padding and border are included in size */
+  margin: 10px;
+}
+
+.submit-container button,
+.submit-container span {
+  display: block; /* Make child elements fill the container */
+  width: 100%; /* Match container's width */
+  height: 100%; /* Match container's height */
+  line-height: 30px; /* Vertically align text */
+  background: none; /* Remove default button background */
+  border: none; /* Remove default button border */
+  padding: 0; /* Remove default padding */
+  margin: 0; /* Remove default margin */
+  font-size: 16px; /* Ensure consistent font size */
+  color: black; /* Ensure consistent text color */
+  cursor: pointer; /* Add pointer for button */
+  text-align: center; /* Center text horizontally */
+}
+
+.submit-container span {
+  cursor: default; /* Prevent pointer cursor for span */
 }
 
 #resultMessage {

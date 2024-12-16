@@ -3,6 +3,7 @@ import URLInputForm from '../components/URLInputForm';
 import TabNavigation from '../components/TabNavigation';
 import DisplayA11yTree from '../components/DisplayA11yTree';
 import { PageResults, MainContainerProps } from '../types';
+import URLSelectionForm from '../components/URLSelectionForm';
 
 function MainContainer({ user }: MainContainerProps) {
   const [pageResults, setPageResults] = useState<PageResults | null>(null);
@@ -15,6 +16,7 @@ function MainContainer({ user }: MainContainerProps) {
   return (
     <main id='main'>
       <URLInputForm setPageResults={setPageResults} user={user} />
+      <URLSelectionForm setPageResults={setPageResults} user={user} />
       {pageResults && (
         <TabNavigation
           activeTab={activeTab}
