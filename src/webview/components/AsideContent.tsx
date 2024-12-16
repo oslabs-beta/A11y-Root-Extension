@@ -68,7 +68,7 @@ const tabIndexAside = (
     , it is important that the order is meaningful.
   </p>
 );
-const nonSemanticLinksAside = (
+const nonContextualLinksAside = (
   <p>
     When a link has{' '}
     <a
@@ -87,5 +87,5 @@ export {
   linksAside,
   treeAside,
   tabIndexAside,
-  nonSemanticLinksAside,
+  nonContextualLinksAside,
 };

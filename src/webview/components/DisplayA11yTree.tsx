@@ -4,7 +4,6 @@ import {
   DisplayA11yTreeProps,
   AccessibilityNode,
   AccessibilityTree,
-  TabIndexEntry,
 } from '../types';
 import {
   headerAside,
@@ -12,7 +11,7 @@ import {
   linksAside,
   treeAside,
   tabIndexAside,
-  nonSemanticLinksAside,
+  nonContextualLinksAside,
 } from '../components/AsideContent';
 import { nanoid } from 'nanoid';
 import DisplayElements from '../containers/DisplayElements';
@@ -25,6 +24,7 @@ function DisplayA11yTree({ pageResults, activeTab }: DisplayA11yTreeProps) {
   const [nonContextualLinks, setNonContextualLinks] = useState<
     React.ReactElement[]
   >([]);
+
   const [skipLink, setSkipLink] = useState<React.ReactElement | null>(
     pageResults && pageResults.skipLink ? (
       <Element node={pageResults.skipLink} />
@@ -118,7 +118,7 @@ function DisplayA11yTree({ pageResults, activeTab }: DisplayA11yTreeProps) {
       {activeTab === 'Non Contextual Links' && (
         <DisplayElements
           key={nanoid()}
-          aside={tabIndexAside}
+          aside={nonContextualLinksAside}
           title={'Non Contextual Links'}
         >
           {nonContextualLinks}
