@@ -1,10 +1,5 @@
 import React, { useDeferredValue } from 'react';
-import LoginButton from '../components/LoginButton';
-import LogoutButton from '../components/LogoutButton';
-import UserInfo from '../components/UserInfo';
-import { Types } from 'mongoose';
 import { HeaderContainerProps } from '../types';
-import GitHubIcon from '../components/GitHubIcon';
 import UserLoginContainer from './UserLoginContainer';
 
 function HeaderContainer({
