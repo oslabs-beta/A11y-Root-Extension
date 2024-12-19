@@ -18,7 +18,7 @@ let serverManager: {
 
 export async function activate(context: vscode.ExtensionContext) {
   globalContext = context; // Save the context globally
-  const initialPort = 5050;
+  const initialPort = 5500;
   //const PORT = 3333; !!!!!!!! play around with port initializing, may need to set localhost instead of
   // server = app.listen(serverPort, '127.0.0.1', () => {
   //   console.log(`Server running at http://localhost:${serverPort}`);
@@ -30,9 +30,7 @@ export async function activate(context: vscode.ExtensionContext) {
   try {
     await serverManager.startServer();
     port = serverManager.getPort();
-    vscode.window.showInformationMessage(
-      `Server started on port ${initialPort}`
-    );
+    vscode.window.showInformationMessage(`Server started on port ${port}`);
   } catch (error: any) {
     vscode.window.showErrorMessage(`Failed to start server: ${error.message}`);
   }
@@ -207,9 +205,11 @@ function openTab(context: vscode.ExtensionContext, port: number) {
       if (message.command === 'parseTree') {
         if (message.url) {
           await a11yTreeCommands.handleFetchTree(
+            port,
             panel,
             context,
             message.url,
+
             message.user
           );
         } else {

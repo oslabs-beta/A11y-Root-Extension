@@ -46,6 +46,7 @@
     "@types/node": "20.x",
     "@types/react": "^18.3.14",
     "@types/react-dom": "^18.3.2",
+    "@types/tcp-port-used": "^1.0.4",
     "@types/vscode": "^1.95.0",
     "@typescript-eslint/eslint-plugin": "^8.10.0",
     "@typescript-eslint/parser": "^8.7.0",
@@ -69,12 +70,13 @@
     "@types/mongoose": "^5.11.96",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
+    "get-port": "^7.1.0",
     "mongoose": "^8.8.3",
     "nanoid": "^5.0.9",
-    "portfinder": "^1.0.32",
     "puppeteer": "^23.9.0",
     "puppeteer-core": "^23.10.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "tcp-port-used": "^1.0.2"
   }
 }

@@ -108,16 +108,36 @@
 //   });
 // };
 
+// next try is child=process
+
+// import { exec } from 'child_process';
+
+// function findRunningPorts() {
+//   const command =
+//     process.platform === 'win32' ? 'netstat -ano' : 'lsof -i -P -n';
+//   exec(command, (error, stdout, stderr) => {
+//     if (error) {
+//       vscode.window.showErrorMessage(`Error: ${error.message}`);
+//       return;
+//     }
+//     vscode.window.showInformationMessage(stdout); // Display running ports info
+//   });
+// }
+
+// findRunningPorts();
 import express from 'express';
 import cors from 'cors';
 import * as net from 'net';
-import portfinder from 'portfinder';
+import getPort from 'get-port';
+import { exec } from 'child_process';
+import * as vscode from 'vscode';
 import userRoute from './routes/userRoute';
 import projectRoute from './routes/projectRoute';
 import pageRoute from './routes/pageRoute';
 import oAuthController from './controllers/oAuthController';
 import sessionController from './controllers/sessionController';
 import dbConnect from './dbConnect';
+import tcpPortUsed from 'tcp-port-used';
 
 export function createServer(initialPort: number, context: any) {
   const app = express();
@@ -156,16 +176,90 @@ export function createServer(initialPort: number, context: any) {
     res.send('Welcome to the A11y Root Extension Server!!!');
   });
 
+  // Function to find running ports
+  async function findRunningPorts(): Promise<number[]> {
+    const command =
+      process.platform === 'win32' ? 'netstat -ano' : 'lsof -i -P -n';
+    return new Promise((resolve) => {
+      exec(command, (error, stdout) => {
+        if (error) {
+          console.error(`Error finding running ports: ${error.message}`);
+          return resolve([]);
+        }
+
+        const ports: number[] = [];
+        const lines = stdout.split('\n');
+        for (const line of lines) {
+          const match =
+            process.platform === 'win32'
+              ? line.match(/:\d+/)
+              : line.match(/:\d{2,5}\s/);
+
+          if (match) {
+            const port = parseInt(match[0].replace(':', '').trim(), 10);
+            if (!isNaN(port)) {
+              ports.push(port);
+            }
+          }
+        }
+        resolve(ports);
+      });
+    });
+  }
+
+  async function verifyExcludedPorts(ports: number[]): Promise<Set<number>> {
+    const inUsePorts: number[] = [];
+    for (const port of ports) {
+      if (await tcpPortUsed.check(port, '127.0.0.1')) {
+        inUsePorts.push(port);
+      }
+    }
+    return new Set(inUsePorts);
+  }
+
+  async function findPortInRange(
+    startPort: number,
+    endPort: number,
+    exclude: number[] = []
+  ): Promise<number> {
+    for (let port = startPort; port <= endPort; port++) {
+      if (!exclude.includes(port)) {
+        const availablePort = await getPort({ port });
+        if (availablePort === port) {
+          return port; // Found an available port within range
+        }
+      }
+    }
+    throw new Error(
+      `No available ports found in range ${startPort}-${endPort}`
+    );
+  }
+
+  // should set these to 4000 and 5000 respectfully
+  // using 5500 to 6000 range for testing and ensuring conflict avoidance
+  const startPort = 5500;
+  const endPort = 6000;
+
+  // Start server
   const startServer = async () => {
     try {
-      // Find an available port starting from the initial port
-      serverPort = await portfinder
-        .getPortPromise({ port: initialPort })
-        .catch((error) => {
-          console.error('Portfinder error:', error.message);
-          throw new Error('Failed to find an available port.');
-        });
+      // Find running ports
+      const excludedPorts = await findRunningPorts();
 
+      // Verify excluded ports
+      const verifiedExcludedPorts = await verifyExcludedPorts(excludedPorts);
+
+      // Display verified excluded ports in VS Code
+      vscode.window.showInformationMessage(
+        `Excluded Ports: ${[...verifiedExcludedPorts].join(', ')}`
+      );
+
+      // Find an available port, excluding the running ones
+      serverPort = await findPortInRange(startPort, endPort, [
+        ...verifiedExcludedPorts,
+      ]);
+
+      // Start the server
       server = app.listen(serverPort, '127.0.0.1', () => {
         console.log(`Server running at http://localhost:${serverPort}`);
       });
@@ -178,11 +272,12 @@ export function createServer(initialPort: number, context: any) {
       await dbConnect();
     } catch (error) {
       console.error('Failed to start server:', error);
-
+      vscode.window.showErrorMessage(`Failed to start server: ${error}`);
       throw error;
     }
   };
 
+  // Stop server
   const stopServer = () => {
     if (server) {
       server.close(() => {
