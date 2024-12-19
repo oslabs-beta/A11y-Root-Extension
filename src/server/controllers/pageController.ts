@@ -1,5 +1,5 @@
 import PageModel from '../models/pageModel';
-import { pageController } from '../type';
+import { pageController } from '../../types/server.types';
 
 const PageController = {} as pageController;
 

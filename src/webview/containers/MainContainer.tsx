@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import URLInputForm from '../components/URLInputForm';
 import TabNavigation from '../components/TabNavigation';
 import DisplayA11yTree from '../components/DisplayA11yTree';
-import { PageResults, MainContainerProps } from '../types';
+import { PageResults, MainContainerProps } from '../../types/index.types';
 import URLSelectionForm from '../components/URLSelectionForm';
 
 function MainContainer({ user }: MainContainerProps) {

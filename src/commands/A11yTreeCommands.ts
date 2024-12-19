@@ -2,14 +2,13 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as puppeteer from 'puppeteer';
-import { User } from '../webview/types';
-import { json } from 'stream/consumers';
 import {
+  User,
   A11yTreeCommands,
   AccessibilityNode,
   AccessibilityTree,
   Compliance,
-} from './types';
+} from '../types/index.types';
 
 const outputChannel = vscode.window.createOutputChannel('a11yTreeCommands');
 

@@ -1,5 +1,5 @@
 import React, { useDeferredValue } from 'react';
-import { HeaderContainerProps } from '../types';
+import { HeaderContainerProps } from '../../types/index.types';
 import UserLoginContainer from './UserLoginContainer';
 
 function HeaderContainer({

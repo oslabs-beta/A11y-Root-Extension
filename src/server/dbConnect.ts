@@ -1,23 +1,4 @@
-// import mongoose from 'mongoose';
-// import * as dotenv from 'dotenv';
-// dotenv.config();
-
 // //contact Warren for URI key
-// const MONGO_URI = process.env.MONGO_URI_KEY!;
-
-// //when server initializes, check terminal for DB connection confirmation
-// function dbConnect() {
-//   mongoose
-//     .connect(MONGO_URI, { dbName: 'a11yRoot' })
-//     .then(() => {
-//       console.log('Connected to Database.');
-//     })
-//     .catch((err: unknown) => {
-//       console.log(`Database connection error: ${err}`);
-//     });
-// }
-
-// export default dbConnect;
 
 // Database connection error: The `uri` parameter to `openUri()` must be a string, got "undefined".
 //  Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.

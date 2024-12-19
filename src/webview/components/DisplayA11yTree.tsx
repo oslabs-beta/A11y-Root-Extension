@@ -4,7 +4,7 @@ import {
   DisplayA11yTreeProps,
   AccessibilityNode,
   AccessibilityTree,
-} from '../types';
+} from '../../types/index.types';
 import {
   headerAside,
   skipLinkAside,
