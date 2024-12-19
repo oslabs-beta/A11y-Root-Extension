@@ -1,5 +1,5 @@
 import ProjectModel from '../models/projectModel';
-import { projectController } from '../type';
+import { projectController } from '../../types/server.types';
 
 const ProjectController = {} as projectController;
 

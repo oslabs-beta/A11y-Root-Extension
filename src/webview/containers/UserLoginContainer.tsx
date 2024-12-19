@@ -4,7 +4,7 @@ import UserInfo from '../components/UserInfo';
 import LoginButton from '../components/LoginButton';
 import LogoutButton from '../components/LogoutButton';
 
-import { UserLoginContainerProps } from '../types';
+import { UserLoginContainerProps } from '../../types/index.types';
 
 function UserLoginContainer({ isLoggedIn, user }: UserLoginContainerProps) {
   return (

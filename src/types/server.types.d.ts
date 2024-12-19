@@ -7,10 +7,10 @@ export type ServerError = {
   success: boolean;
 };
 
-export interface TabIndexEntry {
-  role: string;
-  name?: string;
-}
+// export interface TabIndexEntry {
+//   role: string;
+//   name?: string;
+// }
 
 export type userController = {
   getUser: (req: Request, res: Response, next: NextFunction) => void;

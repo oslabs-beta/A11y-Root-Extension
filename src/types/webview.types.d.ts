@@ -1,4 +1,4 @@
-import DisplayA11yTree from './components/DisplayA11yTree';
+//import DisplayA11yTree from './components/DisplayA11yTree';
 import { Types } from 'mongoose';
 
 export type SerializedAXNode = {

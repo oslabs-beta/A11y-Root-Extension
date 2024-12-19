@@ -1,5 +1,5 @@
 import React from 'react';
-import { ElementProps } from '../types';
+import { ElementProps } from '../../types/index.types';
 
 function Element({ node }: ElementProps) {
   return (

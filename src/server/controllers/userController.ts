@@ -1,5 +1,5 @@
 import UserModel from '../models/userModel';
-import { userController } from '../type';
+import { userController } from '../../types/server.types';
 
 const UserController = {} as userController;
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DisplayElementsProps } from '../types';
+import { DisplayElementsProps } from '../../types/index.types';
 
 function DisplayElements({ title, children, aside }: DisplayElementsProps) {
   return (

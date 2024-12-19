@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './style.css';
 import HeaderContainer from './containers/HeaderContainer';
 import MainContainer from './containers/MainContainer';
-import { Types } from 'mongoose';
 import { postMessage } from './helpers/vscodeHelper';
-import { User, EventData } from './types';
+import { User, EventData } from '../types/index.types';
 //import * as vscode from 'vscode';
 
 const App: React.FC = () => {
