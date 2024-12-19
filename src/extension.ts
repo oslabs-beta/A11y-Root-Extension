@@ -10,17 +10,29 @@ dotenv.config();
 
 let globalContext: vscode.ExtensionContext;
 let uriHandlerRegistered = false;
-let serverManager: { startServer: () => Promise<void>; stopServer: () => void };
+let serverManager: {
+  startServer: () => Promise<void>;
+  getPort: () => number | null;
+  stopServer: () => void;
+};
 
 export async function activate(context: vscode.ExtensionContext) {
   globalContext = context; // Save the context globally
-  const PORT = 3333;
+  const initialPort = 5050;
+  //const PORT = 3333; !!!!!!!! play around with port initializing, may need to set localhost instead of
+  // server = app.listen(serverPort, '127.0.0.1', () => {
+  //   console.log(`Server running at http://localhost:${serverPort}`);
+  // });
+  let port: number | null = null;
 
-  serverManager = createServer(PORT, context);
+  serverManager = createServer(initialPort, context);
 
   try {
     await serverManager.startServer();
-    vscode.window.showInformationMessage(`Server started on port ${PORT}`);
+    port = serverManager.getPort();
+    vscode.window.showInformationMessage(
+      `Server started on port ${initialPort}`
+    );
   } catch (error: any) {
     vscode.window.showErrorMessage(`Failed to start server: ${error.message}`);
   }
@@ -33,11 +45,16 @@ export async function activate(context: vscode.ExtensionContext) {
     },
   });
 
+  if (!port) {
+    vscode.window.showErrorMessage(`Failed to start server: ${port}`);
+    return;
+  }
+
   // Add other extension functionality
-  context.subscriptions.push(openTab(context));
+  context.subscriptions.push(openTab(context, port));
 }
 
-function openTab(context: vscode.ExtensionContext) {
+function openTab(context: vscode.ExtensionContext, port: number) {
   return vscode.commands.registerCommand('a11y-root-extension.openTab', () => {
     const panel = vscode.window.createWebviewPanel(
       'a11yRootTab',
@@ -60,7 +77,7 @@ function openTab(context: vscode.ExtensionContext) {
             vscode.window.showInformationMessage(`Received callback`);
             try {
               const response = await fetch(
-                `http://localhost:3333/auth/callback?code=${code}`,
+                `http://localhost:${port}/auth/callback?code=${code}`,
                 {
                   method: 'GET',
                 }
@@ -158,7 +175,7 @@ function openTab(context: vscode.ExtensionContext) {
           const userId = await context.secrets.get('ssid');
           if (userId) {
             const response = await fetch(
-              `http://localhost:3333/users/${userId}`,
+              `http://localhost:${port}/users/${userId}`,
               {
                 method: 'GET',
               }
@@ -173,6 +190,8 @@ function openTab(context: vscode.ExtensionContext) {
               //pass entire user instead of username
               message: data,
             });
+          } else {
+            panel.webview.postMessage({ command: 'loggedOut' });
           }
         } catch (error: any) {
           const errorMessage =

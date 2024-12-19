@@ -71,6 +71,7 @@
     "dotenv": "^16.4.7",
     "mongoose": "^8.8.3",
     "nanoid": "^5.0.9",
+    "portfinder": "^1.0.32",
     "puppeteer": "^23.9.0",
     "puppeteer-core": "^23.10.0",
     "react": "^18.3.1",
