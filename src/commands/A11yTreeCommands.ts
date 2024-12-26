@@ -169,7 +169,10 @@ const a11yTreeCommands: A11yTreeCommands = {
 
       const projectName = await getUserSelectedProjectDirectoryName();
 
-      const response = await fetch(`http://localhost:${port}/pages`, {
+      const targetUrl = 'https://a11y-root-webpage.onrender.com/pages';
+      //const localhost = 'http://localhost:${port}/pages';
+
+      const response = await fetch(targetUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
