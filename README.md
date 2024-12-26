@@ -1,63 +1,130 @@
-# a11y-root-extension README
+# OSP - A11y Root 🌱
 
-Hope this works!
+**“A Visual Studio Code extension rooted in accessibility”**
 
-## Features
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-- `myExtension.enable`: Enable/disable this extension.
-- `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+Developed through **OSLabs**, a nonprofit tech accelerator, **A11y Root** is a **VS Code Extension** paired with a **Companion Web Dashboard**. It streamlines accessibility analysis and fosters collaboration across development teams by exposing accessibility insights and enabling seamless communication between developers, designers, and stakeholders.
 
 ---
 
-## Following extension guidelines
+## Overview
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+A11y Root integrates **WCAG compliance** tools directly into the development workflow. The extension provides:
 
-- [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+- **Accessibility Tree Visualization**: Exposes the full accessibility tree, allowing developers to understand how assistive technologies interact with the DOM.
+- **Real-Time Analysis**: Detects WCAG guideline issues in projects and provides actionable insights.
+- **Team Collaboration**: Enables sharing of accessibility reports through public links for seamless collaboration.
+- **Simplified Development Workflow**: Makes accessibility a priority from day one.
 
-## Working with Markdown
+---
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+## Features
 
-- Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-- Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-- Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+### **VS Code Extension**
 
-## For more information
+- Built with **React** and the **VS Code API**, the extension integrates accessibility analysis directly into the IDE.
+- Key functionalities include:
+  - Visualizing **header hierarchies**, **tabindex**, and **skip links**.
+  - Mapping the **entire accessibility tree** for web page architectures.
+  - Identifying and reporting **non-compliant elements**.
 
-- [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-- [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+### **Puppeteer Integration**
 
-**Enjoy!**
+- Utilized Puppeteer for:
+  - Generating accessibility trees.
+  - Performing **headless browser navigation** to analyze DOM structures.
+- Chose Puppeteer over Playwright for its ability to produce a **physical accessibility tree**, critical for visualization.
+
+### **Companion Web Dashboard**
+
+- Built with **React**, the dashboard:
+  - Displays accessibility tree visualizations for projects.
+  - Allows toggling of non-compliant UI components.
+  - Provides **shareable public links** for cross-team collaboration.
+
+### **Collaborative Features**
+
+- Enables sharing of page-specific accessibility data.
+- Bridges communication gaps between developers, designers, and stakeholders.
+
+---
+
+## Tech Stack
+
+- **VS Code Extension API**
+- **TypeScript**
+- **React** / **React Router**
+- **Express**
+- **Puppeteer**
+- **GitHub OAuth**
+- **MongoDB / Mongoose**
+
+---
+
+## Key Decisions
+
+### Puppeteer Over Playwright
+
+- **Why Puppeteer?**:
+  - Puppeteer’s `accessibility.snapshot()` provides full accessibility trees for visualization.
+  - Playwright's newer `ariaSnapshot()` focuses on individual elements, limiting comprehensive tree generation.
+- **Fun Fact**: Playwright, though created by the same team, supports more browsers (Chromium, WebKit, Firefox), but Puppeteer’s focus on Chromium was better suited for our needs.
+
+### MongoDB Over SQL
+
+- MongoDB was chosen for its ability to handle **highly nested accessibility trees** and provide a flexible schema.
+- JSON-based storage simplified retrieval and accelerated development, making it ideal for this project.
+
+---
+
+## Authentication
+
+- **GitHub OAuth x 2**:
+  - Streamlined developer login for both the VS Code extension and the companion web app.
+  - **Why GitHub OAuth?**:
+    - Easy setup compared to Google OAuth.
+    - Tailored for developers, aligning with their existing GitHub accounts.
+
+---
+
+## Impact
+
+By integrating the VS Code extension with a **centralized database** and **companion web dashboard**, **A11y Root** creates a robust ecosystem for accessibility analysis.
+
+- Developers benefit from actionable insights directly within their workflow.
+- Project stakeholders gain a centralized, shareable resource to address accessibility issues collaboratively.
+
+**“Planting accessibility (a11y) into the development workflow from day one.”**
+
+---
+
+## Get Started
+
+1. **Install the VS Code Extension**: [Link to extension marketplace]
+2. **Access the Companion Web App**: [Link to web dashboard]
+3. **Authenticate with GitHub OAuth**: Streamlined login process for developers.
+4. Start building with accessibility in mind!
+
+---
+
+## License
+
+This project is licensed under the Apache License, Version 2.0. See the [LICENSE](./LICENSE) file for details.
+
+---
+
+## Contributing
+
+We welcome contributions from the community! Check out our [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines on how to get involved.
+
+---
+
+## Acknowledgments
+
+- **OSLabs**: For supporting this project through their nonprofit tech accelerator program.
+- **Puppeteer Team**: For their robust accessibility tools and support.
+
+---
+
+## Contact
+
+For questions, feedback, or collaboration opportunities, please contact us at [your email/contact info].
