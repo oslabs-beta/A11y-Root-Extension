@@ -127,31 +127,13 @@ const a11yTreeCommands: A11yTreeCommands = {
         tabIndex: tabIndex,
       };
 
-      // tabIndex -> {} ?
-
-      // Save results
       const outputFolder = path.join(context.extensionPath, 'results');
-      fs.mkdirSync(outputFolder, { recursive: true });
 
       const treeResultPath = path.join(outputFolder, 'a11y-tree.json');
+
+      // Save results for testing
+      fs.mkdirSync(outputFolder, { recursive: true });
       fs.writeFileSync(treeResultPath, JSON.stringify(result, null, 2));
-
-      // Send results back to the webview
-
-      // const pageSchema = new Schema({
-      //   projectId: { type: Schema.Types.ObjectId, ref: 'Project' },
-      //   url: { type: String, required: true },
-      //   tree: { type: String, required: true },
-      //   skipLink: {
-      //     type: String,
-      //     required: [true, 'A skip link must be present'],
-      //   },
-      //   h1: { type: String, required: [true, 'An h1 tag must be present'] },
-      //   tabIndex: {
-      //     type: [String],
-      //     required: [true, 'A tabIndex must be present'],
-      //   },
-      // });
 
       //look at user's directory.
       //if project with that directory name already exists, create a page using the a11ytree and attach to it.
@@ -169,8 +151,7 @@ const a11yTreeCommands: A11yTreeCommands = {
 
       const projectName = await getUserSelectedProjectDirectoryName();
 
-      const targetUrl = 'https://a11y-root-webpage.onrender.com/pages';
-      //const localhost = 'http://localhost:${port}/pages';
+      const targetUrl = 'https://a11yroot.dev/pages';
 
       const response = await fetch(targetUrl, {
         method: 'POST',
@@ -189,19 +170,12 @@ const a11yTreeCommands: A11yTreeCommands = {
       }
 
       const responseData = await response.json();
-      vscode.window.showInformationMessage(
-        `Response Data -> ${JSON.stringify(responseData)}`
-      );
 
       panel.webview.postMessage({
         command: 'parseTreeResult',
         success: true,
         message: result,
       });
-
-      vscode.window.showInformationMessage(
-        `Accessibility results saved: ${treeResultPath}`
-      );
     } catch (error: any) {
       const errorMessage = error.message || 'Unknown error occurred.';
       vscode.window.showErrorMessage(
