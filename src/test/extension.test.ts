@@ -36,3 +36,13 @@ suite('Basic Extension Test Suite', () => {
     );
   });
 });
+
+suite('Command Registration Test Suite', () => {
+  test('Should register the openTab command', async () => {
+    const commands = await vscode.commands.getCommands(true);
+    assert.ok(
+      commands.includes('a11y-root-extension.openTab'),
+      'Command "a11y-root-extension.openTab" should be registered.'
+    );
+  });
+});
