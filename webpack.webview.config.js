@@ -52,17 +52,17 @@ module.exports = {
     //   filename: 'index.html',
     // }),
   ],
-  devServer: {
-    static: {
-      directory: path.resolve(__dirname, 'dist'), // Serve static files from dist
-    },
-    server: {
-      type: 'http',
-    },
-    port: 3000, // Port for the dev server
-    open: true, // Automatically open in the browser
-    hot: true, // Enable Hot Module Replacement
-  },
+  // devServer: {
+  //   static: {
+  //     directory: path.resolve(__dirname, 'dist'), // Serve static files from dist
+  //   },
+  //   server: {
+  //     type: 'http',
+  //   },
+  //   port: 3000, // Port for the dev server
+  //   open: true, // Automatically open in the browser
+  //   hot: true, // Enable Hot Module Replacement
+  // },
 };
 
 // the following has come up several times in https server/webpack setup

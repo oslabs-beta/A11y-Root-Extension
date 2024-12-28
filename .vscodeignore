@@ -16,5 +16,7 @@ vsc-extension-quickstart.md
 **/.vscode-test.
 tests
 *.log
+**/*.js.map
+*.vsix
 
 !dist/** 
