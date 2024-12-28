@@ -3,42 +3,26 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
-import { createServer } from './server/server';
+//import { createServer } from './server/server';
 import a11yTreeCommands from './commands/A11yTreeCommands';
 import dotenv from 'dotenv';
-dotenv.config();
+
+dotenv.config({ path: path.join(__dirname, '..', '.env') });
 
 let globalContext: vscode.ExtensionContext;
 let uriHandlerRegistered = false;
-let serverManager: { startServer: () => Promise<void>; stopServer: () => void };
+let panelInstances: Map<string, vscode.WebviewPanel> = new Map();
 
 export async function activate(context: vscode.ExtensionContext) {
   globalContext = context; // Save the context globally
-  const PORT = 3333;
-
-  serverManager = createServer(PORT, context);
-
-  try {
-    await serverManager.startServer();
-    vscode.window.showInformationMessage(`Server started on port ${PORT}`);
-  } catch (error: any) {
-    vscode.window.showErrorMessage(`Failed to start server: ${error.message}`);
-  }
-
-  // Add subscriptions
-  context.subscriptions.push({
-    dispose: () => {
-      serverManager.stopServer();
-      console.log('Server stopped.');
-    },
-  });
 
   // Add other extension functionality
-  context.subscriptions.push(openTab(context));
+  context.subscriptions.push(openTab(context, 3000));
 }
 
-function openTab(context: vscode.ExtensionContext) {
+function openTab(context: vscode.ExtensionContext, port: number) {
   return vscode.commands.registerCommand('a11y-root-extension.openTab', () => {
+    const panelId = `panel-${Date.now()}`;
     const panel = vscode.window.createWebviewPanel(
       'a11yRootTab',
       'A11y Root',
@@ -50,6 +34,12 @@ function openTab(context: vscode.ExtensionContext) {
         enableForms: true, // not sure if we need this
       }
     );
+    panelInstances.set(panelId, panel);
+    panel.onDidDispose(() => {
+      console.log(`Webview ${panelId} disposed.`);
+      panelInstances.delete(panelId); // Remove from the map
+    });
+
     if (!uriHandlerRegistered) {
       vscode.window.registerUriHandler({
         async handleUri(uri: vscode.Uri) {
@@ -57,20 +47,24 @@ function openTab(context: vscode.ExtensionContext) {
             const query = new URLSearchParams(uri.query);
             //temporary code from github that is needed to continue oauth
             const code = query.get('code');
-            vscode.window.showInformationMessage(`Received callback`);
+            vscode.window.showInformationMessage(`Received callback - ${code}`);
             try {
               const response = await fetch(
-                `http://localhost:3333/auth/callback?code=${code}`,
+                `https://a11y-root-webpage.onrender.com/extension/callback?code=${code}`,
                 {
                   method: 'GET',
                 }
               );
               if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                const errorText = await response.text(); // Fetch error details
+                throw new Error(
+                  `HTTP error! status: ${response.status}, message: ${errorText}`
+                );
               }
 
               const data = await response.json(); // Parse the JSON response
               const user = JSON.stringify(data);
+              await context.secrets.store('ssid', data._id);
               vscode.window.showInformationMessage(
                 `oauth response.data -> ${user}`
               );
@@ -81,7 +75,7 @@ function openTab(context: vscode.ExtensionContext) {
               });
             } catch (error: any) {
               vscode.window.showInformationMessage(
-                `Error : -> ${error.message}`
+                `!!!Error : -> ${error.message}`
               );
             }
           }
@@ -121,11 +115,17 @@ function openTab(context: vscode.ExtensionContext) {
         const client_id = process.env.GITHUB_CLIENT_ID as string;
         const client_secret = process.env.GITHUB_CLIENT_SECRET as string;
         const redirect_uri = process.env.REDIRECT_URI as string;
+        vscode.window.showInformationMessage(
+          `ID & Redirect: -> ${client_id} & ${redirect_uri}`
+        );
         try {
           const authUrl = `https://github.com/login/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}`;
           //parse the auth url and open it externally. after login, github will reroute to app (see: vscode.window.registerUriHandler line 233)
           vscode.env.openExternal(vscode.Uri.parse(authUrl));
         } catch (error: any) {
+          panel.webview.postMessage({
+            command: 'loggedOut',
+          });
           const errorMessage =
             error.response?.data || error.message || 'Unknown error';
           //passes error to front end in the form of command/message - not sure when this would actually trigger?
@@ -158,21 +158,28 @@ function openTab(context: vscode.ExtensionContext) {
           const userId = await context.secrets.get('ssid');
           if (userId) {
             const response = await fetch(
-              `http://localhost:3333/users/${userId}`,
+              `https://a11y-root-webpage.onrender.com/users/${userId}`,
               {
                 method: 'GET',
               }
             );
             if (!response.ok) {
+              panel.webview.postMessage({ command: 'loggedOut' });
               throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json(); // Parse the JSON response
+
+            vscode.window.showInformationMessage(
+              `data from https://a11y-root-webpage.onrender.com/users/${userId} -> ${data}`
+            );
 
             panel.webview.postMessage({
               command: 'loggedIn',
               //pass entire user instead of username
               message: data,
             });
+          } else {
+            panel.webview.postMessage({ command: 'loggedOut' });
           }
         } catch (error: any) {
           const errorMessage =
@@ -188,9 +195,11 @@ function openTab(context: vscode.ExtensionContext) {
       if (message.command === 'parseTree') {
         if (message.url) {
           await a11yTreeCommands.handleFetchTree(
+            port,
             panel,
             context,
             message.url,
+
             message.user
           );
         } else {
@@ -211,4 +220,57 @@ export async function deactivate() {
       subscription.dispose()
     );
   }
+  panelInstances.forEach((panel) => panel.dispose());
+  panelInstances.clear();
 }
+
+// import * as vscode from 'vscode';
+
+// let panelInstances: Map<string, vscode.WebviewPanel> = new Map();
+
+// export function activate(context: vscode.ExtensionContext) {
+//   context.subscriptions.push(
+//     vscode.commands.registerCommand('myExtension.openTab', () => {
+//       createNewWebviewInstance();
+//     })
+//   );
+// }
+
+// function createNewWebviewInstance() {
+//   // Generate a unique ID for this panel
+//   const panelId = `panel-${Date.now()}`;
+
+//   // Create a new webview panel
+//   const panel = vscode.window.createWebviewPanel(
+//     panelId, // Unique ID
+//     `Tab - ${panelId}`, // Title for the new tab
+//     vscode.ViewColumn.One, // Show in the active column
+//     {
+//       enableScripts: true, // Allow scripts to run in the webview
+//       retainContextWhenHidden: true, // Keep context when hidden
+//     }
+//   );
+
+//   // Set the initial HTML content
+//   panel.webview.html = `<html><body><h1>Hello from ${panelId}!</h1></body></html>`;
+
+//   // Add this panel to the instances map
+//   panelInstances.set(panelId, panel);
+
+//   // Handle panel disposal
+//   panel.onDidDispose(() => {
+//     console.log(`Webview ${panelId} disposed.`);
+//     panelInstances.delete(panelId); // Remove from the map
+//   });
+
+//   // Optional: Listen for messages from the webview
+//   panel.webview.onDidReceiveMessage((message) => {
+//     console.log(`Message from ${panelId}:`, message);
+//   });
+// }
+
+// export function deactivate() {
+//   // Dispose of all panels when the extension is deactivated
+//   panelInstances.forEach((panel) => panel.dispose());
+//   panelInstances.clear();
+// }

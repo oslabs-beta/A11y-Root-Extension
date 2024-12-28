@@ -8,6 +8,7 @@
 /// <reference lib="dom" />
 
 declare const acquireVsCodeApi: () => {
+  window: any;
   postMessage: (message: { command: string; url?: string }) => void;
 };
 

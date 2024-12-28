@@ -14,6 +14,7 @@ const outputChannel = vscode.window.createOutputChannel('a11yTreeCommands');
 
 const a11yTreeCommands: A11yTreeCommands = {
   async handleFetchTree(
+    port: number,
     panel: vscode.WebviewPanel,
     context: vscode.ExtensionContext,
     url: string,
@@ -168,7 +169,10 @@ const a11yTreeCommands: A11yTreeCommands = {
 
       const projectName = await getUserSelectedProjectDirectoryName();
 
-      const response = await fetch('http://localhost:3333/pages', {
+      const targetUrl = 'https://a11y-root-webpage.onrender.com/pages';
+      //const localhost = 'http://localhost:${port}/pages';
+
+      const response = await fetch(targetUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

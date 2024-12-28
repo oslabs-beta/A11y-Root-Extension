@@ -17,18 +17,22 @@
 
 {
   "compilerOptions": {
-    "target": "ES6", // ECMAScript target version
-    "module": "ESNext", // Use ESNext modules for better compatibility with React
+    "sourceMap": true,
+    "module": "CommonJS",
+    "target": "ES6",
+    // "target": "ES6", // ECMAScript target version
+    // "module": "ESNext", // Use ESNext modules for better compatibility with React
     "jsx": "react-jsx", // Enable JSX syntax for React (use "react" for React <17)
     "strict": true, // Enable strict type checking
     "esModuleInterop": true, // Allow default imports from CommonJS modules
     "moduleResolution": "node", // Resolve node_modules
-    "outDir": "./dist", // Output directory
+    "outDir": "./dist", // Output directory : might use dist
     "baseUrl": "./src", // Base directory for module resolution
     "paths": {
       "*": ["node_modules/*"]
     }
   },
-  "include": ["src/**/*"], // Include all TypeScript and TSX files in src
+  "type": "module",
+  "include": ["src/**/*", "test/**/*.ts"], // Include all TypeScript and TSX files in src
   "exclude": ["node_modules"]
 }

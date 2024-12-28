@@ -5,3 +5,6 @@ cert
 webview-dist
 dist
 results
+out
+*.vsix
+.vscode-test/**
