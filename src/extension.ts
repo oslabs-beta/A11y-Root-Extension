@@ -65,18 +65,14 @@ function openTab(context: vscode.ExtensionContext, port: number) {
               const data = await response.json(); // Parse the JSON response
               const user = JSON.stringify(data);
               await context.secrets.store('ssid', data._id);
-              vscode.window.showInformationMessage(
-                `oauth response.data -> ${user}`
-              );
+
               panel.webview.postMessage({
                 command: 'loggedIn',
                 //pass entire user instead of username
                 message: data,
               });
             } catch (error: any) {
-              vscode.window.showInformationMessage(
-                `!!!Error : -> ${error.message}`
-              );
+              vscode.window.showInformationMessage(`Error : ${error.message}`);
             }
           }
         },
@@ -98,6 +94,7 @@ function openTab(context: vscode.ExtensionContext, port: number) {
         path.join(context.extensionPath, 'dist', 'webview', 'bundle.js')
       )
     );
+
     // const styleCssUri = panel.webview.asWebviewUri(
     //   vscode.Uri.file(
     //     path.join(context.extensionPath, 'src', 'webview', 'style.css')
@@ -115,9 +112,7 @@ function openTab(context: vscode.ExtensionContext, port: number) {
         const client_id = process.env.GITHUB_CLIENT_ID as string;
         const client_secret = process.env.GITHUB_CLIENT_SECRET as string;
         const redirect_uri = process.env.REDIRECT_URI as string;
-        vscode.window.showInformationMessage(
-          `ID & Redirect: -> ${client_id} & ${redirect_uri}`
-        );
+
         try {
           const authUrl = `https://github.com/login/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}`;
           //parse the auth url and open it externally. after login, github will reroute to app (see: vscode.window.registerUriHandler line 233)
@@ -169,10 +164,6 @@ function openTab(context: vscode.ExtensionContext, port: number) {
             }
             const data = await response.json(); // Parse the JSON response
 
-            vscode.window.showInformationMessage(
-              `data from https://a11y-root-webpage.onrender.com/users/${userId} -> ${data}`
-            );
-
             panel.webview.postMessage({
               command: 'loggedIn',
               //pass entire user instead of username
@@ -214,6 +205,7 @@ function openTab(context: vscode.ExtensionContext, port: number) {
 }
 
 // This method is called when your extension is deactivated
+// It does not seem to be working properly when user logs out, closes tab and reopens tab
 export async function deactivate() {
   if (globalContext) {
     globalContext.subscriptions.forEach((subscription) =>
@@ -223,54 +215,3 @@ export async function deactivate() {
   panelInstances.forEach((panel) => panel.dispose());
   panelInstances.clear();
 }
-
-// import * as vscode from 'vscode';
-
-// let panelInstances: Map<string, vscode.WebviewPanel> = new Map();
-
-// export function activate(context: vscode.ExtensionContext) {
-//   context.subscriptions.push(
-//     vscode.commands.registerCommand('myExtension.openTab', () => {
-//       createNewWebviewInstance();
-//     })
-//   );
-// }
-
-// function createNewWebviewInstance() {
-//   // Generate a unique ID for this panel
-//   const panelId = `panel-${Date.now()}`;
-
-//   // Create a new webview panel
-//   const panel = vscode.window.createWebviewPanel(
-//     panelId, // Unique ID
-//     `Tab - ${panelId}`, // Title for the new tab
-//     vscode.ViewColumn.One, // Show in the active column
-//     {
-//       enableScripts: true, // Allow scripts to run in the webview
-//       retainContextWhenHidden: true, // Keep context when hidden
-//     }
-//   );
-
-//   // Set the initial HTML content
-//   panel.webview.html = `<html><body><h1>Hello from ${panelId}!</h1></body></html>`;
-
-//   // Add this panel to the instances map
-//   panelInstances.set(panelId, panel);
-
-//   // Handle panel disposal
-//   panel.onDidDispose(() => {
-//     console.log(`Webview ${panelId} disposed.`);
-//     panelInstances.delete(panelId); // Remove from the map
-//   });
-
-//   // Optional: Listen for messages from the webview
-//   panel.webview.onDidReceiveMessage((message) => {
-//     console.log(`Message from ${panelId}:`, message);
-//   });
-// }
-
-// export function deactivate() {
-//   // Dispose of all panels when the extension is deactivated
-//   panelInstances.forEach((panel) => panel.dispose());
-//   panelInstances.clear();
-// }
