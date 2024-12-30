@@ -177,3 +177,33 @@ ul {
   border-radius: 10px;
   padding: 3px;
 }
+
+.dashboard-display {
+  width: 100%;
+}
+
+.dashboard-display h2 {
+  margin-top: 0;
+  /* Optional styling for the header */
+}
+
+.dashboard-display aside {
+  margin-top: 10px;
+  /* Optional styling for the aside */
+}
+
+.dashboard-display ul {
+  width: 100%;
+  max-height: calc(
+    100vh - 100px
+  ); /* Adjust the 100px based on the height of your other elements */
+  overflow-y: auto;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  padding: 10px; /* Optional: Add space around the list */
+  margin: 0; /* Remove any default margin that might affect layout */
+}
+
+/* Optional: Add some styling for the list items to ensure they're visible */
+.dashboard-display ul li {
+  padding: 5px 0;
+}

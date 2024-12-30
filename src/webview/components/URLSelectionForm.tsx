@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { postMessage } from '../helpers/vscodeHelper';
 import { URLSelectionFormProps } from '../../types/index.types';
 
-const URLSelectionForm = ({ setPageResults, user }: URLSelectionFormProps) => {
-  const [url, setUrl] = useState<string>('http://127.0.0.1:5500/index.html');
+const URLSelectionForm = ({
+  setPageResults,
+  user,
+  setUrl,
+  url,
+}: URLSelectionFormProps) => {
   const [host, setHost] = useState<string>('localhost');
   const [port, setPort] = useState<string>('8080');
   const [page, setPage] = useState<string>('');
