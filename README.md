@@ -1,8 +1,10 @@
-# OSP - A11y Root 🌱
+<p align="center"> <img src="assets/a11y-root-icon.png" width="140px;" alt=""/></p>
+
+# A11y Root: VS Code Extension
 
 **“A Visual Studio Code extension rooted in accessibility”**
 
-Developed through **OSLabs**, a nonprofit tech accelerator, **A11y Root** is a **VS Code Extension** paired with a **Companion Web Dashboard**. It streamlines accessibility analysis and fosters collaboration across development teams by exposing accessibility insights and enabling seamless communication between developers, designers, and stakeholders.
+Developed through **OSLabs**, a nonprofit tech accelerator, **[A11y Root](https://a11yroot.dev)** is a **VS Code Extension** paired with a **Companion Web Dashboard**. It streamlines accessibility analysis and fosters collaboration across development teams by exposing accessibility insights and enabling seamless communication between developers, designers, and stakeholders.
 
 ---
 
@@ -14,6 +16,14 @@ A11y Root integrates **WCAG compliance** tools directly into the development wor
 - **Real-Time Analysis**: Detects WCAG guideline issues in projects and provides actionable insights.
 - **Team Collaboration**: Enables sharing of accessibility reports through public links for seamless collaboration.
 - **Simplified Development Workflow**: Makes accessibility a priority from day one.
+
+---
+
+## Requirements
+
+- A11y Root is currently compatible with Windows and MacOS installations of Visual Studio Code.
+
+- Unfortunately at this time, our extension encounters critical issues when attempting to use in a Linux environment (including WSL/Ubuntu). Resolving this is a high priority for our developer team, so check back soon!
 
 ---
 
@@ -45,6 +55,33 @@ A11y Root integrates **WCAG compliance** tools directly into the development wor
 
 - Enables sharing of page-specific accessibility data.
 - Bridges communication gaps between developers, designers, and stakeholders.
+
+---
+
+## Get Started
+
+1. Download the A11y Root Extension File (.vsix) from [our website](https://a11yroot.dev/)
+
+2. [Install the extension](https://code.visualstudio.com/docs/editor/extension-marketplace#_install-from-a-vsix) in VS Code.
+
+3. Enter
+    > \>A11y Root
+
+    into your VS Code search bar to open the extension.
+
+4. Log in through GitHub OAuth. This login is a one-time requirement; subsequent uses of the extension will persist your user details. Logging in with GitHub allows us to easily associate your projects and their page accessibility trees with you in our database, allowing them to be retrieved and shared later.
+
+5. When logged in, either enter a URL to analyze, or enter host and port details for a webpage currently running in your dev environment. Click "check page" and your tree will be generated and analyzed!
+
+6. Once you get the hang of the extension, head over to our [developer dashboard](https://a11yroot.dev/dashboard) on our website. From this dashboard, you can see previously generated trees from your various projects. Each tree can be shared via direct link. You can send this link to co-contributors and project stakeholders to collaborate on necessary accessibility changes.
+
+7.  Start building with accessibility in mind!
+
+---
+
+## Known Issues / Limitations
+
+The extension currently experiences issues parsing HTTPS URLs of local dev environments (for example: https://localhost:8080/).
 
 ---
 
@@ -97,15 +134,6 @@ By integrating the VS Code extension with a **centralized database** and **compa
 
 ---
 
-## Get Started
-
-1. **Install the VS Code Extension**: [Link to extension marketplace]
-2. **Access the Companion Web App**: [Link to web dashboard]
-3. **Authenticate with GitHub OAuth**: Streamlined login process for developers.
-4. Start building with accessibility in mind!
-
----
-
 ## License
 
 This project is licensed under the Apache License, Version 2.0. See the [LICENSE](./LICENSE) file for details.
@@ -118,13 +146,62 @@ We welcome contributions from the community! Check out our [CONTRIBUTING.md](./C
 
 ---
 
+## Key Contributors
+
+This product was initially created and deployed by the following team of developers.
+
+<table>
+<td align="center">
+  <img src="https://avatars.githubusercontent.com/u/150477249?v=4" width="140px;" alt=""/>
+  <br/>
+  <sub><b>Tamika Blakey</b></sub>
+  <br/>
+  <a href="https://github.com/jamagachi">GitHub</a>
+  <a href="https://www.linkedin.com/in/tamikablakey/">LinkedIn</a>
+</td>
+
+<td align="center">
+  <img src="https://avatars.githubusercontent.com/u/107963806?v=4" width="140px;" alt=""/>
+  <br/>
+  <sub><b>Ian Buchanan</b></sub>
+  <br/>
+  <a href="https://github.com/ianbuchanan42">GitHub</a>
+  <a href="https://www.linkedin.com/in/ian-buchanan-accessibility/">LinkedIn</a>
+</td>
+
+<td align="center">
+  <img src="https://avatars.githubusercontent.com/u/49629405?v=4" width="140px;" alt=""/>
+  <br/>
+  <sub><b>Claire Chen</b></sub>
+  <br/>
+  <a href="https://github.com/claireandj666">GitHub</a>
+  <a href="https://www.linkedin.com/in/claire-chen11/">LinkedIn</a>
+</td>
+
+<td align="center">
+  <img src="https://avatars.githubusercontent.com/u/175950716?v=4" width="140px;" alt=""/>
+  <br/>
+  <sub><b>Warren Cutler</b></sub>
+  <br/>
+  <a href="https://github.com/warren-cutler">GitHub</a>
+  <a href="https://www.linkedin.com/in/warren-cutler/">LinkedIn</a>
+</td>
+
+<td align="center">
+  <img src="https://avatars.githubusercontent.com/u/141786979?v=4" width="140px;" alt=""/>
+  <br/>
+  <sub><b>Jeet Patel</b></sub>
+  <br/>
+  <a href="https://github.com/Jeetp45">GitHub</a>
+  <a href="https://www.linkedin.com/in/jeetpatel-a83820254/">LinkedIn</a>
+</td>
+
+</table>
+
+---
+
 ## Acknowledgments
 
 - **OSLabs**: For supporting this project through their nonprofit tech accelerator program.
 - **Puppeteer Team**: For their robust accessibility tools and support.
 
----
-
-## Contact
-
-For questions, feedback, or collaboration opportunities, please contact us at [your email/contact info].
