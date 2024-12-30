@@ -3,8 +3,12 @@ import { postMessage } from '../helpers/vscodeHelper';
 
 import { URLInputFormProps } from '../../types/index.types';
 
-function URLInputForm({ setPageResults, user }: URLInputFormProps) {
-  const [url, setUrl] = useState<string>('http://127.0.0.1:5500/index.html');
+function URLInputForm({
+  setPageResults,
+  user,
+  setUrl,
+  url,
+}: URLInputFormProps) {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
