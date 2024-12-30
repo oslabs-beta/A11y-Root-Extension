@@ -87,11 +87,15 @@ export interface ElementProps {
 export interface URLInputFormProps {
   setPageResults: (pageResults: PageResults) => void;
   user: User;
+  url: string;
+  setUrl: (url: string) => void;
 }
 
 export interface URLSelectionFormProps {
   setPageResults: (pageResults: PageResults) => void;
   user: User;
+  url: string;
+  setUrl: (url: string) => void;
 }
 
 export interface MainContainerProps {

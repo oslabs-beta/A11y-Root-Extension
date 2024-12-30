@@ -7,7 +7,8 @@ import URLSelectionForm from '../components/URLSelectionForm';
 
 function MainContainer({ user }: MainContainerProps) {
   const [pageResults, setPageResults] = useState<PageResults | null>(null);
-  const [activeTab, setActiveTab] = useState('Full Tree');
+  const [activeTab, setActiveTab] = useState('Non Compliance');
+  const [url, setUrl] = useState<string>('http://127.0.0.1:5500');
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
@@ -15,8 +16,18 @@ function MainContainer({ user }: MainContainerProps) {
 
   return (
     <main id='main'>
-      <URLInputForm setPageResults={setPageResults} user={user} />
-      <URLSelectionForm setPageResults={setPageResults} user={user} />
+      <URLInputForm
+        setPageResults={setPageResults}
+        user={user}
+        url={url}
+        setUrl={setUrl}
+      />
+      <URLSelectionForm
+        setPageResults={setPageResults}
+        user={user}
+        url={url}
+        setUrl={setUrl}
+      />
       {pageResults && (
         <TabNavigation
           activeTab={activeTab}
