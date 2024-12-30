@@ -50,7 +50,7 @@ function openTab(context: vscode.ExtensionContext, port: number) {
 
             try {
               const response = await fetch(
-                `https://a11y-root-webpage.onrender.com/extension/callback?code=${code}`,
+                `https://a11yroot.dev/extension/callback?code=${code}`,
                 {
                   method: 'GET',
                 }
