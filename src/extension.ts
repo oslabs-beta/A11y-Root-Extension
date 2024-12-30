@@ -47,7 +47,7 @@ function openTab(context: vscode.ExtensionContext, port: number) {
             const query = new URLSearchParams(uri.query);
             //temporary code from github that is needed to continue oauth
             const code = query.get('code');
-            vscode.window.showInformationMessage(`Received callback - ${code}`);
+
             try {
               const response = await fetch(
                 `https://a11y-root-webpage.onrender.com/extension/callback?code=${code}`,
