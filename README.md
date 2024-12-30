@@ -60,10 +60,22 @@ A11y Root integrates **WCAG compliance** tools directly into the development wor
 
 ## Get Started
 
-1. **Install the VS Code Extension**: [Link to extension marketplace]
-2. **Access the Companion Web App**: [Link to web dashboard]
-3. **Authenticate with GitHub OAuth**: Streamlined login process for developers.
-4. Start building with accessibility in mind!
+1. Download the A11y Root Extension File (.vsix) from [our website](https://a11yroot.dev/)
+
+2. [Install the extension](https://code.visualstudio.com/docs/editor/extension-marketplace#_install-from-a-vsix) in VS Code.
+
+3. Enter
+    > \>A11y Root
+
+    into your VS Code search bar to open the extension.
+
+4. Log in through GitHub OAuth. This login is a one-time requirement; subsequent uses of the extension will persist your user details. Logging in with GitHub allows us to easily associate your projects and their page accessibility trees with you in our database, allowing them to be retrieved and shared later.
+
+5. When logged in, either enter a URL to analyze, or enter host and port details for a webpage currently running in your dev environment. Click "check page" and your tree will be generated and analyzed!
+
+6. Once you get the hang of the extension, head over to our [developer dashboard](https://a11yroot.dev/dashboard) on our website. From this dashboard, you can see previously generated trees from your various projects. Each tree can be shared via direct link. You can send this link to co-contributors and project stakeholders to collaborate on necessary accessibility changes.
+
+7.  Start building with accessibility in mind!
 
 ---
 
@@ -181,7 +193,7 @@ This product was initially created and deployed by the following team of develop
   <sub><b>Jeet Patel</b></sub>
   <br/>
   <a href="https://github.com/Jeetp45">GitHub</a>
-  <a href="http://www.linkedin.com/in/jeetpatel-a838202545">LinkedIn</a>
+  <a href="https://www.linkedin.com/in/jeetpatel-a83820254/">LinkedIn</a>
 </td>
 
 </table>
