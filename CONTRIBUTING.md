@@ -10,11 +10,10 @@ For details on contributing to the VS Code webpage, server, or database, [click 
 
 ## Running in Dev
 
+At this time, if you would like to contribute to the extension itself, please contact the primary developer team (see: [README](README.md)).
 
-
-### Environmental Variables
-
-
+We are working on a containerized solution for development that would allow spinning up local server, in order to serve the extension locally.
+Once available, this document will be updated with instructions on how to spin up a dev version of the extension.
 
 ---
 
@@ -52,8 +51,23 @@ Please follow the below steps when looking to make contributions to the project.
 ### Compatibility
 
 - Linux / WSL Ubuntu compatibility: Currently, the extension does not work in Linux due to how Puppeteer is used. Puppeteer utilizes a headless Chromium browser to manipulate the webpage DOM and create the accessibility tree. Attempting to run this process in Linux currently has dependency issues we are working to resolve
+    - Temporary solution offered is to manually install missing dependencies:
+
+    >sudo apt install libgtk-3-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
+
+- In some cases, Windows and MacOS users encounter an issue where Puppeteer is looking for a specific version of Chrome. Proper solution TBD.
 
 ### Optimization
 
 - Reducing size of extension to be listable on the [Visual Studio Marketplace](https://marketplace.visualstudio.com/vscode)
     - The extension currently exceeds the maximum size requirement for listing on the official extension marketplace. This is primarily a result of the dependencies, particularly Puppeteer.
+
+### Bugs
+
+There are some known bugs with the extension, such as: 
+
+- The "Generate URL" field adding an extra "/" to the URL when navigating between the Custom Page and Use Dropdown options.
+
+- When a user initially signs in with GitHub, the extension may not re-render automatically. Closing and re-opening is the current workaround.
+
+- General bugs around parsing 
