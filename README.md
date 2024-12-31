@@ -22,8 +22,15 @@ A11y Root integrates **WCAG compliance** tools directly into the development wor
 ## Requirements
 
 - A11y Root is currently compatible with Windows and MacOS installations of Visual Studio Code.
+  - Some users may encounter an error relating to Puppeteer (used within the extension) looking for a specific version of Chrome. We will update with a solution ASAP.
 
-- Unfortunately at this time, our extension encounters critical issues when attempting to use in a Linux environment (including WSL/Ubuntu). Resolving this is a high priority for our developer team, so check back soon!
+- Unfortunately at this time, our extension encounters critical issues when attempting to use in a Linux environment (including WSL/Ubuntu)
+  - As a temporary workaround for WSL, users can manually install certain dependencies in their environment.
+
+  >sudo apt install libgtk-3-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
+
+
+Resolving these OS / dependency issues are a high priority for our development team! We hope to have an environment agnostic version of the extension available soon!
 
 ---
 
@@ -60,28 +67,42 @@ A11y Root integrates **WCAG compliance** tools directly into the development wor
 
 ## Get Started
 
-1. Download the A11y Root Extension File (.vsix) from [our website](https://a11yroot.dev/)
+1. Download the A11y Root Extension File (.vsix) from [our website](https://a11yroot.dev/).
 
 2. [Install the extension](https://code.visualstudio.com/docs/editor/extension-marketplace#_install-from-a-vsix) in VS Code.
+
+<p align="center"> <img src="assets/vsix_install.gif" alt=""/></p>
 
 3. Enter
     > \>A11y Root
 
     into your VS Code search bar to open the extension.
 
+<p align="center"> <img src="assets/a11yroot_openext.gif" alt=""/></p>
+
 4. Log in through GitHub OAuth. This login is a one-time requirement; subsequent uses of the extension will persist your user details. Logging in with GitHub allows us to easily associate your projects and their page accessibility trees with you in our database, allowing them to be retrieved and shared later.
 
-5. When logged in, either enter a URL to analyze, or enter host and port details for a webpage currently running in your dev environment. Click "check page" and your tree will be generated and analyzed!
+5. Spin up your project in your dev environment. Once it is running, enter the applicable URL into A11y Root extension and click "check page".
 
-6. Once you get the hang of the extension, head over to our [developer dashboard](https://a11yroot.dev/dashboard) on our website. From this dashboard, you can see previously generated trees from your various projects. Each tree can be shared via direct link. You can send this link to co-contributors and project stakeholders to collaborate on necessary accessibility changes.
+<p align="center"> <img src="assets/a11yroot_checklocal_ext.gif" alt=""/></p>
 
-7.  Start building with accessibility in mind!
+6. Additional pages of the same application can also be checked. Either by entering the full URL, or by adding the page to the *Generate URL* section of the extension.
+
+<p align="center"> <img src="assets/a11yroot_check2ndpage_ext.gif" alt=""/></p>
+
+7. Once you get the hang of the extension, head over to our [developer dashboard](https://a11yroot.dev) on our website. From the dashboard, you can see previously generated trees from your various projects. Pages generated from the same project will be grouped together. Each tree can also be shared via direct link. You can send this link to co-contributors and project stakeholders to collaborate on necessary accessibility changes.
+
+Note: projects are auto-named based on the root directory of the repo where the tree was generated from.
+
+8.  Start building with accessibility in mind!
 
 ---
 
 ## Known Issues / Limitations
 
 The extension currently experiences issues parsing HTTPS URLs of local dev environments (for example: https://localhost:8080/).
+
+To analyze pages that have an async fetch of resources, the extension may occasionally parse before that content is loaded properly. In most cases, checking the same page a subsequent time will work (and the saved results will overwrite the previously generated results).
 
 ---
 
