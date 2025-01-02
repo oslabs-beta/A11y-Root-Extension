@@ -16,7 +16,7 @@ import {
 // - Array of a pages tab index through headless browser interaction
 // - Accessibility Tree json object
 
-// with the above data we are able to build up a compliance object 
+// with the above data we are able to build up a compliance object
 // that is used to populate a compliance/ accessability tree dashboard
 
 // compliance object saved to user db under specific projects based on common directory
@@ -36,7 +36,6 @@ import {
 // outputChannel.appendLine(`url passed to a11yTreeCommands${url}`);
 // outputChannel.show();
 
-
 const a11yTreeCommands: A11yTreeCommands = {
   async handleFetchTree(
     port: number,
@@ -45,7 +44,6 @@ const a11yTreeCommands: A11yTreeCommands = {
     url: string,
     user: User
   ) {
-   
     try {
       // inform user of what url is being checked
       vscode.window.showInformationMessage(
@@ -83,7 +81,7 @@ const a11yTreeCommands: A11yTreeCommands = {
 
         return undefined;
       }
-      
+
       // set link count so we can track the first 3 focusable nodes for skip link
       let linkCount = 0;
       // set up partial compliance object to build out full compliance object later
@@ -97,9 +95,9 @@ const a11yTreeCommands: A11yTreeCommands = {
         let snap: AccessibilityNode | null =
           // capture state of page
           await page.accessibility.snapshot();
-         // setup array to collect all tabbable nodes/elements
+        // setup array to collect all tabbable nodes/elements
         const tabIndex: AccessibilityNode[] = [];
-        
+
         while (snap) {
           await page.keyboard.press('Tab');
           snap = await page.accessibility.snapshot();
@@ -160,9 +158,9 @@ const a11yTreeCommands: A11yTreeCommands = {
         tabIndex: tabIndex,
       };
 
-      const outputFolder = path.join(context.extensionPath, 'results');
+      // const outputFolder = path.join(context.extensionPath, 'results');
 
-      const treeResultPath = path.join(outputFolder, 'a11y-tree.json');
+      // const treeResultPath = path.join(outputFolder, 'a11y-tree.json');
 
       // Save results to local files for testing
       //fs.mkdirSync(outputFolder, { recursive: true });
@@ -250,7 +248,7 @@ export async function getUserSelectedProjectDirectoryName(): Promise<
   return selectedFolder;
 }
 
-// Adding compliance details to each element of the accessibility tree 
+// Adding compliance details to each element of the accessibility tree
 function guidelineCreator(
   tree: AccessibilityTree,
   compliance: Compliance
@@ -336,7 +334,7 @@ function testLink(node: AccessibilityNode) {
 let lastHeadingLevel = 0;
 let firstH1 = false;
 
-// Check the compliance details of each node by validating through the main property/ hierarchy (name and level) of each node 
+// Check the compliance details of each node by validating through the main property/ hierarchy (name and level) of each node
 function testHeadersAndUpdateCompliance(node: AccessibilityNode) {
   if (!node.name) {
     node.compliance = false;
