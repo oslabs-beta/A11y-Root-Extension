@@ -22,6 +22,26 @@ A11y Root integrates **WCAG compliance** tools directly into the development wor
 ## Requirements
 
 - A11y Root is currently compatible with Windows and MacOS installations of Visual Studio Code.
+- You may need to install Puppeteer to have a instance of Chromium, since the extension uses this as a headless browser.
+
+# Installing Puppeteer
+
+Puppeteer is a Node library that provides a high-level API to control headless Chrome or Chromium browsers. Here’s how you can install it in your project:
+
+# Installation
+
+To install Puppeteer, use npm:
+
+```bash
+npm install puppeteer
+```
+
+# For Mac users
+
+We do have a version of the extension that includes its own instance of Chromium.
+We hope to have similar options for Windows and Linux users in the near future.
+
+[A11y Root - Chromium Bundle](a11y-root-extension-mac-1.0.0-beta.vsix)
 
 - Unfortunately at this time, our extension encounters critical issues when attempting to use in a Linux environment (including WSL/Ubuntu). Resolving this is a high priority for our developer team, so check back soon!
 
@@ -65,9 +85,10 @@ A11y Root integrates **WCAG compliance** tools directly into the development wor
 2. [Install the extension](https://code.visualstudio.com/docs/editor/extension-marketplace#_install-from-a-vsix) in VS Code.
 
 3. Enter
-    > \>A11y Root
 
-    into your VS Code search bar to open the extension.
+   > \>A11y Root
+
+   into your VS Code search bar to open the extension.
 
 4. Log in through GitHub OAuth. This login is a one-time requirement; subsequent uses of the extension will persist your user details. Logging in with GitHub allows us to easily associate your projects and their page accessibility trees with you in our database, allowing them to be retrieved and shared later.
 
@@ -75,7 +96,7 @@ A11y Root integrates **WCAG compliance** tools directly into the development wor
 
 6. Once you get the hang of the extension, head over to our [developer dashboard](https://a11yroot.dev/dashboard) on our website. From this dashboard, you can see previously generated trees from your various projects. Each tree can be shared via direct link. You can send this link to co-contributors and project stakeholders to collaborate on necessary accessibility changes.
 
-7.  Start building with accessibility in mind!
+7. Start building with accessibility in mind!
 
 ---
 
@@ -204,4 +225,3 @@ This product was initially created and deployed by the following team of develop
 
 - **OSLabs**: For supporting this project through their nonprofit tech accelerator program.
 - **Puppeteer Team**: For their robust accessibility tools and support.
-
