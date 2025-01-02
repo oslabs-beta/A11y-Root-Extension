@@ -19,7 +19,7 @@ export async function activate(context: vscode.ExtensionContext) {
   // Add other extension functionality
   context.subscriptions.push(openTab(context, 3000));
 }
-
+//when extension is activated, openTab will run and contain all the functionality
 function openTab(context: vscode.ExtensionContext, port: number) {
   return vscode.commands.registerCommand('a11y-root-extension.openTab', () => {
     const panelId = `panel-${Date.now()}`;
@@ -39,7 +39,7 @@ function openTab(context: vscode.ExtensionContext, port: number) {
       console.log(`Webview ${panelId} disposed.`);
       panelInstances.delete(panelId); // Remove from the map
     });
-
+    //if path is auth/callback, start the github oauth process
     if (!uriHandlerRegistered) {
       vscode.window.registerUriHandler({
         async handleUri(uri: vscode.Uri) {
@@ -47,7 +47,7 @@ function openTab(context: vscode.ExtensionContext, port: number) {
             const query = new URLSearchParams(uri.query);
             //temporary code from github that is needed to continue oauth
             const code = query.get('code');
-
+            //make a fetch request to retrieve data by using the code
             try {
               const response = await fetch(
                 `https://a11yroot.dev/extension/callback?code=${code}`,
@@ -64,6 +64,7 @@ function openTab(context: vscode.ExtensionContext, port: number) {
 
               const data = await response.json(); // Parse the JSON response
               const user = JSON.stringify(data);
+              //store id in vscode secrets
               await context.secrets.store('ssid', data._id);
 
               panel.webview.postMessage({
@@ -108,6 +109,7 @@ function openTab(context: vscode.ExtensionContext, port: number) {
 
     // Listen for messages from the webview
     panel.webview.onDidReceiveMessage(async (message) => {
+      //start oauth process if message command is beginOAuth
       if (message.command === 'beginOAuth') {
         const client_id = process.env.GITHUB_CLIENT_ID as string;
         const client_secret = process.env.GITHUB_CLIENT_SECRET as string;
@@ -130,7 +132,7 @@ function openTab(context: vscode.ExtensionContext, port: number) {
           });
         }
       }
-
+      //delete ssid from vscode secrets if message command is beginLogout, this will end the session
       if (message.command === 'beginLogout') {
         try {
           await context.secrets.delete('ssid');
@@ -147,7 +149,7 @@ function openTab(context: vscode.ExtensionContext, port: number) {
           });
         }
       }
-
+      //check if user is logged in if message command is checkLogin
       if (message.command === 'checkLogin') {
         try {
           const userId = await context.secrets.get('ssid');
@@ -182,6 +184,11 @@ function openTab(context: vscode.ExtensionContext, port: number) {
           });
         }
       }
+
+      //the parseTree command initializes puppeteer
+
+      // this will parse the current url for an accessibility tree
+      // and interact with the page to build
 
       if (message.command === 'parseTree') {
         if (message.url) {
