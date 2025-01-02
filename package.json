@@ -3,7 +3,7 @@
   "publisher": "a11y-root",
   "displayName": "A11y-Root-Extension",
   "description": "vscode extension ",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "engines": {
     "vscode": "^1.95.0"
   },
@@ -26,6 +26,7 @@
     ]
   },
   "scripts": {
+    "postinstall": "node set-chromium-permissions.js",
     "vscode:prepublish": "npm run package",
     "compile": "webpack",
     "watch": "concurrently \"webpack --watch --stats-error-details\" \"npx tsc --project tsconfig.json --watch\"",
@@ -81,9 +82,8 @@
     "dotenv": "^16.4.7",
     "get-port": "^7.1.0",
     "mongoose": "^8.8.3",
-    "nanoid": "^5.0.9",
     "puppeteer": "^23.9.0",
-    "puppeteer-core": "^23.10.0",
+    "nanoid": "^5.0.9",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tcp-port-used": "^1.0.2"

@@ -1,8 +1,7 @@
 .vscode/**
 .vscode-test/**
 out/**
-node_modules
-node_modules/**
+
 src/**
 .git
 .gitignore
@@ -19,4 +18,15 @@ tests
 **/*.js.map
 *.vsix
 
-!dist/** 
+# Exclude everything in node_modules by default
+node_modules/**
+
+# Include Puppeteer's local Chromium folder
+!node_modules/puppeteer/.local-chromium
+
+# Include Puppeteer's package.json and required files
+!node_modules/puppeteer/package.json
+!node_modules/puppeteer/lib/**
+
+# Retain dist folder
+!dist/**

@@ -10,7 +10,65 @@ import {
   Compliance,
 } from '../types/index.types';
 
-const outputChannel = vscode.window.createOutputChannel('a11yTreeCommands');
+//const outputChannel = vscode.window.createOutputChannel('a11yTreeCommands');
+
+// console.log(puppeteer.defaultArgs());
+
+// console.log(puppeteer.executablePath());
+function resolveChromiumPath(): string {
+  // Check if the extension files are in the "dist" folder
+
+  let chromiumPath: string;
+
+  if (process.platform === 'darwin') {
+    chromiumPath = path.join(
+      __dirname,
+      '..',
+      'node_modules',
+      'puppeteer',
+      '.local-chromium',
+      'chrome',
+      'mac-131.0.6778.204',
+      'chrome-mac-x64',
+      'Google Chrome for Testing.app',
+      'Contents',
+      'MacOS',
+      'Google Chrome for Testing'
+    );
+  } else if (process.platform === 'win32') {
+    chromiumPath = path.join(
+      __dirname,
+      '..',
+      'node_modules',
+      'puppeteer',
+      '.local-chromium',
+      'chrome',
+      'win64-131.0.6778.204',
+      'chrome-win',
+      'chrome.exe'
+    );
+  } else if (process.platform === 'linux') {
+    chromiumPath = path.join(
+      __dirname,
+      '..',
+      'node_modules',
+      'puppeteer',
+      '.local-chromium',
+      'chrome',
+      'linux-131.0.6778.204',
+      'chrome-linux',
+      'chrome'
+    );
+  } else {
+    throw new Error('Unsupported platform');
+  }
+
+  if (!fs.existsSync(chromiumPath)) {
+    throw new Error(`Chromium binary not found at ${chromiumPath}`);
+  }
+
+  return chromiumPath;
+}
 
 const a11yTreeCommands: A11yTreeCommands = {
   async handleFetchTree(
@@ -20,19 +78,21 @@ const a11yTreeCommands: A11yTreeCommands = {
     url: string,
     user: User
   ) {
-    outputChannel.appendLine(`url passed to a11yTreeCommands${url}`);
-    outputChannel.show();
+    //outputChannel.appendLine(`url passed to a11yTreeCommands${url}`);
+    //outputChannel.show();
     try {
       vscode.window.showInformationMessage(
         `Fetching accessibility data for: ${url}`
       );
 
-      //const pageName = path.basename(url);
+      //vscode.window.showInformationMessage(`__dirname, ${__dirname}`);
 
+      const chromiumPath = resolveChromiumPath();
       // Launch Puppeteer and open the page
       const browser = await puppeteer.launch({
         headless: true, // Runs in headless mode
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        executablePath: chromiumPath,
       });
       const page = await browser.newPage();
       await page.goto(url);
@@ -127,13 +187,14 @@ const a11yTreeCommands: A11yTreeCommands = {
         tabIndex: tabIndex,
       };
 
-      const outputFolder = path.join(context.extensionPath, 'results');
-
-      const treeResultPath = path.join(outputFolder, 'a11y-tree.json');
-
       // Save results for testing
-      fs.mkdirSync(outputFolder, { recursive: true });
-      fs.writeFileSync(treeResultPath, JSON.stringify(result, null, 2));
+      //const outputFolder = path.join(context.extensionPath, 'results');
+      //const treeResultPath = path.join(outputFolder, 'a11y-tree.json');
+      //const str = `${puppeteer.defaultArgs()} ${puppeteer.executablePath()}`;
+      // fs.mkdirSync(outputFolder, { recursive: true });
+      //fs.mkdirSync(outputFolder, { recursive: true });
+      // fs.writeFileSync(treeResultPath, JSON.stringify(result, null, 2));
+      //fs.writeFileSync(treeResultPath, JSON.stringify(str, null, 2));
 
       //look at user's directory.
       //if project with that directory name already exists, create a page using the a11ytree and attach to it.
