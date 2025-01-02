@@ -22,13 +22,32 @@ A11y Root integrates **WCAG compliance** tools directly into the development wor
 ## Requirements
 
 - A11y Root is currently compatible with Windows and MacOS installations of Visual Studio Code.
-  - Some users may encounter an error relating to Puppeteer (used within the extension) looking for a specific version of Chrome. We will update with a solution ASAP.
+- You may need to install Puppeteer to have a instance of Chromium, since the extension uses this as a headless browser.
+
+# Installing Puppeteer
+
+Puppeteer is a Node library that provides a high-level API to control headless Chrome or Chromium browsers. Here’s how you can install it in your project:
+
+# Installation
+
+To install Puppeteer, use npm:
+
+```bash
+npm install puppeteer
+```
+
+# For Mac users
+
+We do have a version of the extension that includes its own instance of Chromium.
+We hope to have similar options for Windows and Linux users in the near future.
+
+[A11y Root - Chromium Bundle](a11y-root-extension-mac-1.0.0-beta.vsix)
 
 - Unfortunately at this time, our extension encounters critical issues when attempting to use in a Linux environment (including WSL/Ubuntu)
+
   - As a temporary workaround for WSL, users can manually install certain dependencies in their environment.
 
-  >sudo apt install libgtk-3-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
-
+  > sudo apt install libgtk-3-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
 
 Resolving these OS / dependency issues are a high priority for our development team! We hope to have an environment agnostic version of the extension available soon!
 
@@ -74,9 +93,10 @@ Resolving these OS / dependency issues are a high priority for our development t
 <p align="center"> <img src="assets/vsix_install.gif" alt=""/></p>
 
 3. Enter
-    > \>A11y Root
 
-    into your VS Code search bar to open the extension.
+   > \>A11y Root
+
+   into your VS Code search bar to open the extension.
 
 <p align="center"> <img src="assets/a11yroot_openext.gif" alt=""/></p>
 
@@ -86,15 +106,13 @@ Resolving these OS / dependency issues are a high priority for our development t
 
 <p align="center"> <img src="assets/a11yroot_checklocal_ext.gif" alt=""/></p>
 
-6. Additional pages of the same application can also be checked. Either by entering the full URL, or by adding the page to the *Generate URL* section of the extension.
+6. Additional pages of the same application can also be checked. Either by entering the full URL, or by adding the page to the _Generate URL_ section of the extension.
 
 <p align="center"> <img src="assets/a11yroot_check2ndpage_ext.gif" alt=""/></p>
 
 7. Once you get the hang of the extension, head over to our [developer dashboard](https://a11yroot.dev) on our website. From the dashboard, you can see previously generated trees from your various projects. Pages generated from the same project will be grouped together. Each tree can also be shared via direct link. You can send this link to co-contributors and project stakeholders to collaborate on necessary accessibility changes.
 
-Note: projects are auto-named based on the root directory of the repo where the tree was generated from.
-
-8.  Start building with accessibility in mind!
+8. Start building with accessibility in mind!
 
 ---
 
@@ -225,4 +243,3 @@ This product was initially created and deployed by the following team of develop
 
 - **OSLabs**: For supporting this project through their nonprofit tech accelerator program.
 - **Puppeteer Team**: For their robust accessibility tools and support.
-
