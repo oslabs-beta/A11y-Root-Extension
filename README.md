@@ -24,11 +24,9 @@ A11y Root integrates **WCAG compliance** tools directly into the development wor
 - A11y Root is currently compatible with Windows and MacOS installations of Visual Studio Code.
 - You may need to install Puppeteer to have a instance of Chromium, since the extension uses this as a headless browser.
 
-# Installing Puppeteer
+## Installing Puppeteer
 
 Puppeteer is a Node library that provides a high-level API to control headless Chrome or Chromium browsers. Here’s how you can install it in your project:
-
-# Installation
 
 To install Puppeteer, use npm:
 
@@ -36,7 +34,7 @@ To install Puppeteer, use npm:
 npm install puppeteer
 ```
 
-# For Mac users
+## For Mac users
 
 We do have a version of the extension that includes its own instance of Chromium.
 We hope to have similar options for Windows and Linux users in the near future.
