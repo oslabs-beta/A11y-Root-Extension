@@ -10,7 +10,31 @@ import {
   Compliance,
 } from '../types/index.types';
 
-const outputChannel = vscode.window.createOutputChannel('a11yTreeCommands');
+//Hight level view of what this file handles
+
+// Create to pieces of data...
+// - Array of a pages tab index through headless browser interaction
+// - Accessibility Tree json object
+
+// with the above data we are able to build up a compliance object
+// that is used to populate a compliance/ accessability tree dashboard
+
+// compliance object saved to user db under specific projects based on common directory
+
+// {
+//    url: result.url.toString(),
+//    tree: JSON.stringify(result.tree),
+//    skipLink: JSON.stringify(result.skipLink),
+//    h1: JSON.stringify(result.h1),
+//    tabIndex: result.tabIndex.map((node) => {
+//        return JSON.stringify(node);
+//    }),
+// };
+
+// Use for debugging
+// const outputChannel = vscode.window.createOutputChannel('a11yTreeCommands');
+// outputChannel.appendLine(`url passed to a11yTreeCommands${url}`);
+// outputChannel.show();
 
 const a11yTreeCommands: A11yTreeCommands = {
   async handleFetchTree(
@@ -20,9 +44,8 @@ const a11yTreeCommands: A11yTreeCommands = {
     url: string,
     user: User
   ) {
-    outputChannel.appendLine(`url passed to a11yTreeCommands${url}`);
-    outputChannel.show();
     try {
+      // inform user of what url is being checked
       vscode.window.showInformationMessage(
         `Fetching accessibility data for: ${url}`
       );
@@ -34,18 +57,21 @@ const a11yTreeCommands: A11yTreeCommands = {
         headless: true, // Runs in headless mode
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
       });
+
+      // open tab in headless browser
       const page = await browser.newPage();
+      // visit passed in url
       await page.goto(url);
 
-      // get skip link from list of links?!!!!!!
-
+      // search current tree of elements to find the node that is focused
       async function findFocusedNode(
         node: AccessibilityNode
       ): Promise<AccessibilityNode | undefined> {
+        // return node that is focused (node that was tabbed to) and return it
         if (node.focused) {
           return node;
         }
-
+        // if node has children, check children for focused node
         for (const child of node.children || []) {
           const focusedNode = await findFocusedNode(child);
           if (focusedNode) {
@@ -56,15 +82,20 @@ const a11yTreeCommands: A11yTreeCommands = {
         return undefined;
       }
 
+      // set link count so we can track the first 3 focusable nodes for skip link
       let linkCount = 0;
+      // set up partial compliance object to build out full compliance object later
       let compliance = { h1: null, skipLink: null };
 
+      // tab through whole page, check for skip links and compile all tabbable nodes to an array
       async function getTabIndex(
         page: any,
         compliance: Compliance
       ): Promise<AccessibilityNode[]> {
         let snap: AccessibilityNode | null =
+          // capture state of page
           await page.accessibility.snapshot();
+        // setup array to collect all tabbable nodes/elements
         const tabIndex: AccessibilityNode[] = [];
 
         while (snap) {
@@ -127,13 +158,13 @@ const a11yTreeCommands: A11yTreeCommands = {
         tabIndex: tabIndex,
       };
 
-      const outputFolder = path.join(context.extensionPath, 'results');
+      // const outputFolder = path.join(context.extensionPath, 'results');
 
-      const treeResultPath = path.join(outputFolder, 'a11y-tree.json');
+      // const treeResultPath = path.join(outputFolder, 'a11y-tree.json');
 
-      // Save results for testing
-      fs.mkdirSync(outputFolder, { recursive: true });
-      fs.writeFileSync(treeResultPath, JSON.stringify(result, null, 2));
+      // Save results to local files for testing
+      //fs.mkdirSync(outputFolder, { recursive: true });
+      //fs.writeFileSync(treeResultPath, JSON.stringify(result, null, 2));
 
       //look at user's directory.
       //if project with that directory name already exists, create a page using the a11ytree and attach to it.
@@ -217,6 +248,7 @@ export async function getUserSelectedProjectDirectoryName(): Promise<
   return selectedFolder;
 }
 
+// Adding compliance details to each element of the accessibility tree
 function guidelineCreator(
   tree: AccessibilityTree,
   compliance: Compliance
@@ -224,6 +256,7 @@ function guidelineCreator(
   treeCrawl(tree, compliance);
 }
 
+// Add compliance details to the accessibility tree to each node and children nodes
 function treeCrawl(
   node: AccessibilityTree | AccessibilityNode,
   compliance: Compliance
@@ -239,8 +272,7 @@ function treeCrawl(
   }
 }
 
-// Add guideline properties based on node role
-
+// Add guideline properties based on node roles, which are link, button, and heading
 function checkNode(node: AccessibilityNode, compliance: Compliance) {
   node.compliance = true;
   node.complianceDetails = '';
@@ -270,15 +302,14 @@ function checkNode(node: AccessibilityNode, compliance: Compliance) {
   }
 }
 
+// checks for common skip link text patters
 const skipLinkRegex =
   /^(skip(\s|-)?link|main(\s|-)?content|primary(\s|-)?content|page(\s|-)?content|body(\s|-)?content|wrapper|container|app(\s|-)?content|site(\s|-)?content)$/i;
-
+// check for common non contextual link text
 const nonContextualLinksRegex =
   /\b(click|click here|here|details|info|more|more info|read more|learn more|go here|this link|check this|tap here|see here|go to link|link)\b[.,!?]*/i;
 
-// const text = link.innerText.trim().toLowerCase();
-// nonSemanticRegex.test(link.text);
-
+// to check if it meet the skip link requirement by using the regular expression skipLinkRegex
 function testForSkipLink(node: AccessibilityNode) {
   const text = node.name?.trim().toLocaleLowerCase();
   let isSkipLink = false;
@@ -287,6 +318,8 @@ function testForSkipLink(node: AccessibilityNode) {
   }
   return isSkipLink;
 }
+
+// using the regular expression nonContextualLinksRegex to test if a link has contextual meaning or not
 function testLink(node: AccessibilityNode) {
   const text = node.name?.trim().toLocaleLowerCase();
 
@@ -301,6 +334,7 @@ function testLink(node: AccessibilityNode) {
 let lastHeadingLevel = 0;
 let firstH1 = false;
 
+// Check the compliance details of each node by validating through the main property/ hierarchy (name and level) of each node
 function testHeadersAndUpdateCompliance(node: AccessibilityNode) {
   if (!node.name) {
     node.compliance = false;
