@@ -1,16 +1,35 @@
 # **DEVELOPMENT TEAM NOTES**
 
-See sections below for specified file's concerns and to-do's.
+See [FILE-SPECIFIC NOTES](#file-specific-notes) section below for a specified file's To-Do's, Dev Notes, and more.
+
+<!-- --------------------------------- General README Notes --------------------------------- -->
 
 ## **GENERAL README**
 
+`To Be Updated With A11y Root Extension's General Information And Its Overall Plan: MVP & Stretch Goals`
+
+<!-- ---------------------------- A11y Root's Developer Resources ---------------------------- -->
+
 ## **A11Y ROOT'S DEVELOPER RESOURCES**
+
+`To Be Updated With Links`
+
+<!-- ---------------------------------- File-Specific Notes ---------------------------------- -->
 
 ## **FILE-SPECIFIC NOTES**
 
-### **`main.ts`**
+### <ins>Skip To Section:</ins>
 
-#### **_TO-DO's:_**
+- [main.ts](#maints)
+- [extension.ts](#extensionts)
+
+<hr/>
+
+<!-- ------------------------- main.ts ------------------------- -->
+
+#### **`main.ts`**
+
+##### **_TO-DO's:_**
 
 [ ] Clean codebase: get rid of main.ts
 If possible, re-allocate the code in main.ts to reduce the number of unnecessary files.
@@ -24,12 +43,16 @@ Find a better place to declare this file's code. It seems strange that this file
 
 * `build:webview": "npx tsc -p tsconfig.webview.json`
   - Saving this line of code incase we need to revert/test `package.json` setup.
-  <br/>
-  <hr/>
 
-### **`extension.ts`**
+<br/>
 
-#### **_TO-DO's:_**
+<hr/>
+
+<!-- ---------------------- extension.ts ---------------------- -->
+
+#### **`extension.ts`**
+
+##### **_TO-DO's:_**
 
 [ ] Research and remove `enableForms: true,` if this line is unnecessary.
 <br/>
@@ -62,8 +85,6 @@ Find a better place to declare this file's code. It seems strange that this file
 
 - `if (message.command === 'parseTree')` ---> The `parseTree` command initializes `puppeteer`. It will parse the current url for an <ins>accessibility tree</ins> and interact with the page to build.
 
--
-
 ##### **_CLEANED COMMENTED OUT CODE:_**
 
 - `import { createServer } from './server/server'`
@@ -71,4 +92,4 @@ Find a better place to declare this file's code. It seems strange that this file
 - `.replace('{{style.css}}', styleCssUri.toString());`
 
 <br/>
-  <hr/>
+<hr/>
