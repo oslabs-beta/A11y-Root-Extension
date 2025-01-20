@@ -218,7 +218,7 @@ This product was initially created and deployed by the following team of develop
   <br/>
   <sub><b>Claire Chen</b></sub>
   <br/>
-  <a href="https://github.com/claireandj666">GitHub</a>
+  <a href="https://github.com/claireychen">GitHub</a>
   <a href="https://www.linkedin.com/in/claire-chen11/">LinkedIn</a>
 </td>
 
