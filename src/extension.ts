@@ -1,9 +1,8 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
+// See docs/DEV-README.md for FILE-SPECIFIC NOTES
+import * as vscode from 'vscode'; // contains VS Code extensibility API
 import * as fs from 'fs';
 import * as path from 'path';
-//import { createServer } from './server/server';
+
 import a11yTreeCommands from './commands/A11yTreeCommands';
 import dotenv from 'dotenv';
 
@@ -16,10 +15,9 @@ let panelInstances: Map<string, vscode.WebviewPanel> = new Map();
 export async function activate(context: vscode.ExtensionContext) {
   globalContext = context; // Save the context globally
 
-  // Add other extension functionality
   context.subscriptions.push(openTab(context, 3000));
 }
-//when extension is activated, openTab will run and contain all the functionality
+
 function openTab(context: vscode.ExtensionContext, port: number) {
   return vscode.commands.registerCommand('a11y-root-extension.openTab', () => {
     const panelId = `panel-${Date.now()}`;
@@ -28,10 +26,9 @@ function openTab(context: vscode.ExtensionContext, port: number) {
       'A11y Root',
       vscode.ViewColumn.One,
       {
-        enableScripts: true, // Allow scripts in the webview
-        retainContextWhenHidden: true, // If true, the webview preserves its state when hidden.
-        // Useful for panels that should retain their content and state when switching tabs.
-        enableForms: true, // not sure if we need this
+        enableScripts: true,
+        retainContextWhenHidden: true,
+        enableForms: true,
       }
     );
     panelInstances.set(panelId, panel);
@@ -39,15 +36,13 @@ function openTab(context: vscode.ExtensionContext, port: number) {
       console.log(`Webview ${panelId} disposed.`);
       panelInstances.delete(panelId); // Remove from the map
     });
-    //if path is auth/callback, start the github oauth process
+
     if (!uriHandlerRegistered) {
       vscode.window.registerUriHandler({
         async handleUri(uri: vscode.Uri) {
           if (uri.path === '/auth/callback') {
             const query = new URLSearchParams(uri.query);
-            //temporary code from github that is needed to continue oauth
             const code = query.get('code');
-            //make a fetch request to retrieve data by using the code
             try {
               const response = await fetch(
                 `https://a11yroot.dev/extension/callback?code=${code}`,
@@ -56,20 +51,18 @@ function openTab(context: vscode.ExtensionContext, port: number) {
                 }
               );
               if (!response.ok) {
-                const errorText = await response.text(); // Fetch error details
+                const errorText = await response.text();
                 throw new Error(
                   `HTTP error! status: ${response.status}, message: ${errorText}`
                 );
               }
 
-              const data = await response.json(); // Parse the JSON response
+              const data = await response.json();
               const user = JSON.stringify(data);
-              //store id in vscode secrets
               await context.secrets.store('ssid', data._id);
 
               panel.webview.postMessage({
                 command: 'loggedIn',
-                //pass entire user instead of username
                 message: data,
               });
             } catch (error: any) {
@@ -96,14 +89,7 @@ function openTab(context: vscode.ExtensionContext, port: number) {
       )
     );
 
-    // const styleCssUri = panel.webview.asWebviewUri(
-    //   vscode.Uri.file(
-    //     path.join(context.extensionPath, 'src', 'webview', 'style.css')
-    //   )
-    // );
-
     htmlContent = htmlContent.replace('bundle.js', bundleJsUri.toString());
-    // .replace('{{style.css}}', styleCssUri.toString());
 
     panel.webview.html = htmlContent;
 
@@ -117,7 +103,7 @@ function openTab(context: vscode.ExtensionContext, port: number) {
 
         try {
           const authUrl = `https://github.com/login/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}`;
-          //parse the auth url and open it externally. after login, github will reroute to app (see: vscode.window.registerUriHandler line 233)
+          // parse the auth url and open it externally. after login, github will reroute to app (see: vscode.window.registerUriHandler line 233)
           vscode.env.openExternal(vscode.Uri.parse(authUrl));
         } catch (error: any) {
           panel.webview.postMessage({
@@ -185,19 +171,12 @@ function openTab(context: vscode.ExtensionContext, port: number) {
         }
       }
 
-      //the parseTree command initializes puppeteer
-
-      // this will parse the current url for an accessibility tree
-      // and interact with the page to build
-
       if (message.command === 'parseTree') {
         if (message.url) {
           await a11yTreeCommands.handleFetchTree(
-            port,
             panel,
             context,
             message.url,
-
             message.user
           );
         } else {
@@ -211,8 +190,6 @@ function openTab(context: vscode.ExtensionContext, port: number) {
   });
 }
 
-// This method is called when your extension is deactivated
-// It does not seem to be working properly when user logs out, closes tab and reopens tab
 export async function deactivate() {
   if (globalContext) {
     globalContext.subscriptions.forEach((subscription) =>
