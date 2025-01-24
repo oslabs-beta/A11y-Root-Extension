@@ -8,7 +8,6 @@ export interface Compliance {
 
 export interface A11yTreeCommands {
   handleFetchTree: (
-    port: number,
     panel: vscode.WebviewPanel,
     context: vscode.ExtensionContext,
     url: string,

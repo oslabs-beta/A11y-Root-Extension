@@ -174,11 +174,9 @@ function openTab(context: vscode.ExtensionContext, port: number) {
       if (message.command === 'parseTree') {
         if (message.url) {
           await a11yTreeCommands.handleFetchTree(
-            port,
             panel,
             context,
             message.url,
-
             message.user
           );
         } else {

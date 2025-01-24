@@ -93,3 +93,94 @@ Find a better place to declare this file's code. It seems strange that this file
 
 <br/>
 <hr/>
+
+# Accessibility Roles and `SerializedAXNode`
+
+The `SerializedAXNode` type represents nodes in an accessibility tree, and its `role` property defines the role of an element. These roles are based on ARIA (Accessible Rich Internet Applications) roles and include native HTML roles as well as additional accessibility roles.
+
+---
+
+## Categories of Roles in ARIA
+
+Roles fall into the following categories:
+
+1. **Abstract Roles**: Used only in the ARIA specification and not directly implemented.
+2. **Widget Roles**: Interactive elements like buttons, sliders, and checkboxes.
+3. **Document Structure Roles**: Roles for organizing content, such as headings and sections.
+4. **Landmark Roles**: For high-level structure, like navigation or main content areas.
+5. **Window Roles**: Roles related to the application window, such as dialogs.
+
+---
+
+## Common Role Types
+
+Here are some common role values you might encounter in the `SerializedAXNode`:
+
+### Widget Roles
+
+- `button`
+- `checkbox`
+- `radio`
+- `slider`
+- `spinbutton`
+- `switch`
+- `textbox`
+- `combobox`
+- `listbox`
+- `menu`
+- `menuitem`
+- `menuitemcheckbox`
+- `menuitemradio`
+- `progressbar`
+- `scrollbar`
+- `tab`
+- `tabpanel`
+- `tree`
+- `treeitem`
+
+### Document Structure Roles
+
+- `heading`
+- `paragraph`
+- `list`
+- `listitem`
+- `table`
+- `row`
+- `cell`
+- `columnheader`
+- `rowheader`
+- `grid`
+- `gridcell`
+- `article`
+- `section`
+- `blockquote`
+
+### Landmark Roles
+
+- `banner`
+- `complementary`
+- `contentinfo`
+- `form`
+- `main`
+- `navigation`
+- `region`
+- `search`
+
+### Abstract Roles (Not Applicable in Trees)
+
+- `command`
+- `composite`
+- `input`
+- `landmark`
+- `range`
+- `roletype`
+- `section`
+- `structure`
+- `widget`
+
+### Native HTML Semantics (Automatically Inferred Roles)
+
+- `link`
+- `image`
+- `staticText` (often `div` or `span` without explicit semantics)
+- `generic` (no semantic role)
