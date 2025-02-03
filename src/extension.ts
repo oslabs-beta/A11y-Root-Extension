@@ -2,6 +2,8 @@
 import * as vscode from 'vscode'; // contains VS Code extensibility API
 import * as fs from 'fs';
 import * as path from 'path';
+import registerUriHandler from './helpers/registerUriHandler';
+import initializeWebview from './helpers/initializeWebview';
 
 import a11yTreeCommands from './commands/A11yTreeCommands';
 import dotenv from 'dotenv';
@@ -38,60 +40,11 @@ function openTab(context: vscode.ExtensionContext, port: number) {
     });
 
     if (!uriHandlerRegistered) {
-      vscode.window.registerUriHandler({
-        async handleUri(uri: vscode.Uri) {
-          if (uri.path === '/auth/callback') {
-            const query = new URLSearchParams(uri.query);
-            const code = query.get('code');
-            try {
-              const response = await fetch(
-                `https://a11yroot.dev/extension/callback?code=${code}`,
-                {
-                  method: 'GET',
-                }
-              );
-              if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(
-                  `HTTP error! status: ${response.status}, message: ${errorText}`
-                );
-              }
-
-              const data = await response.json();
-              const user = JSON.stringify(data);
-              await context.secrets.store('ssid', data._id);
-
-              panel.webview.postMessage({
-                command: 'loggedIn',
-                message: data,
-              });
-            } catch (error: any) {
-              vscode.window.showInformationMessage(`Error : ${error.message}`);
-            }
-          }
-        },
-      });
+      registerUriHandler(panel, context);
       uriHandlerRegistered = true;
     }
 
-    const htmlPath = path.join(
-      context.extensionPath,
-      'dist',
-      'webview',
-      'index.html'
-    );
-    let htmlContent = fs.readFileSync(htmlPath, 'utf8');
-
-    // Replace placeholders with compiled resource URIs
-    const bundleJsUri = panel.webview.asWebviewUri(
-      vscode.Uri.file(
-        path.join(context.extensionPath, 'dist', 'webview', 'bundle.js')
-      )
-    );
-
-    htmlContent = htmlContent.replace('bundle.js', bundleJsUri.toString());
-
-    panel.webview.html = htmlContent;
+    initializeWebview(panel, context);
 
     // Listen for messages from the webview
     panel.webview.onDidReceiveMessage(async (message) => {
