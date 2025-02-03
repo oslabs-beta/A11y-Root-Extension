@@ -4,8 +4,10 @@ import * as fs from 'fs';
 import * as path from 'path';
 import registerUriHandler from './helpers/registerUriHandler';
 import initializeWebview from './helpers/initializeWebview';
-
-import a11yTreeCommands from './commands/A11yTreeCommands';
+import handleOAuth from './helpers/handleOAuth';
+import handleLogout from './helpers/handleLogout';
+import checkLoginStatus from './helpers/checkLoginStatus';
+import parseTree from './helpers/parseTree';
 import dotenv from 'dotenv';
 
 dotenv.config({ path: path.join(__dirname, '..', '.env') });
@@ -17,10 +19,10 @@ let panelInstances: Map<string, vscode.WebviewPanel> = new Map();
 export async function activate(context: vscode.ExtensionContext) {
   globalContext = context; // Save the context globally
 
-  context.subscriptions.push(openTab(context, 3000));
+  context.subscriptions.push(openTab(context));
 }
 
-function openTab(context: vscode.ExtensionContext, port: number) {
+function openTab(context: vscode.ExtensionContext) {
   return vscode.commands.registerCommand('a11y-root-extension.openTab', () => {
     const panelId = `panel-${Date.now()}`;
     const panel = vscode.window.createWebviewPanel(
@@ -50,94 +52,19 @@ function openTab(context: vscode.ExtensionContext, port: number) {
     panel.webview.onDidReceiveMessage(async (message) => {
       //start oauth process if message command is beginOAuth
       if (message.command === 'beginOAuth') {
-        const client_id = process.env.GITHUB_CLIENT_ID as string;
-        const client_secret = process.env.GITHUB_CLIENT_SECRET as string;
-        const redirect_uri = process.env.REDIRECT_URI as string;
-
-        try {
-          const authUrl = `https://github.com/login/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}`;
-          // parse the auth url and open it externally. after login, github will reroute to app (see: vscode.window.registerUriHandler line 233)
-          vscode.env.openExternal(vscode.Uri.parse(authUrl));
-        } catch (error: any) {
-          panel.webview.postMessage({
-            command: 'loggedOut',
-          });
-          const errorMessage =
-            error.response?.data || error.message || 'Unknown error';
-          //passes error to front end in the form of command/message - not sure when this would actually trigger?
-          panel.webview.postMessage({
-            command: 'error',
-            message: `Failed to start Oauth: ${errorMessage}`,
-          });
-        }
+        await handleOAuth(panel);
       }
       //delete ssid from vscode secrets if message command is beginLogout, this will end the session
       if (message.command === 'beginLogout') {
-        try {
-          await context.secrets.delete('ssid');
-          panel.webview.postMessage({
-            command: 'loggedOut',
-          });
-        } catch (error: any) {
-          const errorMessage =
-            error.response?.data || error.message || 'Unknown error';
-          //passes error to front end in the form of command/message - not sure when this would actually trigger?
-          panel.webview.postMessage({
-            command: 'error',
-            message: `Failed to logout: ${errorMessage}`,
-          });
-        }
+        await handleLogout(panel, context);
       }
       //check if user is logged in if message command is checkLogin
       if (message.command === 'checkLogin') {
-        try {
-          const userId = await context.secrets.get('ssid');
-          if (userId) {
-            const response = await fetch(
-              `https://a11y-root-webpage.onrender.com/users/${userId}`,
-              {
-                method: 'GET',
-              }
-            );
-            if (!response.ok) {
-              panel.webview.postMessage({ command: 'loggedOut' });
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json(); // Parse the JSON response
-
-            panel.webview.postMessage({
-              command: 'loggedIn',
-              //pass entire user instead of username
-              message: data,
-            });
-          } else {
-            panel.webview.postMessage({ command: 'loggedOut' });
-          }
-        } catch (error: any) {
-          const errorMessage =
-            error.response?.data || error.message || 'Unknown error';
-          //passes error to front end in the form of command/message - not sure when this would actually trigger?
-          panel.webview.postMessage({
-            command: 'error',
-            message: `Failed to logout: ${errorMessage}`,
-          });
-        }
+        await checkLoginStatus(panel, context);
       }
 
       if (message.command === 'parseTree') {
-        if (message.url) {
-          await a11yTreeCommands.handleFetchTree(
-            panel,
-            context,
-            message.url,
-            message.user
-          );
-        } else {
-          panel.webview.postMessage({
-            command: 'error',
-            message: 'No URL provided for fetchTree command.',
-          });
-        }
+        await parseTree(panel, context, message);
       }
     });
   });

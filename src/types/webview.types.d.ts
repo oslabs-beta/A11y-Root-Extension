@@ -112,3 +112,9 @@ export interface UserLoginContainerProps {
   user: User | null;
   isLoggedIn: boolean;
 }
+
+export interface WebviewMessage {
+  command: string;
+  url?: string;
+  user?: any;
+}
